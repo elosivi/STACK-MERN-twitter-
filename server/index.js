@@ -2,7 +2,7 @@
 const express = require('express');
 const session = require('express-session')
 // const cookieSession = require('cookie-session')
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -12,7 +12,6 @@ const config = require('./config')
 // Routes files
 const register = require('./routes/register')
 const login = require('./routes/login')
-const blog = require('./routes/blog')
 
 // Main app
 const app = express()
@@ -55,7 +54,7 @@ app.use(function (req, res, next) {
 // Routes
 app.use('/', register);
 app.use('/', login);
-app.use('/', blog);
+
 
 // Default route
 app.use(function (req, res, next) {

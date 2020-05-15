@@ -70,7 +70,7 @@ router.post('/login', [
                 return res.status(500).json({ message });
             }
             if (isMatch && isMatch == true) {
-                req.session.admin = user.type
+                req.session.admin = user.admin
                 req.session.login = user.login
                 req.session.email = user.email
                 return res.status(200).json({

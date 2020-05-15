@@ -41,7 +41,7 @@ router.post('/register', [
         login: req.body.login,
         email: req.body.email,
         password: req.body.password,
-        type: false
+        admin: false
     });
 
     // Check if login already exists in DB
@@ -84,7 +84,7 @@ router.post('/register', [
 
             return res.status(201).json({
                 message: "User Created",
-                type: req.session.admin,
+                admin: req.session.admin,
                 login: req.session.login
             });
         }
