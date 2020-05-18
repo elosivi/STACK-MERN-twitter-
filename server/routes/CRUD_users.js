@@ -2,7 +2,6 @@
 
 // Packages
 const express = require('express');
-const bcrypt = require('bcrypt')
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
@@ -22,7 +21,7 @@ router.post('/admin/users',[ // test OK
     check('confirm_password').notEmpty().withMessage('Password confirmation must not be empty')
     ], async function (req, res) {
 //if admin
-        console.log("===== POST CREATE (admin) =====")
+        console.log("===== POST CREATE ('/admin/users') =====")
         console.log(req.is())
         console.log(req.body)
 
@@ -93,7 +92,6 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
     //if admin
     // if (req.session.admin == (req.session.admin=="true")){
     const userid=req.params.userid;
-    console.log("userid= ",userid);
         if (!userid){ 
             User.find(function (err, users) {  
                 if (err) {
@@ -153,44 +151,6 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 password: req.body.password,
             });
 
-            //update schema of User and db
-            // console.log("--------------req.session.userid=", req.session.userid)// TEST CONSOLE
-            // User.findOneAndUpdate({ _id:req.session.userid }, updateUser , function (err, user) {  
-            //     if (err) {
-            //         const message = "Internal Server Error"
-            //         console.log("-------",message,"---------")// TEST CONSOLE
-            //         return res.status(500).json({ message });
-            //     }
-            //     const message = "profil updated !" // TEST CONSOLE
-            //     console.log("user=",user)// TEST CONSOLE
-            //     console.log(message)// TEST CONSOLE
-            //     req.session.login = user.login
-            //     req.session.email = user.email
-            //     return res.status(200).json({ user });
-            // });
-
-
-            // User.findOne({_id : req.session.userid}, function(err,user){
-            //     if (err){
-            //         const message = "Internal Server Error"
-            //         console.log("-------",message,"---------")// TEST CONSOLE
-            //         return res.status(500).json({ message });   
-            //     }
-            //     if (user){
-            //         if(req.body.login){
-            //             user.login = req.body.login;
-            //         }
-            //         if(req.body.password){
-            //             user.password = updateUser.password;
-            //             console.log(user.password);//TEST CONSOLE
-            //         }
-            //         console.log("***************** updateUser : ", updateUser)
-            //         updateUser.save()
-            //         return res.status(200).json({ user });  
-            //     }
-            // })
-
-
             // Check if login already exists in DB
             const isLoginExist = await User.exists({ login: updateUser.login })
                 .then((isLogin) => {
@@ -225,8 +185,6 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
             }
 
             User.findById(req.session.userid,function(err,user){
-
-                console.log("updated user:",user);
                 if(req.body.login){
                     user.login = req.body.login;
                 }
@@ -255,7 +213,6 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
     router.put('/admin/users/:userid', async function (req, res) { //tested ok
         const id = req.param.userid
         //if admin
-        console.log(" admin/users/id: ",req.session.admin);
         if (req.session.admin == true){
             if ((req.body.password) && (req.body.password !== req.body.confirm_password) ) {
                 const message = "Passwords do not match";
@@ -306,8 +263,6 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 }
             }
             User.findById(req.params.userid,function(err,user){
-
-                console.log("updated user:",user);
                 if(req.body.login){
                     user.login = req.body.login;
                 }
@@ -343,7 +298,6 @@ router.delete('/myprofile', function (req, res) { //tested ok
 //if user connected
     if (req.session.userid) {
         //delete one
-        console.log("id session:",req.session.userid)//test console
 
         User.findOneAndDelete({ _id:req.session.userid}, function (err, user) { 
             if (err) {
