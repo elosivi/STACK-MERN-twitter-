@@ -14,10 +14,12 @@ router.get('/login', function (req, res) {
     if (req.session.login) {
         const message = "Logged as " + req.session.login;
         return res.status(200).json({ message });
+    }else{
+        const message = "Not logged in";
+        return res.status(400).json({ message });
     }
-    const message = "Not logged in";
-    return res.status(400).json({ message });
 })
+
 
 router.get('/logout', function (req, res) {
     if (!req.session.login) {
@@ -70,15 +72,13 @@ router.post('/login', [
                 return res.status(500).json({ message });
             }
             if (isMatch && isMatch == true) {
-                req.session.admin = user.admin
-                req.session.login = user.login
-                req.session.email = user.email
-                return res.status(200).json({
-                    message: "User logged in",
-                    admin: req.session.admin,
-                    login: req.session.login,
-                    email: req.session.email
-                });
+                console.log("mon user: ",user)//test console
+                req.session.userid = user._id;
+                req.session.admin = user.admin;
+                console.log("login/is match/session.admin=",req.session.admin," / ",user.admin) //test console
+                req.session.login = user.login;
+                req.session.email = user.email;
+                return res.status(200).json({user});
             } else {
                 // Wrong password
                 const message = "This password doesn't match, try again please";

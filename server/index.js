@@ -12,6 +12,7 @@ const config = require('./config')
 // Routes files
 const register = require('./routes/register')
 const login = require('./routes/login')
+const user_route = require ('./routes/CRUD_users')
 
 // Main app
 const app = express()
@@ -54,7 +55,7 @@ app.use(function (req, res, next) {
 // Routes
 app.use('/', register);
 app.use('/', login);
-
+app.use('/', user_route);
 
 // Default route
 app.use(function (req, res, next) {
