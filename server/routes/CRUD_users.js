@@ -252,11 +252,11 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
     });
 
     
-    router.put('/admin/users/:userid', async function (req, res) {
+    router.put('/admin/users/:userid', async function (req, res) { //tested ok
         const id = req.param.userid
-         //if admin
+        //if admin
         console.log(" admin/users/id: ",req.session.admin);
-        if (req.session.admin == (req.session.admin=="true")){
+        if (req.session.admin == true){
             if ((req.body.password) && (req.body.password !== req.body.confirm_password) ) {
                 const message = "Passwords do not match";
                 return res.status(400).json({ message });
@@ -270,39 +270,42 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
             });
             
             // Check if login already exists in DB
-            const isLoginExist = await User.exists({ login: updateUser.login })
-                .then((isLogin) => {
-                    return isLogin;
-                })
-                .catch((error) => {
-                    return error;
-                })
-            if (isLoginExist === true) {
-                const message = "This login already exists";
-                return res.status(400).json({ message });
-            } else if (isLoginExist !== false) {
-                const message = "Internal Server Error";
-                return res.status(500).json({ message });
+            if(req.body.login){
+                const isLoginExist = await User.exists({ login: updateUser.login })
+                    .then((isLogin) => {
+                        return isLogin;
+                    })
+                    .catch((error) => {
+                        return error;
+                    })
+                if (isLoginExist === true) {
+                    const message = "This login already exists";
+                    return res.status(400).json({ message });
+                } else if (isLoginExist !== false) {
+                    const message = "Internal Server Error";
+                    return res.status(500).json({ message });
+                }
             }
 
             // Check if email already exists in DB
-            const isEmailExist = await User.exists({ email: updateUser.email })
-                .then((isEmail) => {
-                    return isEmail;
-                })
-                .catch((error) => {
-                    return error;
-                })
+            if(req.body.email){
+                const isEmailExist = await User.exists({ email: updateUser.email })
+                    .then((isEmail) => {
+                        return isEmail;
+                    })
+                    .catch((error) => {
+                        return error;
+                    })
 
-            if (isEmailExist === true) {
-                const message = "This email already exists"
-                return res.status(400).json({message});
-            } else if (isEmailExist !== false) {
-                const message= "Internal Server Error"
-                return res.status(500).json({message});
+                if (isEmailExist === true) {
+                    const message = "This email already exists"
+                    return res.status(400).json({message});
+                } else if (isEmailExist !== false) {
+                    const message= "Internal Server Error"
+                    return res.status(500).json({message});
+                }
             }
-
-            User.findById(req.session.userid,function(err,user){
+            User.findById(req.params.userid,function(err,user){
 
                 console.log("updated user:",user);
                 if(req.body.login){
@@ -323,7 +326,8 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 }
                 } 
                 user.save();
-                return res.status(200).json({ user });  
+                const message = "User updated"
+                return res.status(200).json({ message, updateUser });  
             });
 
         }else{
@@ -335,11 +339,13 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
 
     
 // ----------------------------------------------   d e l e t e    -------------------------------------------------- 
-router.delete('/myprofile', function (req, res) {
+router.delete('/myprofile', function (req, res) { //tested ok
 //if user connected
     if (req.session.userid) {
         //delete one
-        User.removeOne({ _id:req.session._id }, function (err, user) { 
+        console.log("id session:",req.session.userid)//test console
+
+        User.findOneAndDelete({ _id:req.session.userid}, function (err, user) { 
             if (err) {
                 const message = "Internal Server Error"
                 return res.status(500).json({ message });
@@ -348,23 +354,24 @@ router.delete('/myprofile', function (req, res) {
             if (!user) {
                 const message = "User not found";
                 return res.status(400).json({ message });
-            } 
-            const message = "User deleted";
-            return res.status(200).json({ message, user });
+            } else{
+                const message = "User deleted";
+                return res.status(200).json({ message, user });
+            }
         });
-
+    }else{
     const message = "You can't delete this profile if it is not yours";
     return res.status(400).json({ message });
     }
 });
 
 
-router.delete('/admin/users/:userid', function (req, res) {
+router.delete('/admin/users/:userid', function (req, res) { // tested ok
 //if admin
-    const id = userid
-    if (req.session.admin == (req.session.admin=="true")){
+    const id = req.params.userid
+    if (req.session.admin == true){
         //delete one
-        User.removeOne({ _id: id }, function (err, user) {
+        User.findOneAndDelete({ _id: id }, function (err, user) {
             if (err) {
                 const message = "Internal Server Error"
                 return res.status(500).json({ message });
@@ -373,13 +380,15 @@ router.delete('/admin/users/:userid', function (req, res) {
             if (!user) {
                 const message = "User not found";
                 return res.status(400).json({ message });
-            } 
-            const message = "User deleted";
-            return res.status(201).json({ message, user });
+            } else {
+                const message = "User deleted";
+                return res.status(201).json({ message, user });
+            }
         });  
-    }
+    }else{
     const message = "You can't delete this profil if you're not admin";
     return res.status(400).json({ message });
+    }
 });
 
 
