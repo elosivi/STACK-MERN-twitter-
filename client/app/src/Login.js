@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from "react-router-dom";
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
@@ -29,7 +30,8 @@ export default class Login extends Component {
         this.state = {
             login: "",
             password: "",
-            loginErrors: ""
+            loginErrors: "",
+            redirection: false
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,7 +56,8 @@ export default class Login extends Component {
                 // if (response.data.status === 200) {
                 //     console.log("res data status ", response.request);
                 //     console.log("res data status type ", typeof(response.request));
-                    this.props.handleSuccessfulAuth(response.data)
+                    // this.props.handleSuccessfulAuth(response.data)
+                    this.setState({ redirection: true });
                     // axios.defaults.headers.common['Cookie'] = 
                 // }
                 // console.log("=== YOUPI !!! ===");
@@ -67,7 +70,9 @@ export default class Login extends Component {
                 // console.log("headers :", response.headers);
                 // console.log("config :", response.config);
                 // console.log("request :", response.request);
-                // this.state({loginErrors: message});
+                this.setState({loginErrors: response.data.message});
+                this.props.loggedInStatus(response.data.user.login)
+                // console.log("here")
 
             })
             .catch(error => {
@@ -98,6 +103,11 @@ export default class Login extends Component {
 
 
     render() {
+        const { redirection } = this.state;
+        if (redirection) {
+        //Affichage de la redirection
+        return <Redirect to='/home'/>;
+        }
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
