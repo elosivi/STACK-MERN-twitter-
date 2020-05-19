@@ -32,11 +32,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
 app.use(bodyParser.json())
 
+// app.disable('x-powered-by');
+
 app.use(session({
+    name: 'super toto session',
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
-    cookie: {secure: false}
+    saveUninitialized: false,
+    cookie: {secure: false, httpOnly: false}
 }));
 
 // app.use(cookieSession({
@@ -47,8 +50,9 @@ app.use(session({
 
 // CORS solving issue
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
 

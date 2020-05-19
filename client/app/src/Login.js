@@ -45,8 +45,8 @@ export default class Login extends Component {
             }).then(response => {
                 console.log("=== Login response ===", response.data.user);
             }).catch(error => {
-                // this.setState({loginErrors: error})
-                console.log("=== Login error ===", error.error);
+                this.setState({loginErrors: error.response.data.message})
+                console.log("=== Login error ===", error.response.data.message);
         });
 
         console.log("form submitted");

@@ -39,7 +39,7 @@ export default class Registration extends Component {
             console.log("ici");
             console.log("registration response :::", response.data.newUser);
         }).catch(error => {
-            console.log("registration error", error);
+            console.log("registration error", error.response);
         });
 
         console.log("form submitted");
