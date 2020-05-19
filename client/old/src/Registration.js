@@ -4,7 +4,7 @@ import axios from 'axios';
 // Axios setup
 const instance = axios.create({
     baseURL: 'http://localhost:4242',
-    // withCredentials: true,
+    withCredentials: true,
     timeout: 1000,
     headers: {
         'Content-Type': 'application/json',
@@ -39,8 +39,7 @@ export default class Registration extends Component {
             console.log("ici");
             console.log("registration response :::", response.data.newUser);
         }).catch(error => {
-                        this.setState({registrationErrors: error.response.data.message});
-            console.log("registration error", error.response);
+            console.log("registration error", error);
         });
 
         console.log("form submitted");
@@ -89,7 +88,6 @@ export default class Registration extends Component {
                     />
                     <button type="submit">Register</button>
                 </form>
-                <h3>{this.state.registrationErrors}</h3>
             </div>
         );
     }
