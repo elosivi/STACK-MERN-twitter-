@@ -42,6 +42,7 @@ export default class MyProfile extends Component {
     render() {
         return (
             <div>
+                <h1>My profile</h1>
                 <h1>Who am I ?</h1>
                 <form onSubmit={this.handleSubmit}>
                     <button type="submit">Who am I</button>

@@ -1,27 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Form, Button, Card } from 'react-bootstrap';
+import './style.css';
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
 
-// axios.defaults.withCredentials = true;
 
-// Axios setup
-// const instance = axios.create({
-//     baseURL: 'http://localhost:4242',
-//     withCredentials: true,
-//     timeout: 1000,
-//     headers: {
-//         // 'Content-Type': 'application/json',
-//         'Accept': 'application/json'
-//     }
-// });
-
-// const instance = axios.create({
-//     baseURL: 'http://localhost:4242',
-//     withCredentials: true,
-// })
 
 export default class Login extends Component {
     constructor(props) {
@@ -31,53 +18,70 @@ export default class Login extends Component {
             login: "",
             password: "",
             loginErrors: "",
+            email:"",
+            admin:"",
             redirection: false
         }
+        
 
+        console.log("===LOGIN.JS===this.state.rediction in constructor :",this.state.rerirection);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
     }
-
+    /** added by elo 19/05 */
+        // updateChild(loggedInStatus){
+        //     updateState(loggedInStatus)
+        // }
+        /** end of added by elo 19/05 */
+    
     handleSubmit(event) {
+        event.preventDefault();
         console.log("=== HERE IN POST LOGIN ===");
         axios
             .post(
                 baseURL + "/login", 
                 {
                     login: this.state.login,
-                    password: this.state.password
+                    password: this.state.password,
                 }
             )
             .then(response => {
-                console.log("=== youpi ===");
-                console.log("res from login", response)
-                localStorage.setItem('login', response.data.user.login);
-                // if (response.data.status === 200) {
-                //     console.log("res data status ", response.request);
-                //     console.log("res data status type ", typeof(response.request));
-                    // this.props.handleSuccessfulAuth(response.data)
-                    this.setState({ redirection: true });
-                    // axios.defaults.headers.common['Cookie'] = 
-                // }
-                // this.setState({loginErrors: response.data.message});
+                console.log("=== LOGIN.JS: youpi ===");//TEST CONSOL
+                console.log("===LOGIN.JS=== res from login", response)//TEST CONSOL
+                this.setState({ redirection: true });
+                console.log("===LOGIN.JS=== this.state.rediction in handleSubmit :",this.state.rerirection);//TEST CONSOL
+                this.setState({loginErrors: response.data.message});
+                localStorage.setItem('login', response.data.user.login)
+                localStorage.setItem('email', response.data.user.email)
+                localStorage.setItem('userid', response.data.user._id)
+                localStorage.setItem('admin', response.data.user.admin)
+                console.log("===LOGIN.JS ===his.props.loggedInStatus updated in Login.js", this.props.loggedInStatus)//TEST CONSOL
+                //ADDED BY ELO 19:05
+                // this.updateChild(response.data.user.login)
+                // console.log("===LOGIN.JS ===his.props.loggedInStatus updated in Login.js VS2", this.props.loggedInStatus)
+                // this.props.updateApp
                 
-                this.props.loggedInStatus = "toto";
-                // console.log("here")
-
+                    // localStorage.setItem("user", this.state.user);
+                // this.state.user.email = response.data.user.email,
+                // this.state.user.admin = response.data.user.admin,
+                // localStorage.setItem("user_login", response.data.user.login);
+                // localStorage.setItem("user_email", response.data.user.email);
+                // localStorage.setItem("user_right", response.data.user.admin);
+                //END OF ELO//
             })
             .catch(error => {
-                console.log("login error...", error)
-                // if (error) {
-                //     console.log("=== ERROR !!! ===", error.response)
-                    // this.setState({loginErrors: error.response.data.message});
-                //     console.log("=== Login error ===", error.response.data.message);
-                // }
+                console.log("===LOGIN.JS===login error...", error)//TEST CONSOL
             });
 
-        console.log("form submitted");
-        event.preventDefault();
+        console.log("===LOGIN.JS===form submitted");//TEST CONSOL
         
+        
+    }
+
+    handleSessionSubmit(event) {
+        event.preventDefault();
+        console.log("===LOGIN.JS===HERE IN SESSION !!! ===");//TEST CONSOL
     }
 
 
@@ -92,30 +96,40 @@ export default class Login extends Component {
         const { redirection } = this.state;
         if (redirection) {
         //Affichage de la redirection
-            return <Redirect to='/home'/>;
-        }
+        return <Redirect to='/home'/>
+        
+        }else{
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <input
-                        type="text"
-                        name="login"
-                        placeholder="login"
-                        value={this.state.login}
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="password"
-                        placeholder="password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                    />
-                    <button type="submit">Login</button>
-                </form>
-                <h3>{this.state.loginErrors}</h3>
-
+            <div >
+                <h1>Login</h1>
+                <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
+                <Card.Body>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group controlId="formBasicLogin">
+                            <Form.Control
+                                type="text"
+                                name="login"
+                                placeholder="login"
+                                value={this.state.login}
+                                onChange={this.handleChange}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Control
+                                type="text"// to change
+                                name="password"
+                                placeholder="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </Form.Group>
+                        <Button variant="primary" type="submit">Login</Button>
+                    </Form>
+                    <p className="error">{this.state.loginErrors}</p>
+                </Card.Body>
+                </Card>
             </div>
         );
+        }
     }
 }

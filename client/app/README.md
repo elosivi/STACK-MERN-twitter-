@@ -1,3 +1,8 @@
+sudo sysctl -w fs.inotify.max_user_watches=524288
+
+cat /proc/sys/fs/inotify/max_user_watches
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
