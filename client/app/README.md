@@ -1,6 +1,13 @@
-sudo sysctl -w fs.inotify.max_user_watches=524288
+### installation before npm start
 
-cat /proc/sys/fs/inotify/max_user_watches
+>>>>npm install
+
+### debugg
+
+>>>echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+or:
+>>>sudo sysctl -w fs.inotify.max_user_watches=524288
+>>>cat /proc/sys/fs/inotify/max_user_watches
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

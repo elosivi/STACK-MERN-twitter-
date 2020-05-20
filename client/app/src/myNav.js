@@ -15,6 +15,7 @@ import Login from './Login'
 import Logout from './Logout'
 import MyProfile from './MyProfile'
 import Home from './Home'
+import Users from './Users'
 
 
 
@@ -28,9 +29,9 @@ export default function myNav() {
                 <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link href="/login">Login</Nav.Link>
                 <Nav.Link href="/registration">Register</Nav.Link>
-                <Nav.Link href="/logout">Logout as UserLogin</Nav.Link>
+                <Nav.Link href="/logout">Logout as </Nav.Link>
                 <Nav.Link href="/myprofile">My profile</Nav.Link>
-                {/* <Nav.Link href="/test"> *Test</Nav.Link> */}
+                <Nav.Link href="/users"> Follolos</Nav.Link> 
                 
             </Nav>
         </Navbar>
@@ -59,9 +60,9 @@ export default function myNav() {
               <Homefunc />
             </Route>
 
-            {/* <Route path="/test">
-              <Testfunc />
-            </Route> */}
+            <Route path="/users">
+              <Usersfunc />
+            </Route> */
             
         </Switch>
       </div>
@@ -91,8 +92,8 @@ function MyProfilefunc() {
   return <MyProfile />
 }
 
-// function Testfunc() {
-//   return <Test />
-// }
+function Usersfunc() {
+  return <Users />
+}
 
 
