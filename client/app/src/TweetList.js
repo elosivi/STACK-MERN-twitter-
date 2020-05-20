@@ -37,7 +37,10 @@ export default class TweetList extends Component {
                         <li>
                             {tweet.content}
                             <button>
-
+                                X
+                            </button>
+                            <button>
+                                :
                             </button>
                         </li>                
                     ) 

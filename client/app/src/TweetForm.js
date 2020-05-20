@@ -76,7 +76,7 @@ export default class TweetList extends Component {
                             />
                         </Form.Group>
                         
-                        <Button variant="primary" type="submit">Login</Button>
+                        <Button variant="primary" type="submit">Tweet</Button>
                     </Form>
                     {/* <p className="error">{this.state.loginErrors}</p> */}
                 </Card.Body>
