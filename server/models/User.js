@@ -5,11 +5,30 @@ const SALT_WORK_FACTOR = 10;
 mongoose.set('useCreateIndex', true);
 
 const userSchema = new mongoose.Schema({
-    login: { type: String, min: 5, max: 20, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, },
-    admin: { type: Boolean, default: false },
-}, { collection: 'users' });
+    login: { 
+        type: String, 
+        min: 5, 
+        max: 20, 
+        required: true, 
+        unique: true },
+
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true, 
+        pattern: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] 
+    },
+    password: { 
+        type: String, 
+        required: true, 
+    },
+    admin: { 
+        type: Boolean, 
+        efault: false },
+}, 
+{ 
+    collection: 'users' 
+});
 
 userSchema.pre('save', function (next) {
     const user = this;
