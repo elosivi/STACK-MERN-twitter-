@@ -35,7 +35,6 @@ export default class Login extends Component {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSessionSubmit = this.handleSessionSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
     }
@@ -53,6 +52,7 @@ export default class Login extends Component {
             .then(response => {
                 console.log("=== youpi ===");
                 console.log("res from login", response)
+                localStorage.setItem('login', response.data.user.login);
                 // if (response.data.status === 200) {
                 //     console.log("res data status ", response.request);
                 //     console.log("res data status type ", typeof(response.request));
@@ -60,18 +60,9 @@ export default class Login extends Component {
                     this.setState({ redirection: true });
                     // axios.defaults.headers.common['Cookie'] = 
                 // }
-                // console.log("=== YOUPI !!! ===");
-                // const message = `${response.headers} is logged in`;
+                // this.setState({loginErrors: response.data.message});
                 
-                
-                // console.log("data :", response.data);
-                // console.log("status :", response.status);
-                // console.log("statusText :", response.statusText);
-                // console.log("headers :", response.headers);
-                // console.log("config :", response.config);
-                // console.log("request :", response.request);
-                this.setState({loginErrors: response.data.message});
-                this.props.loggedInStatus(response.data.user.login)
+                this.props.loggedInStatus = "toto";
                 // console.log("here")
 
             })
@@ -89,11 +80,6 @@ export default class Login extends Component {
         
     }
 
-    handleSessionSubmit(event) {
-        event.preventDefault();
-        console.log("=== HERE IN SESSION !!! ===");
-    }
-
 
     handleChange(event) {
         this.setState({
@@ -106,7 +92,7 @@ export default class Login extends Component {
         const { redirection } = this.state;
         if (redirection) {
         //Affichage de la redirection
-        return <Redirect to='/home'/>;
+            return <Redirect to='/home'/>;
         }
         return (
             <div>
