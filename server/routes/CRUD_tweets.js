@@ -8,10 +8,9 @@ const { check, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 
-const ObjectId = mongoose.Types.ObjectId;
+// const ObjectId = mongoose.Types.ObjectId;
 
 // Model files
-const User = require('../models/User')
 const Tweet = require('../models/Tweet')
 // const Comment = require('../models/Comment')
 
