@@ -144,7 +144,7 @@ router.put('/blockFollower/:followerId', function (req, res) {
         blocked: true,
         updateDate : new Date(),
     }
-
+    console.log(req.session.userid + " ("+req.session.login+") wants to block: "+ req.params.followerId)
     Followers.findOneAndUpdate({$and:[ {leaderId: req.session.userid},{followerId:req.params.followerId} ]}, blockFollower, function (err, follow) {
         if (err) {
             const message = "Internal Server Error";
@@ -153,11 +153,11 @@ router.put('/blockFollower/:followerId', function (req, res) {
         }
         if(!follow){
             const message = "we did not find this follower in your relationships, sorry..."
-            console.log("==> NO! (message from server) Followers: "+ message)
-            console.log(req.params.followerId+ "don't follow: "+ req.session.userid )
+            console.log("==> NO! (message from server) Followers BLOCK: "+ message)
+            console.log(req.params.followerId+ " don't follow: "+ req.session.userid )
             return res.status(403).json({message});
         }
-        console.log("==> YES !(message from server) Followers: "+ follow+ " is BLOCKED (he can't follow you anymore)");
+        console.log("==> YES !(message from server) Followers: "+ follow.followerLogin+ " is BLOCKED (he can't follow you anymore)");
         return res.status(200).json(follow);
     });
 })
@@ -169,16 +169,22 @@ router.put('/unblockFollower/:followerId', function (req, res) {
         return res.status(403).json({ message });
     }
 
-    const blockFollower = new Followers({
+    const blockFollower = {
         blocked: false,
         updateDate : new Date(),
-    });
+    };
 
     Followers.findOneAndUpdate({$and:[ {leaderId: req.session.userid},{followerId:req.params.followerId} ]}, blockFollower, function (err, follow) {
         if (err) {
             const message = "Internal Server Error";
             console.log("==> ERROR !(message from server) Followers: you try to unblock a follower but :"+ message)
             return res.status(500).json({ message });
+        }
+        if(!follow){
+            const message = "we did not find this follower in your relationships, sorry..."
+            console.log("==> NO! (message from server) Followers: UNBLOCK "+ message)
+            console.log(req.params.followerId+ "don't follow: "+ req.session.userid )
+            return res.status(403).json({message});
         }
         console.log("==> YES !(message from server) Followers: " + follow.followerLogin + " is UNBLOCKED (he can follow you again)")
         return res.status(200).json(follow);
