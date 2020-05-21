@@ -1,82 +1,71 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Card } from 'react-bootstrap';
 
-const baseURL = "http://localhost:4242";
-axios.defaults.withCredentials = true;
+const TWEET_MAX_LENGTH = 10;
 
-
-export default class TweetList extends Component {
+export default class TweetForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            content: ""
+            content: "abcd",
+            newTweet: "",
+            tweetLength: 0
+            // tweetLength: 
         };
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this );
         this.handleChange = this.handleChange.bind(this);
     }
 
-    countTweetChar(content) {
-        console.log('tweet length :', content.length);
-    }
-
     handleChange(event) {
-        // this.countTweetChar(this.state.content);
-        // if (this.state.content.length >= 5) {
-        //     return;
-        // } else {
-        //     this.setState({
-        //         [event.target.name]: event.target.value
-        //     });
-        // }
+        const value = event.currentTarget.value;
+        const valueLength = value.length
+        
+        if (valueLength > TWEET_MAX_LENGTH) {
+            return;
+        }
         this.setState({
-            [event.target.name]: event.target.value
-        });
+            newTweet: value,
+            tweetLength: valueLength
+        })
+        // this.setState({
+        //     [event.target.name]: event.target.value
+        // });
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        // console.log("=== HERE IN POST LOGIN ===");
-        axios
-            .post(
-                baseURL + "/tweets", 
-                {
-                    content: this.state.content
-                }
-            )
-            .then(response => {
-
-                console.log("Tweet form response :", response)
-
-            })
-            .catch(error => {
-                console.log("Tweet form error :", error)
-
-            });
-       
+        this.props.onPost(this.state.newTweet);
+        this.setState({
+            newTweet: "",
+            tweetLength: 0
+        })
     }
 
+
     render () {
+        const placeholder = `tweet content max ${TWEET_MAX_LENGTH} characters`;
+
         return (
             <div >
-                <h1>Tweet Form</h1>
+                <h2>Post new tweet</h2>
                 <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
                 <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formBasicLogin">
                             <Form.Control
                                 type="text"
-                                name="content"
-                                placeholder="tweet content max 140 characters"
-                                value={this.state.login}
+                                value={this.state.newTweet}
+                                // name="content"
+                                placeholder = {placeholder}
                                 onChange={this.handleChange}
                             />
                         </Form.Group>
                         
                         <Button variant="primary" type="submit">Tweet</Button>
+                        Tweet length : {this.state.tweetLength}/{TWEET_MAX_LENGTH}
                     </Form>
                     {/* <p className="error">{this.state.loginErrors}</p> */}
                 </Card.Body>
