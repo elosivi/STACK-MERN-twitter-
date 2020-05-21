@@ -20,8 +20,8 @@ const User = require('../models/User')
 //to remember me who I follow (my leaders) ----> get /myleaders                    -----> TESTS OK
 //to follow someone (a leader)             ----> post /myleader/leaderid           -----> TESTS OK
 //to stop to follow someone (a leader)     ----> delete /myleader/leaderid         -----> TESTS OK
-//to block somenone ( a follower)          ----> put /blockFollower/followerid
-//to unblock somenone ( a follower)        ----> put /unblockFollower/followerid
+//to block somenone ( a follower)          ----> put /blockFollower/followerid     -----> TESTS OK
+//to unblock somenone ( a follower)        ----> put /unblockFollower/followerid   -----> TESTS OK
 
 // ***************** WHAT HAPPEN IF AN USER DELETE HIS PROFIL..... to test ********* //
 
