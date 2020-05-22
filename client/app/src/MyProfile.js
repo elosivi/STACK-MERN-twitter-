@@ -5,7 +5,7 @@ import TweetList from './TweetList'
 import TweetForm from './TweetForm'
 
 const baseURL = "http://localhost:4242";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export default class MyProfile extends Component {
     constructor(props) {
@@ -13,13 +13,13 @@ export default class MyProfile extends Component {
 
         this.state = {
             myProfile: "",
-            tweets: []
+            tweets: [],
+            tweetPostError: null
         }
 
         this.handlePostTweets = this.handlePostTweets.bind(this);
         this.handleTweetDelete = this.handleTweetDelete.bind(this);
         this.handleTweetUpdate = this.handleTweetUpdate.bind(this);
-
     }
 
     // ======================================================================
@@ -61,8 +61,9 @@ export default class MyProfile extends Component {
                 console.log("GET TWEETS RESPONSE :", this.state.tweets);
             })
             .catch(error => {
-                console.log("GET TWEETS ERROR :", error)
-                console.log(error);
+                if (error.response) {
+                    console.log("GET TWEETS ERROR :", error.response.data.message)
+                }
             });  
     }
 
@@ -82,6 +83,12 @@ export default class MyProfile extends Component {
             })
             .catch(error => {
                 console.log("POST TWEETS ERROR :", error)
+                let tweetPostError = "";
+                tweetPostError = (error.response) ? error.response.data.message : "Check server connection";
+                this.setState({
+                    tweetPostError
+                })
+                
             });
     }
 
@@ -142,6 +149,7 @@ export default class MyProfile extends Component {
 
                 <TweetForm
                     onPost={this.handlePostTweets}
+                    tweetPostError={this.state.tweetPostError}
                 />
 
                 <h2>My tweets</h2>

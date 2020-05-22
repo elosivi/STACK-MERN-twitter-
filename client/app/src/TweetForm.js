@@ -28,7 +28,7 @@ export default class TweetForm extends Component {
         }
         this.setState({
             newTweet: value,
-            tweetLength: valueLength
+            tweetLength: valueLength,
         })
         // this.setState({
         //     [event.target.name]: event.target.value
@@ -67,7 +67,7 @@ export default class TweetForm extends Component {
                         <Button variant="primary" type="submit">Tweet</Button>
                         Tweet length : {this.state.tweetLength}/{TWEET_MAX_LENGTH}
                     </Form>
-                    {/* <p className="error">{this.state.loginErrors}</p> */}
+                    <p className="error">{this.props.tweetPostError}</p>
                 </Card.Body>
                 </Card>
             </div>

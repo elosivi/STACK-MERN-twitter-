@@ -8,7 +8,6 @@ import './style.css';
 // Axios setup
 const instance = axios.create({
     baseURL: 'http://localhost:4242',
-    // withCredentials: true,
     timeout: 1000,
     headers: {
         'Content-Type': 'application/json',
