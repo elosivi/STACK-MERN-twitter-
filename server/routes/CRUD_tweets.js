@@ -22,15 +22,15 @@ const Tweet = require('../models/Tweet')
 router.get('/tweets/:tweetId?', async function (req, res) {
 
     // ==================== Check authorization ====================
-    if (!req.session.userid) {
-        const message = "Not logged in"
-        return res.status(403).json({ message });
-    }
+    // if (!req.session.userid) {
+    //     const message = "Not logged in"
+    //     return res.status(403).json({ message });
+    // }
     // ============================================================
 
     if (!req.params.tweetId) {
         // ==================== Find all post for current user ====================
-        Tweet.find({author: req.session.login}, function(err, docs) {
+        Tweet.find({}, function(err, docs) {
             if (err) {
                 const message = "Internal Server Error 1";
                 return res.status(500).json({ message });
@@ -51,6 +51,29 @@ router.get('/tweets/:tweetId?', async function (req, res) {
     return;
 })
 
+router.get('/tweets/:login', async function (req, res) {
+
+    // ==================== Check authorization ====================
+    if (!req.session.userid) {
+        const message = "Not logged in"
+        return res.status(403).json({ message });
+    }
+    // ============================================================
+    if (!req.params.tweetId) {
+        // ==================== Find all post for current user ====================
+        Tweet.find({author: req.session.login}, function(err, docs) {
+            if (err) {
+                const message = "Internal Server Error 1";
+                return res.status(500).json({ message });
+            }
+            return res.status(200).json(docs);
+        });
+        
+        return;
+    }
+
+})
+
 // ======================================== POST TWEET ========================================
 
 router.post('/tweets', [
@@ -59,10 +82,11 @@ router.post('/tweets', [
     ],
     function (req, res) {
     // ==================== Check authorization ====================
-    if (!req.session.login) {
-        const message = "Not logged in"
-        return res.status(403).json({ message });
-    }
+    // if (!req.session.login) {
+    //     const message = "Not logged in"
+    //     return res.status(403).json({ message });
+    // }
+    // req.session.login = "rambo";
     // ============================================================
 
     // Express validator errors
@@ -131,6 +155,7 @@ router.put('/tweets/:tweetId', [
 // ======================================== DELETE TWEET ========================================
 
 router.delete('/tweets/:tweetId', function (req, res) {
+    console.log("===== HERE IN DELETE TWEET =====");
     // ==================== Check authorization ====================
     if (!req.session.userid) {
         const message = "Not logged in"

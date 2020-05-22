@@ -9,25 +9,38 @@ const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
 
 export default class Logout extends Component {
-    state = {
-        navigate : false
-    };
+    constructor(props) {
+        super(props);
+        // let userLogin = localStorage.getItem('login');
+        this.state = {
+            navigate : false,
+            logoutError: ""
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-    handleSubmit() {
+    handleSubmit(event) {
+        event.preventDefault();
         console.log("=== LOGOUT ANSWERED ===");
         axios
             .get(
                 baseURL + "/logout"
             )
             .then(response => {
-            localStorage.removeItem("login"),
-            localStorage.removeItem("email"),
-            localStorage.removeItem("userid"),
-            localStorage.removeItem("admin"),
-            this.setState({ navigate : true})
-             })
+                console.log("=== LOGOUT response ===", response);
+                localStorage.clear();
+                // localStorage.removeItem("login"),
+                // localStorage.removeItem("email"),
+                // localStorage.removeItem("userid"),
+                // localStorage.removeItem("admin"),
+                // localStorage.removeItem("coucou"),
+                this.setState({ navigate : true})
+            })
             .catch(error => {
                 console.log("===LOGOUT.JS error ===", error)//TEST CONSOL
+                this.setState({
+                    logoutError: error.message
+                })
             })
     }
 
@@ -51,9 +64,14 @@ export default class Logout extends Component {
             return <Redirect to="/login" push = {true}/>;
         }
         return (
-        <form onSubmit={this.handleSubmit}>
-            <Button type="submit">Logout</Button>
-        </form>)
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <Button type="submit">Logout</Button>
+                </form>
+                <h3>{this.state.logoutError}</h3>
+            </div>
+
+        )
         
     }   
 }
