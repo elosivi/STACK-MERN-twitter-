@@ -7,6 +7,8 @@ import {
   // Link
 } from "react-router-dom";
 
+import { Redirect } from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 
@@ -17,14 +19,15 @@ import MyProfile from './MyProfile'
 import Home from './Home'
 import Users from './Users'
 
-
 export default class myNav extends React.Component {
 // export default function myNav() {
     constructor(props) {
       super(props);
 
+      const login = localStorage.getItem('localStorageLogin');
+
       this.state = {
-          userLogin: "",
+          userLogin: login,
 
       };
 
@@ -39,6 +42,18 @@ export default class myNav extends React.Component {
   }
 
   render() {
+
+    // const localStorageName = localStorage.getItem("localStorageLogin");
+    // if (!localStorageName) {
+    //     console.log("pas loggé !!!");
+    //     return <Redirect to="/login" push = {true}/>;
+    //     // redirection
+        
+    // } else {
+    //     console.log("loggé !!!");
+    // }
+    // const isAuthenticated = false;
+
     console.log("Login from myNav.js :", this.state.userLogin);
     return (
       <Router>
@@ -47,9 +62,11 @@ export default class myNav extends React.Component {
               <Navbar.Brand href="/">Blog from {this.state.userLogin}</Navbar.Brand>
               <Nav className="mr-auto">
                   <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link href="/login">Login</Nav.Link>
+
+                  <Nav.Link href="/login">Login 2</Nav.Link>
+                  <Nav.Link href="/logout">Logout 2</Nav.Link>
                   <Nav.Link href="/registration">Register</Nav.Link>
-                  <Nav.Link href="/logout">Logout as </Nav.Link>
+                  
                   <Nav.Link href="/myprofile">My profile</Nav.Link>
                   <Nav.Link href="/users"> Follolos</Nav.Link> 
                   

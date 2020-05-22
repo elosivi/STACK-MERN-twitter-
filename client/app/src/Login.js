@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import AuthContext from "./AuthContext"
+
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,10 +55,11 @@ export default class Login extends Component {
                 this.setState({ redirection: true });
                 console.log("===LOGIN.JS=== this.state.rediction in handleSubmit :",this.state.rerirection);//TEST CONSOL
                 this.setState({loginErrors: response.data.message});
-                localStorage.setItem('login', response.data.user.login)
-                localStorage.setItem('email', response.data.user.email)
-                localStorage.setItem('userid', response.data.user._id)
-                localStorage.setItem('admin', response.data.user.admin)
+                localStorage.setItem('localStorageLogin', response.data.user.login);
+                // localStorage.setItem('login', response.data.user.login)
+                // localStorage.setItem('email', response.data.user.email)
+                // localStorage.setItem('userid', response.data.user._id)
+                // localStorage.setItem('admin', response.data.user.admin)
                 console.log("===LOGIN.JS ===his.props.loggedInStatus updated in Login.js", this.props.loggedInStatus)//TEST CONSOL
                 
                 this.props.onLogin(response.data.user.login);
@@ -110,6 +114,7 @@ export default class Login extends Component {
         
         }else{
         return (
+            <AuthContext.Provider>
             <div >
                 <h1>Login</h1>
                 <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
@@ -142,6 +147,7 @@ export default class Login extends Component {
                 {myDiv}
 
             </div>
+            </AuthContext.Provider>
         );
         }
     }
