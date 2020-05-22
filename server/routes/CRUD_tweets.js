@@ -96,7 +96,6 @@ router.post('/tweets', [
         const message = "Not logged in"
         return res.status(403).json({ message });
     }
-    req.session.login = "rambo";
     // ============================================================
 
     // Express validator errors
