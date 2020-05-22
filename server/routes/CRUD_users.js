@@ -8,6 +8,8 @@ const { check, validationResult } = require('express-validator');
 // Model files
 const User = require('../models/User')
 
+//to create my profil           ----> get /myfollowers                  -----> TESTS OK
+//to create an user if admin    ----> get /admin/users                  -----> TESTS OK
 
 // ----------------------------------------------   c r e a t e    -------------------------------------------------- 
 
@@ -21,7 +23,7 @@ router.post('/admin/users',[ // test OK
     check('confirm_password').notEmpty().withMessage('Password confirmation must not be empty')
     ], async function (req, res) {
 //if admin
-        console.log("===== POST CREATE ('/admin/users') =====")
+        console.log("==> OK! (mess from server) Users: /admin/users received this post: ")
         console.log(req.is())
         console.log(req.body)
 
@@ -30,12 +32,14 @@ router.post('/admin/users',[ // test OK
 
         if (!errors.isEmpty()) {
             const infos = errors.errors;
+            console.log("==> ERROR ! (mess from server) Users: " + infos)
             return res.status(400).json({ message: infos[0].msg });
         }
 
         // Check password confirmation match
         if (req.body.password !== req.body.confirm_password) {
             const message = "Passwords do not match";
+            console.log(message)
             return res.status(400).json({ message });
         }
 
@@ -53,13 +57,16 @@ router.post('/admin/users',[ // test OK
                 return isLogin;
             })
             .catch((error) => {
+                console.log("==> ERROR! (mess from server) Users: verify is login allready exist but: " +error)
                 return error;
             })
             if (isLoginExist === true) {
                 const message = "This login already exists";
+                console.log("==> NO ! (mess from server) Users: "+message)
                 return res.status(400).json({ message });
             } else if (isLoginExist !== false) {
                 const message = "Internal Server Error";
+                console.log("==> ERROR ! (mess from server) Users: "+message )
                 return res.status(500).json({ message });
             }
 
@@ -72,15 +79,22 @@ router.post('/admin/users',[ // test OK
                 return error;
             })
         if (isEmailExist === true) {
-            return res.status(400).json("This email already exists");
+            const message = "This email already exists"
+            console.log("==> NO ! (mess from server) Users: "+message )
+            return res.status(400).json({message});
         } else if (isEmailExist !== false) {
-            return res.status(500).json("Internal Server Error");
+            const message = "Internal Server Error"
+            console.log("==> ERROR ! (mess from server) Users: "+message )
+            return res.status(500).json({message});
         }
 
         newUser.save(function (err,user) {
             if (err) {
-                return res.status(500).json("Internal Server Error");
+                const message = "Internal Server Error"
+                console.log("==> ERROR ! (mess from server) Users: "+message )
+                return res.status(500).json({message});
             } else {
+                console.log("==> YES ! (mess from server) Users: user saved : "+ user)
                 return res.status(201).json({ user });
             }
         });
@@ -96,8 +110,10 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
             User.find(function (err, users) {  
                 if (err) {
                     const message = "Internal Server Error"
-                    return res.status(500).json({ message });
+                    console.log("==> ERROR ! (mess from server) Users: "+message )
+                    return res.status(500).json({message});
                 }
+                console.log("==> YES ! (mess from server) Users: get all users from admin status ")
                 return res.status(200).json({ users });
             });
         }
@@ -105,8 +121,10 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
             User.findOne({_id:userid}, function (err, user) {  
                 if (err) {
                     const message = "Internal Server Error"
-                    return res.status(500).json({ message });
+                    console.log("==> ERROR ! (mess from server) Users: "+message )
+                    return res.status(500).json({message});
                 }
+                console.log("==> YES ! (mess from server) Users: find one user : "+ user.login)
                 return res.status(200).json({ user });
             });
         }
@@ -121,12 +139,15 @@ router.get(['/myprofile'], function (req, res) { // Tested OK
         User.findOne({_id:req.session.userid}, function (err, user) {  
                     if (err) {
                         const message = "Internal Server Error"
-                        return res.status(500).json({ message });
+                        console.log("==> ERROR ! (mess from server) Users: "+message )
+                        return res.status(500).json({message});
                     }
+                    console.log("==> YES ! (mess from server) Users: find my profile : "+ user.login)
                     return res.status(200).json({ user });
                 });
     }else{
         const message = "You can't access to this profile if is not yours";
+        console.log("==> NO ! (mess from server) Users: "+message)
         return res.status(400).json({ message });
     }
     
@@ -142,6 +163,7 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
         if (req.session.userid) {
             if ((req.body.password) && (req.body.password !== req.body.confirm_password) ) {
                 const message = "Passwords do not match";
+                console.log("==> NO ! (mess from server) Users: try to update my profile but "+message)
                 return res.status(400).json({ message });
             }
             //put new data
@@ -161,10 +183,12 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 })
             if (isLoginExist === true) {
                 const message = "This login already exists";
+                console.log("==> NO ! (mess from server) Users: try to update my profile but "+message)
                 return res.status(400).json({ message });
             } else if (isLoginExist !== false) {
-                const message = "Internal Server Error";
-                return res.status(500).json({ message });
+                const message = "Internal Server Error"
+                console.log("==> ERROR ! (mess from server) Users: "+message )
+                return res.status(500).json({message});
             }
 
             // Check if email already exists in DB
@@ -178,9 +202,11 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
 
             if (isEmailExist === true) {
                 const message = "This email already exists"
+                console.log("==> NO ! (mess from server) Users: try to update my profile but "+message)
                 return res.status(400).json({message});
             } else if (isEmailExist !== false) {
-                const message= "Internal Server Error"
+                const message = "Internal Server Error"
+                console.log("==> ERROR ! (mess from server) Users: "+message )
                 return res.status(500).json({message});
             }
 
@@ -196,15 +222,18 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                         user.email = req.body.email;
                     }else{
                         const message="email is not valid"
+                        console.log("==> NO ! (mess from server) Users: try to update my profile but "+message)
                         return res.status(400).json({message});
                     }
                 } 
                 user.save();
+                console.log("==> YES ! (mess from server) Users: my profile is updated "+user)
                 return res.status(200).json({ user });  
             });
 
         }else{
             const message = "You can't update this profile if it is not yours";
+            console.log("==> NO ! (mess from server) Users: "+message)
             return res.status(400).json({ message });
         }
     });
@@ -216,6 +245,7 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
         if (req.session.admin == true){
             if ((req.body.password) && (req.body.password !== req.body.confirm_password) ) {
                 const message = "Passwords do not match";
+                console.log("==> NO ! (mess from server) Users: Admin try to update a profile but "+message)
                 return res.status(400).json({ message });
             }
             //put new data
@@ -237,10 +267,12 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                     })
                 if (isLoginExist === true) {
                     const message = "This login already exists";
+                    console.log("==> NO ! (mess from server) Users: Admin try to update a profile but "+message)
                     return res.status(400).json({ message });
                 } else if (isLoginExist !== false) {
-                    const message = "Internal Server Error";
-                    return res.status(500).json({ message });
+                    const message = "Internal Server Error"
+                    console.log("==> ERROR ! (mess from server) Users: "+message )
+                    return res.status(500).json({message});
                 }
             }
 
@@ -256,9 +288,11 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
 
                 if (isEmailExist === true) {
                     const message = "This email already exists"
+                    console.log("==> NO ! (mess from server) Users: Admin try to update a profile but "+message)
                     return res.status(400).json({message});
                 } else if (isEmailExist !== false) {
-                    const message= "Internal Server Error"
+                    const message = "Internal Server Error"
+                    console.log("==> ERROR ! (mess from server) Users: "+message )
                     return res.status(500).json({message});
                 }
             }
@@ -274,19 +308,22 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                         user.email = req.body.email;
                     }else{
                         const message="email is not valid"
+                        console.log("==> NO ! (mess from server) Users: Admin try to update a profile but "+message)
                         return res.status(400).json({message});
                     }
-                if(req.body.admin){
-                    user.admin = req.body.admin;
-                }
+                    if(req.body.admin){
+                        user.admin = req.body.admin;
+                    }
                 } 
                 user.save();
                 const message = "User updated"
+                console.log("==> YES ! (mess from server) Users: "+ message + updateUser)
                 return res.status(200).json({ message, updateUser });  
             });
 
         }else{
             const message = "You can't update this profile if you are not admin";
+            console.log("==> NO ! (mess from server) Users: "+message)
             return res.status(400).json({ message });
         }
     });
@@ -302,19 +339,23 @@ router.delete('/myprofile', function (req, res) { //tested ok
         User.findOneAndDelete({ _id:req.session.userid}, function (err, user) { 
             if (err) {
                 const message = "Internal Server Error"
-                return res.status(500).json({ message });
+                console.log("==> ERROR ! (mess from server) Users: "+message )
+                return res.status(500).json({message});
             }
             // Check user existence
             if (!user) {
                 const message = "User not found";
+                console.log("==> NO ! (mess from server) Users: try to delete my profile but "+message)
                 return res.status(400).json({ message });
             } else{
                 const message = "User deleted";
+                console.log("==> YES ! (mess from server) Users: "+message)
                 return res.status(200).json({ message, user });
             }
         });
     }else{
     const message = "You can't delete this profile if it is not yours";
+    console.log("==> NO ! (mess from server) Users: "+message)
     return res.status(400).json({ message });
     }
 });
@@ -328,19 +369,23 @@ router.delete('/admin/users/:userid', function (req, res) { // tested ok
         User.findOneAndDelete({ _id: id }, function (err, user) {
             if (err) {
                 const message = "Internal Server Error"
-                return res.status(500).json({ message });
+                console.log("==> ERROR ! (mess from server) Users: "+message )
+                return res.status(500).json({message});
             }
             // Check user existence
             if (!user) {
                 const message = "User not found";
+                console.log("==> NO ! (mess from server) Users: Admin try to delete a profile but "+message)
                 return res.status(400).json({ message });
             } else {
                 const message = "User deleted";
+                console.log("==> YES ! (mess from server) Users: "+message+" by an admin")
                 return res.status(201).json({ message, user });
             }
         });  
     }else{
     const message = "You can't delete this profil if you're not admin";
+    console.log("==> NO ! (mess from server) Users: "+message)
     return res.status(400).json({ message });
     }
 });
