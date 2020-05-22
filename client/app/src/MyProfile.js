@@ -51,7 +51,7 @@ export default class MyProfile extends Component {
     getTweets() {
         axios
             .get(
-                baseURL + "/tweets",
+                baseURL + "/mytweets",
             )
             .then(response => {
                 const tweets = response.data
