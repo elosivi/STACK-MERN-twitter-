@@ -52,6 +52,7 @@ export default class Home extends Component {
             .catch(error => {
                 console.log("POST TWEETS ERROR :", error)
             });
+
     }
 
     handlePostTweets(content) {
@@ -66,10 +67,12 @@ export default class Home extends Component {
 
     // ======================================================================
     render() {
-
+        const userConnected = localStorage.getItem('login')
         return (
             <div>
+
                 <h1>/!\ BE CAREFUL /!\ Home</h1>
+
                 <h2>Welcome {this.state.loggedIn}</h2>
                 <TweetForm onPost={this.handlePostTweets} />
                 <TweetList tweets={this.state.tweets} />

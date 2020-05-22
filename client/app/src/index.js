@@ -93,6 +93,7 @@ class App extends React.Component {
 
                 <MyNav logged={ this.updateState.bind(this)} onLogin={this.handleIndexLogin}/>
                 <h1>{bidule}</h1>
+
             </div>
         );
     }
