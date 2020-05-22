@@ -13,7 +13,7 @@ export default class Logout extends Component {
         super(props);
         // let userLogin = localStorage.getItem('login');
         this.state = {
-            navigate : false,
+            redirection : false,
             logoutError: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +34,7 @@ export default class Logout extends Component {
                 // localStorage.removeItem("userid"),
                 // localStorage.removeItem("admin"),
                 // localStorage.removeItem("coucou"),
-                this.setState({ navigate : true})
+                this.setState({ redirection : true})
             })
             .catch(error => {
                 console.log("===LOGOUT.JS error ===", error)//TEST CONSOL
@@ -44,24 +44,11 @@ export default class Logout extends Component {
             })
     }
 
-    // handleSessionSubmit(event) {
-    //     event.preventDefault();
-    //     console.log("===LOGout HANDLEsESSIONsUBMIT ===");//TEST CONSOL
-    // }
-
-
-    // handleChange(event) {
-    //     this.setState({
-    //         [event.target.name]: event.target.value
-    //     });
-    // }
-
-
     render() {
-        const {navigate} = this.state;
+        const {redirection} = this.state;
 
-        if (navigate){
-            return <Redirect to="/login" push = {true}/>;
+        if (redirection){
+            return <Redirect to="/login" />;
         }
         return (
             <div>

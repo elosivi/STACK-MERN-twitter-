@@ -8,7 +8,6 @@ import './style.css';
 // Axios setup
 const instance = axios.create({
     baseURL: 'http://localhost:4242',
-    // withCredentials: true,
     timeout: 1000,
     headers: {
         'Content-Type': 'application/json',
@@ -45,8 +44,12 @@ export default class Registration extends Component {
             console.log("registration response :::", response.data.newUser);
             this.setState({ redirection: true });
         }).catch(error => {
-                        this.setState({registrationErrors: error.response.data.message});
-            console.log("registration error", error.response);
+            let registrationErrors = "";
+            registrationErrors = (error.response) ? error.response.data.message : "Check server connection";
+            this.setState({
+                registrationErrors
+            })
+            console.log("Registration error :", registrationErrors);
         });
 
         console.log("form submitted");
