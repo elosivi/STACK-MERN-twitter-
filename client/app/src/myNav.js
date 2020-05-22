@@ -20,16 +20,21 @@ import Users from './Users'
 
 
 export default function myNav() {
+  let userConnected="Visitor"
+  if(localStorage.getItem('login') != null){
+    userConnected = localStorage.getItem('login');
+  }
+  console.log("--> test (from client) myNav: localStorage login: "+userConnected)
   return (
     <Router>
       <div>
         <Navbar bg="dark" variant="dark" className="myNav">
-            <Navbar.Brand href="/">Myblog</Navbar.Brand>
+            <Navbar.Brand href="/">{userConnected}</Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link href="/login">Login</Nav.Link>
                 <Nav.Link href="/registration">Register</Nav.Link>
-                <Nav.Link href="/logout">Logout as </Nav.Link>
+                <Nav.Link href="/logout">Logout {userConnected} </Nav.Link>
                 <Nav.Link href="/myprofile">My profile</Nav.Link>
                 <Nav.Link href="/users"> Follolos</Nav.Link> 
                 

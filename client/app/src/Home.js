@@ -1,11 +1,4 @@
 import React, { Component } from 'react';
-
-// import axios from 'axios';
-// import { Redirect } from "react-router-dom";
-
-// const baseURL = "http://localhost:4242";
-// axios.defaults.withCredentials = true;
-
 import TweetList from './TweetList'
 import TweetForm from './TweetForm'
 
@@ -36,23 +29,16 @@ export default class Home extends Component {
 
         console.log("+++userLogin this state from here", this.state.loggedIn)
 
-        // if (!userLogin) {
-        //     userLogin = "";
-        //     this.setState({
-        //         redirection: true
-        //     })
-        // }
-
         console.log("from Home state : ", this.state.loggedIn);
     }
 
 
 
     render() {
-
+        const userConnected = localStorage.getItem('login')
         return (
             <div>
-                <h1>Home</h1>
+                <h1>Home {userConnected} </h1>
                 <h2>Welcome {this.state.loggedIn}</h2>
                 <TweetForm />
                 <TweetList />

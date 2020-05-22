@@ -75,7 +75,6 @@ class App extends React.Component {
         return (
             <div>
                 <MyNav logged={ this.updateState.bind(this) }/> 
-                coucou
             </div>
         );
     }
