@@ -32,10 +32,12 @@ class App extends React.Component {
             user: {
                 login: "NOT LOGGED IN"
                 
-            }
+            },
+            userLogin: ""
         }
         
         this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+        this.handleIndexLogin = this.handleIndexLogin.bind(this);
     }
 
      // updateState = updateState.bind(this)// added by elo 19/05
@@ -47,7 +49,8 @@ class App extends React.Component {
     handleSuccessfulAuth(data) {
         this.setState({
             user: data.user,
-            loggedInStatus: data.user.login
+            loggedInStatus: data.user.login,
+            userLogin: ""
         });
 
         // localStorage.setItem("user", this.state.user);
@@ -59,8 +62,19 @@ class App extends React.Component {
         // console.log("this.state.user.login:", this.state.user.login);
     }
 
+    handleIndexLogin(userLogin){
+        console.log("From index !!!!", userLogin)
+        this.setState({
+            userLogin: userLogin
+        })
+        localStorage.setItem("coucou", userLogin);
+    }
+
     render() {
         console.log(localStorage.getItem('login'));
+
+        const bidule = localStorage.getItem("coucou");
+
         // if (localStorage.getItem('login')) {
         //     console.log("get from index :", localStorage.getItem('login'))
         // } else {
@@ -74,7 +88,12 @@ class App extends React.Component {
 
         return (
             <div>
-                <MyNav logged={ this.updateState.bind(this) }/> 
+                <h1>Hello {this.state.userLogin}</h1>
+                <h1>Hello {bidule}</h1>
+
+                <MyNav logged={ this.updateState.bind(this)} onLogin={this.handleIndexLogin}/>
+                <h1>{bidule}</h1>
+
             </div>
         );
     }

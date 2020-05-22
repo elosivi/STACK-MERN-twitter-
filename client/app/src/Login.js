@@ -17,7 +17,7 @@ export default class Login extends Component {
         this.state = {
             login: "",
             password: "",
-            loginErrors: "",
+            loginError: "",
             email:"",
             admin:"",
             redirection: false
@@ -57,6 +57,8 @@ export default class Login extends Component {
                 localStorage.setItem('userid', response.data.user._id)
                 localStorage.setItem('admin', response.data.user.admin)
                 console.log("===LOGIN.JS ===his.props.loggedInStatus updated in Login.js", this.props.loggedInStatus)//TEST CONSOL
+                
+                this.props.onLogin(response.data.user.login);
                 //ADDED BY ELO 19:05
                 // this.updateChild(response.data.user.login)
                 // console.log("===LOGIN.JS ===his.props.loggedInStatus updated in Login.js VS2", this.props.loggedInStatus)
@@ -72,6 +74,9 @@ export default class Login extends Component {
             })
             .catch(error => {
                 console.log("===LOGIN.JS===login error...", error)//TEST CONSOL
+                this.setState({
+                    loginError: error.message
+                })
             });
 
         console.log("===LOGIN.JS===form submitted");//TEST CONSOL
@@ -93,6 +98,11 @@ export default class Login extends Component {
 
 
     render() {
+        const booleen = false;
+        let myDiv;
+        if (booleen) {
+            myDiv = <h3>{this.state.loginError}</h3>
+        }
         const { redirection } = this.state;
         if (redirection) {
         //Affichage de la redirection
@@ -116,7 +126,7 @@ export default class Login extends Component {
                         </Form.Group>
                         <Form.Group controlId="formBasicPassword">
                             <Form.Control
-                                type="text"// to change
+                                type="password"// to change
                                 name="password"
                                 placeholder="password"
                                 value={this.state.password}
@@ -128,6 +138,9 @@ export default class Login extends Component {
                     <p className="error">{this.state.loginErrors}</p>
                 </Card.Body>
                 </Card>
+
+                {myDiv}
+
             </div>
         );
         }

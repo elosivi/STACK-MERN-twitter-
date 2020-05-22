@@ -1,53 +1,157 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import TweetList from './TweetList'
+import TweetForm from './TweetForm'
+
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
-
 
 export default class MyProfile extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            myProfile: ""
+            myProfile: "",
+            tweets: []
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        
+        this.handlePostTweets = this.handlePostTweets.bind(this);
+        this.handleTweetDelete = this.handleTweetDelete.bind(this);
+        this.handleTweetUpdate = this.handleTweetUpdate.bind(this);
+
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log("=== HERE IN MY PROFILE ===");
+    // ======================================================================
+    // When component is loaded, it requests for the tweets
+    componentDidMount() {
+        this.getMyself();
+        this.getTweets();
+    }
+
+    // ======================================================================
+    getMyself() {
         axios
             .get(
                 baseURL + "/login"
             )
             .then(response => {
-                console.log("=== GET /login ===", response);
+                console.log("=== GET /login RESPONSE ===", response);
                 this.setState({
                     myProfile: response.data.message
                 })
+            })
+            .catch(error => {
+                console.log("=== GET /login ERROR ===", error)
 
+            });
+    }
+    
+    // ======================================================================
+    getTweets() {
+        axios
+            .get(
+                baseURL + "/mytweets",
+            )
+            .then(response => {
+                const tweets = response.data
+                this.setState(
+                    {tweets}
+                )
+                console.log("GET TWEETS RESPONSE :", this.state.tweets);
+            })
+            .catch(error => {
+                console.log("GET TWEETS ERROR :", error)
+                console.log(error);
+            });  
+    }
+
+    // ======================================================================
+    postTweetAndUpdateTweetsList(content) {
+        axios
+            .post(
+                baseURL + "/tweets", 
+                {
+                    content: content
+                }
+            )
+            .then(response => {
+                console.log("POST TWEETS RESPONSE :", response)
+                this.getTweets();
 
             })
             .catch(error => {
-                console.log("=== ERROR GET /login ===", error)
-
+                console.log("POST TWEETS ERROR :", error)
             });
-       
     }
 
+    // ======================================================================
+    deleteTweetAndUpdateTweetsList(tweetId) {
+        axios
+            .delete(
+                baseURL + "/tweets/" + tweetId
+            )
+            .then(response => {
+                console.log("DELETE TWEET RESPONSE :", response)
+                this.getTweets();
+
+            })
+            .catch(error => {
+                console.log("DELETE TWEET ERROR :", error)
+            });
+    }
+
+    // ======================================================================
+    updateTweetAndUpdateTweetsList(tweetId, tweetValue) {
+        axios
+            .put(
+                baseURL + "/tweets/" + tweetId, 
+                {
+                    content: tweetValue
+                }
+            )
+            .then(response => {
+                console.log("UPDATE TWEET RESPONSE :", response)
+                this.getTweets();
+
+            })
+            .catch(error => {
+                console.log("UPDATE TWEET ERROR :", error)
+            });
+    }
+
+    handlePostTweets(content) {
+        this.postTweetAndUpdateTweetsList(content);
+    }
+
+    handleTweetDelete(tweetId) {
+        this.deleteTweetAndUpdateTweetsList(tweetId);
+    }
+
+    handleTweetUpdate(tweetId, tweetValue) {
+        this.updateTweetAndUpdateTweetsList(tweetId, tweetValue);
+    }
+
+    // ======================================================================
     render() {
         return (
             <div>
                 <h1>My profile</h1>
-                <h1>Who am I ?</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <button type="submit">Who am I</button>
-                </form>
+
                 <h3>{this.state.myProfile}</h3>
+
+                <TweetForm
+                    onPost={this.handlePostTweets}
+                />
+
+                <h2>My tweets</h2>
+
+                <TweetList 
+                    tweets={this.state.tweets} 
+                    onDelete={this.handleTweetDelete}
+                    onUpdate={this.handleTweetUpdate}
+                />
+                
             </div>
         );
     }

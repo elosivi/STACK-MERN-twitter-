@@ -1,48 +1,81 @@
 import React, { Component } from 'react';
+
 import TweetList from './TweetList'
 import TweetForm from './TweetForm'
+
+import axios from 'axios';
+const baseURL = "http://localhost:4242";
+axios.defaults.withCredentials = true;
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
 
-        console.log("props", props.greeting);
-
-        console.log("this.props.search", this.props.search);
-        console.log("this.props.search", this.props.search);
-        // let userLogin = localStorage.getItem('login');
-        // console.log("userLogin from Home :", userLogin);
-
         this.state = {
-            loggedIn: "",
-            redirection: false,
-            tweets: []
+            tweets: [],
         }
 
-        const userLogin = localStorage.getItem('login');
-        console.log("+++userLogin from here", userLogin)
-        console.log("+++userLogin this state from here", this.state.loggedIn)
-
-        this.setState({
-            loggedIn: userLogin
-        })
-
-        console.log("+++userLogin this state from here", this.state.loggedIn)
-
-        console.log("from Home state : ", this.state.loggedIn);
+        this.handlePostTweets = this.handlePostTweets.bind(this);
     }
 
+    getTweets() {
+        axios
+            .get(
+                baseURL + "/tweets",
+            )
+            .then(response => {
+                const tweets = response.data
+                this.setState(
+                    {tweets}
+                )
+                console.log("GET TWEETS RESPONSE :", this.state.tweets);
+            })
+            .catch(error => {
+                console.log("GET TWEETS ERROR :", error)
+                console.log(error);
+            });  
+    }
 
+    postTweetAndUpdateTweetsList(content) {
+        axios
+            .post(
+                baseURL + "/tweets", 
+                {
+                    content: content
+                }
+            )
+            .then(response => {
+                console.log("POST TWEETS RESPONSE :", response)
+                this.getTweets();
 
+            })
+            .catch(error => {
+                console.log("POST TWEETS ERROR :", error)
+            });
+
+    }
+
+    handlePostTweets(content) {
+        this.postTweetAndUpdateTweetsList(content);
+    }
+
+    // ======================================================================
+    // When component is loaded, it requests for the tweets
+    componentDidMount() {
+        this.getTweets();
+    }
+
+    // ======================================================================
     render() {
         const userConnected = localStorage.getItem('login')
         return (
             <div>
-                <h1>Home {userConnected} </h1>
-                <h2>Welcome {this.state.loggedIn}</h2>
-                <TweetForm />
-                <TweetList />
 
+                <h1>/!\ BE CAREFUL /!\ Home</h1>
+
+                <h2>Welcome {this.state.loggedIn}</h2>
+                <TweetForm onPost={this.handlePostTweets} />
+                <TweetList tweets={this.state.tweets} />
             </div>
         )
     }

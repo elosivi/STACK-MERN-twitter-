@@ -8,17 +8,15 @@ const { check, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 
-// const ObjectId = mongoose.Types.ObjectId;
-
 // Model files
 const Tweet = require('../models/Tweet')
-// const Comment = require('../models/Comment')
+const Followers = require('../models/Followers')
 
 // Routes
 
 // ======================================== GET TWEET(S) ========================================
 
-router.get('/tweets/:tweetId?', async function (req, res) {
+router.get('/tweets/:tweetId?', function (req, res) {
 
     // ==================== Check authorization ====================
     if (!req.session.userid) {
@@ -28,25 +26,61 @@ router.get('/tweets/:tweetId?', async function (req, res) {
     // ============================================================
 
     if (!req.params.tweetId) {
+        console.log("followerId: ", req.session.userid)
         // ==================== Find all post for current user ====================
-        Tweet.find({author: req.session.login}, function(err, docs) {
+        Followers.find({followerId: req.session.userid}, function(err, leaders) {
             if (err) {
                 const message = "Internal Server Error 1";
+                console.log(message);
                 return res.status(500).json({ message });
             }
-            return res.status(200).json(docs);
+            // ==================== Query build ====================
+            let query = { $or: [{ author: req.session.login }] };
+            if (leaders.length > 0) {
+                leaders.forEach(leader => {
+                    let led = {author: leader.leaderLogin};
+                    query.$or.push(led);
+                });
+            }
+            console.log("ici query", query);
+
+            Tweet.find(query, function(err, docs) {
+                if (err) {
+                    const message = "Internal Server Error 2";
+                    return res.status(500).json({ message });
+                }
+                return res.status(200).json(docs);
+            });
         });
-        
         return;
     }
 
     Tweet.findOne({_id: req.params.tweetId}, function(err, docs) {
         if (err) {
-            const message = "Internal Server Error 2";
+            const message = "Internal Server Error Tweet FindOne";
             return res.status(500).json({ message });
         }
         return res.status(200).json(docs);        
     });
+    return;
+})
+
+router.get('/mytweets', async function (req, res) {
+
+    // ==================== Check authorization ====================
+    if (!req.session.userid) {
+        const message = "Not logged in"
+        return res.status(403).json({ message });
+    }
+    // ==================== Find all post for current user ====================
+    Tweet.find({ author: req.session.login }, function (err, docs) {
+        if (err) {
+            const message = "Internal Server Error tweets/:login";
+            return res.status(500).json({ message });
+        }
+        return res.status(200).json(docs);
+    });
+
     return;
 })
 
@@ -62,6 +96,7 @@ router.post('/tweets', [
         const message = "Not logged in"
         return res.status(403).json({ message });
     }
+    req.session.login = "rambo";
     // ============================================================
 
     // Express validator errors
@@ -130,6 +165,7 @@ router.put('/tweets/:tweetId', [
 // ======================================== DELETE TWEET ========================================
 
 router.delete('/tweets/:tweetId', function (req, res) {
+    console.log("===== HERE IN DELETE TWEET =====");
     // ==================== Check authorization ====================
     if (!req.session.userid) {
         const message = "Not logged in"
