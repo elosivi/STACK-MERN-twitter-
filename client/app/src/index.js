@@ -17,16 +17,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MyNav from './myNav';
 import './style.css';
 
-/** added by elo 19/05 */
-// function updateState(loggedInStatus){
-//     this.setState({loggedInStatus})
-// }
-/** end of added by elo */
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        // let userLogin = localStorage.getItem('login');
+       
         this.state = {
             loggedInStatus: "NOT_LOGGED_IN",
             user: {
@@ -40,7 +35,7 @@ class App extends React.Component {
         this.handleIndexLogin = this.handleIndexLogin.bind(this);
     }
 
-     // updateState = updateState.bind(this)// added by elo 19/05
+     
     updateState(){
         this.setState({ loggedInStatus: "LOGGED_IN"});
     }
@@ -53,13 +48,8 @@ class App extends React.Component {
             userLogin: ""
         });
 
-        // localStorage.setItem("user", this.state.user);
-        // localStorage.setItem("user_login", this.state.user.login);
-        // localStorage.setItem("user_email", this.state.user.email);
-        // localStorage.setItem("user_right", this.state.user.admin);
-
         console.log("=== INDEX.JS state === this.state.user:", this.state.user);
-        // console.log("this.state.user.login:", this.state.user.login);
+      
     }
 
     handleIndexLogin(userLogin){
@@ -75,24 +65,10 @@ class App extends React.Component {
 
         const bidule = localStorage.getItem("coucou");
 
-        // if (localStorage.getItem('login')) {
-        //     console.log("get from index :", localStorage.getItem('login'))
-        // } else {
-        //     console.log("get from index : ohoh")
-        // }
-        // const { redirection } = this.state;
-        // if (redirection) {
-        //  //Affichage de la redirection
-        //  return <Redirect to='/home'/>;
-        // }
-
         return (
             <div>
-                <h1>Hello {this.state.userLogin}</h1>
-                <h1>Hello {bidule}</h1>
-
-                <MyNav logged={ this.updateState.bind(this)} onLogin={this.handleIndexLogin}/>
                 <h1>{bidule}</h1>
+                <MyNav logged={ this.updateState.bind(this)} onLogin={this.handleIndexLogin}/>
             </div>
         );
     }

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col } from 'react-bootstrap';
 import './style.css';
+import  MyFollowers from "./myFollowers";
+import  MyLeaders from "./myLeaders";
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
@@ -30,28 +33,53 @@ export default class Users extends Component {
             console.log("===USERS.JS===login error...", error)//TEST CONSOL ok 
         });
     }
+    
+    handleAdd(leaderId){
+        axios
+            .post(baseURL+"")
+            .then()
+            .catch(error => {
+                console.log("===USERS.JS===login error...", error)//TEST CONSOL ok 
+            });
+
+    }
 
   render(){
     return (
-        <div> 
-            <h1>Follolos</h1>
+       
+        <Container>
+        <Row >
             
-                {
-                    this.state.users.length === 0
-                    ? 'Loading Follolos...'
-                    : this.state.users.map((user) => {return(
-                    <div>
-                        <h4 key={user.id}>{user.login}</h4>
-                        <p>{user.email}</p>
-                        <button>Follow</button>
-                        <button>Stop Follow</button>
-                        <button>Block </button>
-                    </div>
-                    )
-                    })
-                }
-           
-        </div>
+            <Col > 
+                 <MyFollowers />        
+            </Col>
+
+            <Col>    
+                <MyLeaders />   
+            </Col>
+
+            <Col> 
+                <h1>All Follolos</h1>
+                
+                    {
+                        this.state.users.length === 0
+                        ? 'Loading Follolos...'
+                        : this.state.users.map((user) => {return(
+                        <div>
+                            <h4 key={user._id}>{user.login}</h4>
+                            <p>{user.email}</p>
+                            <button onClick={() => this.handleAdd(user._id)}>
+                                Follow
+                            </button>
+                           
+                        </div>
+                        )
+                        })
+                    }
+            
+            </Col>
+        </Row>
+        </Container>
       
     )
   }
