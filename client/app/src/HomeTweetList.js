@@ -78,7 +78,7 @@ export default class HomeTweetList extends Component {
                             return (
                                 <li>
                                     <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
-                                    @{tweet.author}: "{tweet.content}" {tweet._id}
+                                    [{tweet.creationDate}] @{tweet.author}: "{tweet.content}" {tweet._id}
                                     </div>                           
                                     <button onClick={() => this.handleDelete(tweet._id)}>
                                         X
