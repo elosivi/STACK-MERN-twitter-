@@ -16,31 +16,32 @@ export default class Logout extends Component {
             redirection : false,
             logoutError: ""
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log("=== LOGOUT ANSWERED ===");
+    componentDidMount() {
+    // handleSubmit(event) {
+        // event.preventDefault();
         axios
             .get(
                 baseURL + "/logout"
             )
             .then(response => {
-                console.log("=== LOGOUT response ===", response);
+                // ===== Remove login informations from browser =====
                 localStorage.clear();
-                // localStorage.removeItem("login"),
-                // localStorage.removeItem("email"),
-                // localStorage.removeItem("userid"),
-                // localStorage.removeItem("admin"),
-                // localStorage.removeItem("coucou"),
-                this.setState({ redirection : true})
+                this.setState({ redirection : true});
+
+                // ===== Call parent component to re-render
+                this.props.onLogout();
+
             })
             .catch(error => {
-                console.log("===LOGOUT.JS error ===", error)//TEST CONSOL
+                let logoutError = "";
+                logoutError = (error.response) ? error.response.data.message : "Check server connection";
                 this.setState({
-                    logoutError: error.message
+                    logoutError
                 })
+                console.log("Logout error :", logoutError);
             })
     }
 
@@ -51,14 +52,14 @@ export default class Logout extends Component {
             return <Redirect to="/login" />;
         }
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <Button type="submit">Logout</Button>
-                </form>
-                <h3>{this.state.logoutError}</h3>
-            </div>
-
+            null
+            // <div>
+            //     <form onSubmit={this.handleSubmit}>
+            //         <Button type="submit">Logout</Button>
+            //     </form>
+            //     <h3>{this.state.logoutError}</h3>
+            // </div>
         )
-        
+
     }   
 }

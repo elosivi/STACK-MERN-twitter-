@@ -159,6 +159,8 @@ router.get(['/myprofile'], function (req, res) { // Tested OK
 
 router.put('/myprofile', async function (req, res) { // tested Opassword does'nt hashed
     //if user connected
+
+        console.log("Object received : ", req.body);
     
         if (req.session.userid) {
             if ((req.body.password) && (req.body.password !== req.body.confirm_password) ) {
@@ -228,7 +230,8 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 } 
                 user.save();
                 console.log("==> YES ! (mess from server) Users: my profile is updated "+user)
-                return res.status(200).json({ user });  
+                const message = "User correctly updated";
+                return res.status(200).json({ message });  
             });
 
         }else{

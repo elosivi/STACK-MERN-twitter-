@@ -1,10 +1,10 @@
 import React from "react";
 import "./style.css";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  // Link
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    // Link
 } from "react-router-dom";
 
 import { Redirect } from "react-router-dom";
@@ -20,109 +20,125 @@ import Home from './Home'
 import UsersView from './UsersView'
 
 export default class myNav extends React.Component {
-// export default function myNav() {
     constructor(props) {
-      super(props);
+        super(props);
 
-      const login = localStorage.getItem('localStorageLogin');
+        let loginInformations = {
+            login: "DEFAULT_USER",
+            loginStatus: "NOT_LOGGED_IN",
+        };
 
-      this.state = {
-          userLogin: login,
+        if (localStorage.getItem("loginInformations")) {
+            loginInformations =
+            JSON.parse(localStorage.getItem("loginInformations"));
+        }
 
-      };
+        this.state = {
+            login: loginInformations.login,
+            loginStatus: loginInformations.loginStatus,
 
-      this.handleLogin = this.handleLogin.bind(this);
-  }
+        };
 
-  handleLogin(userLogin) {
-    this.setState({
-      userLogin: userLogin
-    })
-    this.props.onLogin(userLogin);
-  }
+        this.handleOnLogin = this.handleOnLogin.bind(this);
+        this.handleOnLogout = this.handleOnLogout.bind(this);
+        this.handleOnUpdate = this.handleOnUpdate.bind(this);
+    }
 
-  render() {
+    handleOnLogin() {
+        this.updateLoginInformations();
+    }
 
-    console.log("Login from myNav.js :", this.state.userLogin);
-    return (
-      <Router>
-        <div>
-          <Navbar bg="dark" variant="dark" className="myNav">
-              <Navbar.Brand href="/">Blog from {this.state.userLogin}</Navbar.Brand>
-              <Nav className="mr-auto">
-                  <Nav.Link href="/home">Home</Nav.Link>
+    handleOnLogout() {
+        this.updateLoginInformations();
+    }
 
-                  <Nav.Link href="/login">Login 2</Nav.Link>
-                  <Nav.Link href="/logout">Logout 2</Nav.Link>
-                  <Nav.Link href="/registration">Register</Nav.Link>
-                  
-                  <Nav.Link href="/myprofile">My profile</Nav.Link>
-                  <Nav.Link href="/users"> Follolos</Nav.Link> 
-                  
-              </Nav>
-          </Navbar>
+    handleOnUpdate() {
+        this.updateLoginInformations();
+    }
 
-          <Switch>
-              
-              <Route path="/login">
-                
-                <Login onLogin={this.handleLogin}/>
-              </Route>
+    updateLoginInformations() {
+        let loginInformations = {
+            login: "unknown user",
+            loginStatus: "NOT_LOGGED_IN"
+        }
+        if (localStorage.getItem("loginInformations")) {
+            loginInformations =
+                JSON.parse(localStorage.getItem("loginInformations"));
+        }
+        this.setState({
+            login: loginInformations.login,
+            loginStatus: loginInformations.loginStatus,
+        });
+        console.log("===== LOGIN INFOS UPDATED");
+    }
 
-              <Route path="/registration">
-                <Registrationfunc />
-              </Route>
-              
-              <Route path="/logout">
-                <Logoutfunc />
-              </Route>
+    render() {
 
-              <Route path="/myprofile">
-                
-                <MyProfilefunc />
-              </Route>
+        const loggedIn = (this.state.loginStatus === "LOGGED_IN");
+        const redirToLogin = <Redirect to='/login' />;
 
-              <Route path="/home">
-                <Homefunc />
-              </Route>
+        return (
+            <Router>
+                <div>
+                    <Navbar bg="dark" variant="dark" className="myNav">
+                        {
+                            loggedIn ?
+                                <Navbar.Brand href="/">{this.state.login}'s blog</Navbar.Brand> :
+                                <Navbar.Brand href="/">Blog</Navbar.Brand>
+                        }
+                        <Nav className="mr-auto">
+                            <Nav.Link href="/home">Home</Nav.Link>
+                            {
+                                loggedIn ?
+                                    <Nav.Link href="/logout">Logout</Nav.Link> :
+                                    <Nav.Link href="/login">Login</Nav.Link>
+                            }
+                            <Nav.Link href="/registration">Register</Nav.Link>
+                            <Nav.Link href="/myprofile">My profile</Nav.Link>
+                            <Nav.Link href="/users"> Follolos</Nav.Link>
+                        </Nav>
+                    </Navbar>
 
-              <Route path="/users">
-                <Usersfunc />
-              </Route> */
-              
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
+                    <Switch>
+                        <Route path="/login" /*onSuccess={this.updatePage}*/>
+                            <Login onLogin={this.handleOnLogin} />
+                        </Route>
+
+                        <Route path="/registration">
+                            <Registration />
+                        </Route>
+
+                        {/* ========== PROTECTED ROUTES ========== */}
+                        {/* {() => {
+                                if (!loggedIn) {
+                                    return redirToLogin
+                                }
+                            }
+                        } */}
+
+                        <Route path="/logout">
+                            {/* <Logout /> */}
+                            {loggedIn ? <Logout onLogout={this.handleOnLogout} /> : redirToLogin}
+                        </Route>
+
+                        <Route path="/myprofile">
+                            {/* <MyProfile /> */}
+                            {loggedIn ? <MyProfile onUpdate={this.handleOnUpdate}/> : redirToLogin}
+                        </Route>
+
+                        <Route path="/users">
+                            {/* <Users /> */}
+                            {loggedIn ? <UsersView /> : redirToLogin}
+                        </Route>
+
+                        <Route path={["/home", "/"]}>
+                            {/* <Home />  */}
+                            {loggedIn ? <Home /> : redirToLogin}
+                        </Route>
+
+                    </Switch>
+                </div>
+            </Router>
+        );
+    }
 }
-
-
-function Homefunc() {
-  return <Home />
-  
-}
-
-// export default class Loginfunc extends React.Component {
-// function Loginfunc() {
-//     return <Login onLogin={}/>
-// }
-
-function Registrationfunc() {
-  return <Registration />
-}
-
-function Logoutfunc() {
-  return <Logout />
-  // à compléter
-}
-
-function MyProfilefunc() {
-  return <MyProfile />
-}
-
-function Usersfunc() {
-  return <UsersView />
-}
-
-
