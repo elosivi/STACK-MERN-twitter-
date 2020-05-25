@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import AuthContext from "./AuthContext"
 
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
@@ -39,6 +38,7 @@ export default class Login extends Component {
                     loginError: response.data.message
                 });
                 localStorage.setItem('localStorageLogin', response.data.user.login);  
+                localStorage.setItem('userid', response.data.user._id);  //addes by elo 25/05
             })
             .catch(error => {
                 let loginError = "";

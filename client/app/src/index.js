@@ -52,7 +52,7 @@ class App extends React.Component {
         return (
             <div>
                 <MyNav />
-                <h1>{bidule}</h1>
+                {/* <h1>{bidule}</h1> */}
             </div>
         );
     }

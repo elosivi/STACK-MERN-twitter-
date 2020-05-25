@@ -17,7 +17,7 @@ import Login from './Login'
 import Logout from './Logout'
 import MyProfile from './MyProfile'
 import Home from './Home'
-import Users from './Users'
+import UsersView from './UsersView'
 
 export default class myNav extends React.Component {
 // export default function myNav() {
@@ -42,17 +42,6 @@ export default class myNav extends React.Component {
   }
 
   render() {
-
-    // const localStorageName = localStorage.getItem("localStorageLogin");
-    // if (!localStorageName) {
-    //     console.log("pas loggé !!!");
-    //     return <Redirect to="/login" push = {true}/>;
-    //     // redirection
-        
-    // } else {
-    //     console.log("loggé !!!");
-    // }
-    // const isAuthenticated = false;
 
     console.log("Login from myNav.js :", this.state.userLogin);
     return (
@@ -133,7 +122,7 @@ function MyProfilefunc() {
 }
 
 function Usersfunc() {
-  return <Users />
+  return <UsersView />
 }
 
 
