@@ -16,20 +16,70 @@ export default class MyFollowers extends Component {
         }
 
     componentDidMount() {
+        this.getFollowers();
+    }
 
-    axios
+    getFollowers(){
+        axios
         .get(baseURL+"/myfollowers")
         .then(res => {
         const followers = res.data;
-        console.log("--> ok! (mess from client) myFollowers:followers from axios:",followers)
+        console.log("--> ok! (mess from client) myFollowers:followers from axios2:",followers)
         this.setState({ followers });
         })
         .catch(error => {
-            console.log("--> ERROR ! (mess from client) followers: try get myfollowers but:", error)//TEST CONSOL ok 
+            console.log("--> ERROR ! (mess from client) followers: try get myfollowers2 but:", error)//TEST CONSOL ok 
+        });
+    }
+    
+
+    handleAdd= (leaderId)=> {
+        const url= baseURL+"/myleaders/"+leaderId
+        console.log("--> OK ! (mess from client) POST calling this:"+url)
+        axios
+        .post(url)
+        .then(res=>{
+            const newFollow = res.data;
+            console.log("--> ok ! (mess from client) Users/add follow: ",newFollow);
+            
+        })
+        .catch(error => {
+            console.log("--> ERROR ! (mess from client) Users, handleAdd: ", error)//TEST CONSOL ok 
         });
     }
 
-  render(){
+    Block= (followerId)=> {
+        const url= baseURL+"/blockFollower/"+followerId
+        console.log("--> OK ! (mess from client) POST calling this:"+url)
+        axios
+        .put(url)
+        .then(res=>{
+            const blockInfo = res.data;
+            console.log("--> ok ! (mess from client) Users blocked: ",blockInfo)
+            this.getFollowers();
+        })
+        .catch(error => {
+            console.log("--> ERROR ! (mess from client) Users, Block: ", error)//TEST CONSOL ok 
+        });
+    }
+
+    Unblock= (followerId)=> {
+        const url= baseURL+"/unblockFollower/"+followerId
+        console.log("--> OK ! (mess from client) POST calling this:"+url)
+        axios
+        .put(url)
+        .then(res=>{
+            const blockInfo = res.data;
+            console.log("--> ok ! (mess from client) Users blocked: ",blockInfo)
+            this.getFollowers();
+        })
+        .catch(error => {
+            console.log("--> ERROR ! (mess from client) Users, Block: ", error)//TEST CONSOL ok 
+        });
+    }
+
+
+    render(){
     
         const myFollowers = this.state.followers;
         let result;
@@ -39,14 +89,28 @@ export default class MyFollowers extends Component {
             result = "No followers in your relationships";
         }else{
             result = 
-            (this.state.followers.map((follower) => {return(
-                <div>
-                    <h4 key={follower.followerId}>{follower.followerLogin}</h4>
-                    <p>Blocked: {follower.blocked}</p>
-                    <button>Follow</button>
-                    <button>Stop Follow</button>
-                    <button>Block </button>
-                </div>)
+            (this.state.followers.map((follower) => {
+                
+                if(follower.blocked === true){
+                
+                    return(
+                    <div>
+                        <h4 key={follower.followerId}>{follower.followerLogin}</h4>
+                        <p>Blocked </p>
+                        <button onClick={() => this.handleAdd(follower.followerId)}>Follow</button>
+                        <button onClick={() => this.Block(follower.followerId)}>Block </button>
+                        <button onClick={() => this.Unblock(follower.followerId)}>Unblock </button>
+                    </div>)
+                }else{
+                    return(
+                        <div>
+                            <h4 key={follower.followerId}>{follower.followerLogin}</h4>
+                            <button onClick={() => this.handleAdd(follower.followerId)}>Follow</button>
+                            <button onClick={() => this.Block(follower.followerId)}>Block </button>
+                            <button onClick={() => this.Unblock(follower.followerId)}>Unblock </button>
+                        </div>)
+
+                }
             })
             )
         }

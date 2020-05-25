@@ -113,7 +113,7 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
                     console.log("==> ERROR ! (mess from server) Users: "+message )
                     return res.status(500).json({message});
                 }
-                console.log("==> YES ! (mess from server) Users: get all users from admin status ")
+                // console.log("==> YES ! (mess from server) Users: get all users from admin status ")
                 return res.status(200).json({ users });
             });
         }

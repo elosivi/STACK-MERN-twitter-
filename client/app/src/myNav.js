@@ -17,7 +17,6 @@ import MyProfile from './MyProfile'
 import Home from './Home'
 import Users from './Users'
 
-
 export default class myNav extends React.Component {
 // export default function myNav() {
     constructor(props) {
@@ -28,7 +27,7 @@ export default class myNav extends React.Component {
 
       };
 
-      this.handleLogin = this.handleLogin.bind(this );
+      this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin(userLogin) {

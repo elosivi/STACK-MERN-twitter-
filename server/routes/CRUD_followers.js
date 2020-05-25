@@ -42,7 +42,7 @@ router.get('/myfollowers', async function (req, res) {
             console.log(" ==> ERROR !(message from server) Followers: you try to find all your followers but we have an: "+ message+ " more info: "+err)
             return res.status(500).json({ message });
         }
-        console.log("==> YES ! (message from server) Followers: you get all your followers ")
+        // console.log("==> YES ! (message from server) Followers: you get all your followers ")
         return res.status(200).json(followers);        
     });
     return;
@@ -61,7 +61,7 @@ router.get('/myleaders', async function (req, res) {
             console.log("==> ERROR !(message from server) Followers: you try to find all your leaders but we have an: "+ message+ " more info: "+err)
             return res.status(500).json({ message });
         }
-        console.log("==> YES! (message from server) Followers: you get all your leaders")
+        // console.log("==> YES! (message from server) Followers: you get all your leaders")
         return res.status(200).json(follows);        
     });
     return;

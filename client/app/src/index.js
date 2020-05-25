@@ -57,7 +57,7 @@ class App extends React.Component {
         this.setState({
             userLogin: userLogin
         })
-        localStorage.setItem("coucou", userLogin);
+        localStorage.setItem("coucou ", userLogin);
     }
 
     render() {
@@ -67,8 +67,8 @@ class App extends React.Component {
 
         return (
             <div>
+                <MyNav />
                 <h1>{bidule}</h1>
-                <MyNav logged={ this.updateState.bind(this)} onLogin={this.handleIndexLogin}/>
             </div>
         );
     }
