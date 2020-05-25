@@ -17,7 +17,7 @@ import Login from './Login'
 import Logout from './Logout'
 import MyProfile from './MyProfile'
 import Home from './Home'
-import Users from './Users'
+import UsersView from './UsersView'
 
 export default class myNav extends React.Component {
     constructor(props) {
@@ -128,7 +128,7 @@ export default class myNav extends React.Component {
 
                         <Route path="/users">
                             {/* <Users /> */}
-                            {loggedIn ? <Users /> : redirToLogin}
+                            {loggedIn ? <UsersView /> : redirToLogin}
                         </Route>
 
                         <Route path={["/home", "/"]}>

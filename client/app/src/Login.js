@@ -43,6 +43,8 @@ export default class Login extends Component {
                     redirection: true,
                     loginError: response.data.message
                 });
+                localStorage.setItem('userid', response.data.user._id);  //used by usersView
+
             })
             .catch(error => {
                 let loginError = "";

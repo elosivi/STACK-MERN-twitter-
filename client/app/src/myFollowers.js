@@ -40,6 +40,9 @@ export default class MyFollowers extends Component {
         .post(url)
         .then(res=>{
             const newFollow = res.data;
+
+            //update parent's state.leaders
+            this.props.getLeaders()
             console.log("--> ok ! (mess from client) Users/add follow: ",newFollow);
             
         })
