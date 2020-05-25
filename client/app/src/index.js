@@ -1,22 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import {
-//     BrowserRouter as Router,
-//     Switch,
-//     Route,
-//     Link
-// } from "react-router-dom";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Navbar, Nav } from 'react-bootstrap';
-
-// import Registration from './Registration';
-// import Login from './Login';
-// import MyProfile from './MyProfile';
 import MyNav from './myNav';
 import './style.css';
-
 
 class App extends React.Component {
     constructor(props) {
@@ -61,9 +48,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(localStorage.getItem('login'));
-
-        const bidule = localStorage.getItem("coucou");
 
         return (
             <div>
@@ -75,9 +59,6 @@ class App extends React.Component {
 }
 
 // ========================================
-
-
-
 
 ReactDOM.render(
     <App />,

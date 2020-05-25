@@ -50,8 +50,12 @@ export default class TweetList extends Component {
     }
 
     handleClick(id, currentValue) {
-        console.log("Double click", id);
-        console.log("Double click", currentValue);
+        // if (this.setState.tweetIdToUpdate) {
+        //     this.setState({
+        //         tweetIdToUpdate: null
+        //     })
+        //     return;
+        // }
         this.setState({
             tweetIdToUpdate: id,
             tweetValue: currentValue
