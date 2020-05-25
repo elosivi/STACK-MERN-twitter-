@@ -32,11 +32,17 @@ export default class Login extends Component {
                 }
             )
             .then(response => {
+                // ===== Store login informations in browser =====
+                const loginInformations = {login: this.state.login, loginStatus: "LOGGED_IN"}
+                localStorage.setItem("loginInformations", JSON.stringify(loginInformations));
+
+                // ===== Call parent component to re-render
+                this.props.onLogin();
+
                 this.setState({
                     redirection: true,
                     loginError: response.data.message
                 });
-                localStorage.setItem('localStorageLogin', response.data.user.login);  
             })
             .catch(error => {
                 let loginError = "";
