@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TweetList from './TweetList'
+import HomeTweetList from './HomeTweetList'
 import TweetForm from './TweetForm'
 
 import axios from 'axios';
@@ -13,9 +13,12 @@ export default class Home extends Component {
 
         this.state = {
             tweets: [],
+            tweetPostError: null
         }
 
         this.handlePostTweets = this.handlePostTweets.bind(this);
+        this.handleTweetDelete = this.handleTweetDelete.bind(this);
+        this.handleTweetUpdate = this.handleTweetUpdate.bind(this);
     }
 
     getTweets() {
@@ -31,8 +34,9 @@ export default class Home extends Component {
                 console.log("GET TWEETS RESPONSE :", this.state.tweets);
             })
             .catch(error => {
-                console.log("GET TWEETS ERROR :", error)
-                console.log(error);
+                if (error.response) {
+                    console.log("GET TWEETS ERROR :", error.response.data.message)
+                }
             });  
     }
 
@@ -51,12 +55,60 @@ export default class Home extends Component {
             })
             .catch(error => {
                 console.log("POST TWEETS ERROR :", error)
+                let tweetPostError = "";
+                tweetPostError = (error.response) ? error.response.data.message : "Check server connection";
+                this.setState({
+                    tweetPostError
+                })
             });
 
     }
 
+    // ======================================================================
+    deleteTweetAndUpdateTweetsList(tweetId) {
+        axios
+            .delete(
+                baseURL + "/tweets/" + tweetId
+            )
+            .then(response => {
+                console.log("DELETE TWEET RESPONSE :", response)
+                this.getTweets();
+
+            })
+            .catch(error => {
+                console.log("DELETE TWEET ERROR :", error)
+            });
+    }
+
+    // ======================================================================
+    updateTweetAndUpdateTweetsList(tweetId, tweetValue) {
+        axios
+            .put(
+                baseURL + "/tweets/" + tweetId, 
+                {
+                    content: tweetValue
+                }
+            )
+            .then(response => {
+                console.log("UPDATE TWEET RESPONSE :", response)
+                this.getTweets();
+
+            })
+            .catch(error => {
+                console.log("UPDATE TWEET ERROR :", error)
+            });
+    }
+
     handlePostTweets(content) {
         this.postTweetAndUpdateTweetsList(content);
+    }
+
+    handleTweetDelete(tweetId) {
+        this.deleteTweetAndUpdateTweetsList(tweetId);
+    }
+
+    handleTweetUpdate(tweetId, tweetValue) {
+        this.updateTweetAndUpdateTweetsList(tweetId, tweetValue);
     }
 
     // ======================================================================
@@ -71,11 +123,18 @@ export default class Home extends Component {
         return (
             <div>
 
-                <h1>/!\ BE CAREFUL /!\ Home</h1>
+                <h1>Home</h1>
 
-                <h2>Welcome {this.state.loggedIn}</h2>
-                <TweetForm onPost={this.handlePostTweets} />
-                <TweetList tweets={this.state.tweets} />
+                <TweetForm 
+                    onPost={this.handlePostTweets} 
+                    tweetPostError={this.state.tweetPostError}
+                />
+                
+                <HomeTweetList 
+                    tweets={this.state.tweets}
+                    onDelete={this.handleTweetDelete}
+                    onUpdate={this.handleTweetUpdate}
+                />
             </div>
         )
     }

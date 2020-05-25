@@ -28,7 +28,7 @@ router.get('/tweets/:tweetId?', function (req, res) {
     if (!req.params.tweetId) {
         console.log("followerId: ", req.session.userid)
         // ==================== Find all post for current user ====================
-        Followers.find({followerId: req.session.userid}, function(err, leaders) {
+        Followers.find({ $and: [{followerId: req.session.userid}, {blocked: false}]}, function(err, leaders) {
             if (err) {
                 const message = "Internal Server Error 1";
                 console.log(message);

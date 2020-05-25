@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import MyInformations from './MyInformations'
 import TweetList from './TweetList'
 import TweetForm from './TweetForm'
+
 
 const baseURL = "http://localhost:4242";
 // axios.defaults.withCredentials = true;
@@ -13,13 +15,16 @@ export default class MyProfile extends Component {
 
         this.state = {
             myProfile: "",
+            userInformations: {},
             tweets: [],
-            tweetPostError: null
+            tweetPostError: null,
+            updateUserError: ""
         }
 
         this.handlePostTweets = this.handlePostTweets.bind(this);
         this.handleTweetDelete = this.handleTweetDelete.bind(this);
         this.handleTweetUpdate = this.handleTweetUpdate.bind(this);
+        this.updateUserInformations = this.updateUserInformations.bind(this);
     }
 
     // ======================================================================
@@ -29,16 +34,49 @@ export default class MyProfile extends Component {
         this.getTweets();
     }
 
+    updateUserInformations(updatedInformations) {
+        console.log("REQUEST FOR PUT /myProfile")
+        axios
+            .put(
+                baseURL + "/myProfile", 
+                updatedInformations
+            )
+            .then(response => {
+                this.setState({
+                    updateUserError: "User profile has been updated, please logout then login again"
+                })
+                console.log("===== PUT /myProfile RESPONSE =====", response)
+
+                // ===== Store login informations in browser =====
+                const loginInformations = {login: updatedInformations.login, loginStatus: "LOGGED_IN"}
+                localStorage.setItem("loginInformations", JSON.stringify(loginInformations));
+
+                this.getMyself();
+
+                // ===== Call parent component to re-render
+                this.props.onUpdate();
+            })
+            .catch(error => {
+                let updateUserError = "";
+                updateUserError = (error.response) ? error.response.data.message : "Check server connection";
+                this.setState({
+                    updateUserError
+                })
+                console.log("===== PUT /myProfile ERROR =====", updateUserError)
+
+            });
+    }
+
     // ======================================================================
     getMyself() {
         axios
             .get(
-                baseURL + "/login"
+                baseURL + "/myProfile"
             )
             .then(response => {
-                console.log("=== GET /login RESPONSE ===", response);
+                console.log("=== GET /login RESPONSE ===", response.data.user);
                 this.setState({
-                    myProfile: response.data.message
+                    userInformations: response.data.user
                 })
             })
             .catch(error => {
@@ -141,11 +179,16 @@ export default class MyProfile extends Component {
 
     // ======================================================================
     render() {
+        console.log("je passe ici avec :", this.state.updateUserError)
         return (
             <div>
                 <h1>My profile</h1>
 
-                <h3>{this.state.myProfile}</h3>
+                <MyInformations 
+                    user={this.state.userInformations}
+                    updateUserError={this.state.updateUserError}
+                    onUpdate={this.updateUserInformations}
+                />
 
                 <TweetForm
                     onPost={this.handlePostTweets}

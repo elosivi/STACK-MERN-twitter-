@@ -68,7 +68,7 @@ export default class Registration extends Component {
         const { redirection } = this.state;
         if (redirection) {
         //Affichage de la redirection
-        return <Redirect to='/login'/>;
+        return <Redirect to='/logout'/>;
         }
         return (
             <div>
