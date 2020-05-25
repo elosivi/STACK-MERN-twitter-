@@ -79,7 +79,7 @@ router.post('/myleaders/:leaderid', function (req, res) {
         return res.status(403).json({ message });
     }
     //verify if relation already exist
-    console.log(req.session.userid+" want follow "+ leader_id )
+    // console.log(req.session.userid+" want follow "+ leader_id )
     Followers.findOne( {$and:[ {leaderId: leader_id},{followerId:req.session.userid}]}, function (err, follow) { 
         if (err) {
             const message = "Internal Server Error"
@@ -118,7 +118,7 @@ router.post('/myleaders/:leaderid', function (req, res) {
                         return res.status(500).json({ message });
                     }
                     const message = "Now, you follow: "+leader_login;
-                    console.log("==> YES !(message from server) Followers: "+ message + newLeader);
+                    console.log("==> YES !(message from server) Followers: "+ message);
                     return res.status(201).json({ message });
                 })
 
