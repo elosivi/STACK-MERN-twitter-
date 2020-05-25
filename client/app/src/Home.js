@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TweetList from './TweetList'
+import HomeTweetList from './HomeTweetList'
 import TweetForm from './TweetForm'
 
 import axios from 'axios';
@@ -71,11 +71,10 @@ export default class Home extends Component {
         return (
             <div>
 
-                <h1>/!\ BE CAREFUL /!\ Home</h1>
+                <h1>Home</h1>
 
-                <h2>Welcome {this.state.loggedIn}</h2>
                 <TweetForm onPost={this.handlePostTweets} />
-                <TweetList tweets={this.state.tweets} />
+                <HomeTweetList tweets={this.state.tweets} />
             </div>
         )
     }
