@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import AuthContext from "./AuthContext"
-
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
