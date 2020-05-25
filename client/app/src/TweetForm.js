@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Card } from 'react-bootstrap';
 
-const TWEET_MAX_LENGTH = 10;
+const TWEET_MAX_LENGTH = 140;
 
 export default class TweetForm extends Component {
     constructor(props) {

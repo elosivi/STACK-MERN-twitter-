@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Moment from 'moment';
 
-const TWEET_MAX_LENGTH = 10;
+const TWEET_MAX_LENGTH = 140;
 
 export default class HomeTweetList extends Component {
     constructor(props) {
@@ -70,7 +71,7 @@ export default class HomeTweetList extends Component {
                             return (
                                 <li>
                                     <div>
-                                    [{tweet.creationDate}] @{tweet.author}: "{tweet.content}" {tweet._id}
+                                    [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}] @{tweet.author}: "{tweet.content}" 
                                     </div>                           
                                 </li> 
                         )
@@ -78,7 +79,7 @@ export default class HomeTweetList extends Component {
                             return (
                                 <li>
                                     <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
-                                    [{tweet.creationDate}] @{tweet.author}: "{tweet.content}" {tweet._id}
+                                    [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}] @{tweet.author}: "{tweet.content}" 
                                     </div>                           
                                     <button onClick={() => this.handleDelete(tweet._id)}>
                                         X
