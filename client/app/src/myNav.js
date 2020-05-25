@@ -41,6 +41,7 @@ export default class myNav extends React.Component {
 
         this.handleOnLogin = this.handleOnLogin.bind(this);
         this.handleOnLogout = this.handleOnLogout.bind(this);
+        this.handleOnUpdate = this.handleOnUpdate.bind(this);
     }
 
     handleOnLogin() {
@@ -48,6 +49,10 @@ export default class myNav extends React.Component {
     }
 
     handleOnLogout() {
+        this.updateLoginInformations();
+    }
+
+    handleOnUpdate() {
         this.updateLoginInformations();
     }
 
@@ -118,7 +123,7 @@ export default class myNav extends React.Component {
 
                         <Route path="/myprofile">
                             {/* <MyProfile /> */}
-                            {loggedIn ? <MyProfile /> : redirToLogin}
+                            {loggedIn ? <MyProfile onUpdate={this.handleOnUpdate}/> : redirToLogin}
                         </Route>
 
                         <Route path="/users">
