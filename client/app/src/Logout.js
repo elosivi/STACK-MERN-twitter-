@@ -42,6 +42,10 @@ export default class Logout extends Component {
                     logoutError
                 })
                 console.log("Logout error :", logoutError);
+                // ===== Remove login informations from browser =====
+                localStorage.clear();
+                // ===== Call parent component to re-render
+                this.props.onLogout();
             })
     }
 
