@@ -186,33 +186,43 @@ router.post('/tweets', [
     // ========== Get an array of hashtags IDs ==========
     let hashtagsId = [];
 
-    for (const hashtag of myHashtags) {
-    // myHashtags.for( async (hashtag) => {
+    if (myHashtags) {
 
-        const hashtagInDB = await Hashtag.find({content: hashtag});
-
-        if (hashtagInDB[0]) {
-            hashtagsId.push(hashtagInDB[0]._id);
-        } else {
-            //========== Save hashtag in DB ==========
-            const newHashtag = new Hashtag({
-                content: hashtag
-            });
-            const newHashtagInDB = newHashtag.save()
-                .then((hashtagAdded) => {
-                    console.log("hashtag added");
-                    hashtagsId.push(hashtagAdded._id);
-                })
-                .catch(error => {
-                    console.log("error");
-                })
-        }
-
-        console.log("temp list : ", hashtagsId);
-
+        console.log("myHashtags.length >>>>>>>>>>>>>>>>>>>>>", myHashtags.length)
+    } else {
+        console.log("passe ta route >>>>>>>>>>>>>>>>>>>><")
     }
 
-    console.log("+++++++++++++++++++", hashtagsId);
+    if (myHashtags) {
+        for (const hashtag of myHashtags) {
+        // myHashtags.for( async (hashtag) => {
+
+            const hashtagInDB = await Hashtag.find({content: hashtag});
+
+            if (hashtagInDB[0]) {
+                hashtagsId.push(hashtagInDB[0]._id);
+            } else {
+                //========== Save hashtag in DB ==========
+                const newHashtag = new Hashtag({
+                    content: hashtag
+                });
+                const newHashtagInDB = newHashtag.save()
+                    .then((hashtagAdded) => {
+                        console.log("hashtag added");
+                        hashtagsId.push(hashtagAdded._id);
+                    })
+                    .catch(error => {
+                        console.log("error");
+                    })
+            }
+
+            console.log("temp list : ", hashtagsId);
+
+        }
+        console.log("+++++++++++++++++++", hashtagsId);
+    }
+
+    
 
     // ========== Save tweet in DB and get the tweet ID ==========
     const tweet = await newTweet.save()
@@ -232,24 +242,28 @@ router.post('/tweets', [
                     //   "5ecd217f5f9d8022f8311ccc",
                     //   "5ecd217f5f9d8022f8311cce"]
 
+
     let error = "";
 
     // ========== Link tweet ID with hashtags IDs ==========
 
-    for (const hashtagId of hashtagsId) {
-    // hashtagsId.forEach( async (hashtagId) => {
-        const newHashtagRelation = new HashtagRelation({
-            hashtagId: hashtagId,
-            tweetId: tweet._id,
-        });
-        await newHashtagRelation.save()
-            .then((response) => {
-                console.log("response from hashtag relation", response);
-            })
-            .catch((error) => {
-                error = "error in hashtag relation";
-                console.log("error in hashtag relation", error);
-            })
+    if (hashtagsId) {
+
+        for (const hashtagId of hashtagsId) {
+        // hashtagsId.forEach( async (hashtagId) => {
+            const newHashtagRelation = new HashtagRelation({
+                hashtagId: hashtagId,
+                tweetId: tweet._id,
+            });
+            await newHashtagRelation.save()
+                .then((response) => {
+                    console.log("response from hashtag relation", response);
+                })
+                .catch((error) => {
+                    error = "error in hashtag relation";
+                    console.log("error in hashtag relation", error);
+                })
+        }
     }
 
     if (!error) {
