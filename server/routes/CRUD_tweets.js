@@ -80,6 +80,12 @@ router.get('/hashtag/:hashtag', async function (req, res) {
     console.log(hashtagString);
 
     const hashtag = await Hashtag.find({content: hashtagString});
+    console.log("----------------- hashtag look ----------", hashtag);
+
+    if (!hashtag[0]) {
+        const message = "Bad request";
+        return res.status(400).json({ message });
+    }
     console.log("hashtag en relation :", hashtag[0]._id);
 
     const tweetsWithHashtag = await HashtagRelation.find({hashtagId: hashtag[0]._id});
