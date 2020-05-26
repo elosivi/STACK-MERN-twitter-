@@ -331,7 +331,7 @@ router.delete('/tweets/:tweetId', function (req, res) {
 })
 
 function findHashtag(content) {
-    const regEx = /#[A-Za-z0-9]*/g;
+    const regEx = /#[À-úa-z0-9]*/g;
     return content.match(regEx);
 }
 
