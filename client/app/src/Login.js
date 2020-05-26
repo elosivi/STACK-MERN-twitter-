@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import './style.css';
 
 const baseURL = "http://localhost:4242";
@@ -69,8 +69,8 @@ export default class Login extends Component {
             return <Redirect to='/home'/>
         }
         return (
-            <div >
-                <h1>Login</h1>
+            <div className="mainContainer">
+                <h2>Login</h2>
                 <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
                 <Card.Body>
                     <Form onSubmit={this.handleSubmit}>

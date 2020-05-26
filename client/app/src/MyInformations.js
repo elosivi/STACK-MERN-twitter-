@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Card } from 'react-bootstrap';
 
 import axios from 'axios';
-const baseURL = "http://localhost:4242";
+// const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
 
 export default class MyInformations extends Component {
@@ -66,7 +66,7 @@ export default class MyInformations extends Component {
                 {askForUpdate 
                 ?
                 <div>
-                    <h1>Update profile</h1>
+                    <h2>Update profile</h2>
                     <Card style={{ width: '30rem' , margin:'auto'}}>
                         <Card.Body>
                             <Form onSubmit={this.handleSubmit}>

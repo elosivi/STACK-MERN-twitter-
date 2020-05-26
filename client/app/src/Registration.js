@@ -72,7 +72,7 @@ export default class Registration extends Component {
         }
         return (
             <div>
-                <h1>Registration</h1>
+                <h2>Registration</h2>
                 <Card style={{ width: '30rem' , margin:'auto'}}>
                     <Card.Body>
                         <Form onSubmit={this.handleSubmit}>

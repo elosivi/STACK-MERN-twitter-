@@ -9,9 +9,9 @@ axios.defaults.withCredentials = true;
 
 export default class Users extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     handleAdd= (leaderId)=> {
         const url= baseURL+"/myleaders/"+leaderId
@@ -42,7 +42,7 @@ export default class Users extends Component {
         }else{
             result=
             (
-                users.map((user)   => {
+                users.map((user) => {
                     if(user._id !== localStorage.getItem('userid')){
                         return(
                         <div>
@@ -60,7 +60,7 @@ export default class Users extends Component {
 
         return(
             <div>
-                <h1>Users</h1>
+                <h2>Users</h2>
                 {result}
             </div>
         )

@@ -9,9 +9,9 @@ axios.defaults.withCredentials = true;
 
 export default class MyLeaders extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
 
     stopFollow= (leaderId)=> {
@@ -70,7 +70,7 @@ export default class MyLeaders extends Component {
     }
         return(
             <div >
-                <h1>My leaders</h1>
+                <h2>My leaders</h2>
                 {result}
 
             </div>
