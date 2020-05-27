@@ -10,6 +10,8 @@ mongoose.set('useFindAndModify', false);
 
 // Model files
 const Tweet = require('../models/Tweet')
+const Hashtag = require('../models/Hashtag')
+const HashtagRelation = require('../models/HashtagRelation')
 const Followers = require('../models/Followers')
 
 // Routes
@@ -65,6 +67,77 @@ router.get('/tweets/:tweetId?', function (req, res) {
     return;
 })
 
+// ======================================== GET TWEET(S) BY HASHTAG========================================
+
+router.get('/hashtag/:hashtag', async function (req, res) {
+    // ==================== Check authorization ====================
+    if (!req.session.userid) {
+        const message = "Not logged in"
+        return res.status(403).json({ message });
+    }
+    // ============================================================
+    const hashtagString = "#" + req.params.hashtag;
+    console.log(hashtagString);
+
+    const hashtag = await Hashtag.find({content: hashtagString});
+    console.log("----------------- hashtag look ----------", hashtag);
+
+    if (!hashtag[0]) {
+        const message = "Bad request";
+        return res.status(400).json({ message });
+    }
+    console.log("hashtag en relation :", hashtag[0]._id);
+
+    const tweetsWithHashtag = await HashtagRelation.find({hashtagId: hashtag[0]._id});
+    console.log("tweets en relation avec le hashtag :", tweetsWithHashtag);
+
+    Followers.find({ $and: [{followerId: req.session.userid}, {blocked: false}]}, function(err, leaders) {
+        if (err) {
+            const message = "Internal Server Error 1";
+            console.log(message);
+            return res.status(500).json({ message });
+        }
+        // ==================== Query build part one : leaders ====================
+        let leadersQuery = { $or: [{ author: req.session.login }] };
+        if (leaders.length > 0) {
+            leaders.forEach(leader => {
+                let led = {author: leader.leaderLogin};
+                leadersQuery.$or.push(led);
+            });
+        }
+        console.log("leadersQuery :", leadersQuery);
+
+        // ==================== Query build part two : hashtags ====================
+        let hashtagQuery = { $or: [] };
+        if (tweetsWithHashtag.length > 0) {
+            tweetsWithHashtag.forEach(tweetWithHashtag => {
+                let led = {_id: tweetWithHashtag.tweetId};
+                hashtagQuery.$or.push(led);
+            });
+        }
+        console.log("hashtagQuery", hashtagQuery);
+
+        let bigQuery = { $and: [] };
+        if (leadersQuery) {
+            bigQuery.$and.push(leadersQuery);
+        }
+        if (hashtagQuery) {
+            bigQuery.$and.push(hashtagQuery);
+        }
+
+        console.log("bigQuery", bigQuery);
+
+        Tweet.find(bigQuery, function(err, docs) {
+            if (err) {
+                const message = "Internal Server Error 2";
+                return res.status(500).json({ message });
+            }
+            return res.status(200).json(docs);
+        });
+    });
+    return;
+})
+
 router.get('/mytweets', async function (req, res) {
 
     // ==================== Check authorization ====================
@@ -90,7 +163,7 @@ router.post('/tweets', [
     check('content').notEmpty().withMessage('Tweet content must not be empty'),
     check('content').isLength({ max: 140 }).withMessage('Tweet length must be less than 140 characters'),
     ],
-    function (req, res) {
+    async function (req, res) {
     // ==================== Check authorization ====================
     if (!req.session.login) {
         const message = "Not logged in"
@@ -107,20 +180,107 @@ router.post('/tweets', [
         return res.status(400).json({ message });
     }
 
+    let error = "";
+
     const newTweet = new Tweet({
         author: req.session.login,
         content: req.body.content,
         creationDate: new Date(),
     });
 
-        newTweet.save(function (err) {
-            if (err) {
-                const message = "Internal Server Error";
-                return res.status(500).json({ message });
+    // ========== Get array of hashtags ==========
+    const myHashtags = findHashtag(req.body.content);
+    console.log("array of hashtags :", myHashtags);
+
+    // ========== Get an array of hashtags IDs ==========
+    let hashtagsId = [];
+
+    if (myHashtags) {
+        console.log("myHashtags.length >>>>>>>>>>>>>>>>>>>>>", myHashtags.length)
+    } else {
+        console.log("passe ta route >>>>>>>>>>>>>>>>>>>><")
+    }
+
+    if (myHashtags) {
+        for (const hashtag of myHashtags) {
+        // myHashtags.for( async (hashtag) => {
+
+            const hashtagInDB = await Hashtag.find({content: hashtag});
+
+            if (hashtagInDB[0]) {
+                console.log("1. hashtagInDB[0] : ", hashtagInDB[0])
+                hashtagsId.push(hashtagInDB[0]._id);
+            } else {
+                console.log("2. !hashtagInDB[0] : ", hashtagInDB[0])
+                //========== Save hashtag in DB ==========
+                const newHashtag = new Hashtag({
+                    content: hashtag
+                });
+                const newHashtagInDB = await newHashtag.save()
+                    .then((hashtagAdded) => {
+                        console.log("hashtag added"); 
+                        hashtagsId.push(hashtagAdded._id);
+                    })
+                    .catch(error => {
+                        console.log("error");
+                    })
             }
-            const message = "Tweet created";
-            return res.status(201).json({ message });
+
+            console.log("temp list : ", hashtagsId);
+
+        }
+        console.log("+++++++++++++++++++", hashtagsId);
+    }
+
+    
+
+    // ========== Save tweet in DB and get the tweet ID ==========
+    const tweet = await newTweet.save()
+        .then((tweet) => {
+            return tweet;
         })
+        .catch((err) => {
+            error = err;
+            const message = "Internal Server Error";
+            return res.status(500).json({ message });
+        });
+    
+    console.log("tweet_id : ", tweet._id);
+
+
+    // ========== Save hashtag relations in DB and returns message for user ==========
+    // hashtagsId = ["5ecd217f5f9d8022f8311ccd", 
+                    //   "5ecd217f5f9d8022f8311ccc",
+                    //   "5ecd217f5f9d8022f8311cce"]
+
+
+    
+
+    // ========== Link tweet ID with hashtags IDs ==========
+
+    if (hashtagsId) {
+
+        for (const hashtagId of hashtagsId) {
+        // hashtagsId.forEach( async (hashtagId) => {
+            const newHashtagRelation = new HashtagRelation({
+                hashtagId: hashtagId,
+                tweetId: tweet._id,
+            });
+            await newHashtagRelation.save()
+                .then((response) => {
+                    console.log("response from hashtag relation", response);
+                })
+                .catch((error) => {
+                    error = "error in hashtag relation";
+                    console.log("error in hashtag relation", error);
+                })
+        }
+    }
+
+    if (!error) {
+        const message = "Tweet correctly added";
+        return res.status(200).json({ message });
+    }
 })
 
 // ======================================== UPDATE TWEET ========================================
@@ -180,5 +340,10 @@ router.delete('/tweets/:tweetId', function (req, res) {
         return res.status(200).json(docs);
     });
 })
+
+function findHashtag(content) {
+    const regEx = /#[À-úa-z0-9]*/g;
+    return content.match(regEx);
+}
 
 module.exports = router
