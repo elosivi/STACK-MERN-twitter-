@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { GrChatOption } from 'react-icons/gr';
 import MyNav from './myNav';
 import './style.css';
 
@@ -9,9 +10,10 @@ import './style.css';
 class App extends React.Component {
     constructor(props) {
         super(props);
-       
+        // this.myRef = React.createRef() 
         this.state = {
             loggedInStatus: "NOT_LOGGED_IN",
+            is_visible: false,
             user: {
                 login: "NOT LOGGED IN"
                 
@@ -21,14 +23,39 @@ class App extends React.Component {
         
         this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
         this.handleIndexLogin = this.handleIndexLogin.bind(this);
+        
     }
 
-     
+    componentDidMount() {
+        var scrollComponent = this;
+        document.addEventListener("scroll", function(e) {
+          scrollComponent.toggleVisibility();
+        });
+      }
+      
+      toggleVisibility() {
+        if (window.pageYOffset > 150) {
+          this.setState({
+            is_visible: true
+          });
+        } else {
+          this.setState({
+            is_visible: false
+          });
+        }
+    }
+    
+    scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+
     updateState(){
         this.setState({ loggedInStatus: "LOGGED_IN"});
     }
-    //end of elo test //
-
+ 
     handleSuccessfulAuth(data) {
         this.setState({
             user: data.user,
@@ -52,12 +79,20 @@ class App extends React.Component {
 
         return (
             <div>
+               
                 <div className="microbloggos">
                     <h1>MICRO-BLOGGOS</h1>
+                    <p><GrChatOption /></p>
                 </div>
-                
                 <div>
                     <MyNav />
+                </div>
+                <div className="scroll-to-top">
+                        {this.state.is_visible && (
+                            <button onClick={() => this.scrollToTop()}>
+                                Top
+                            </button>
+                        )}
                 </div>
                 
             </div>

@@ -4,14 +4,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: content-box;
 }
+
 .container{
   width:80%;
   margin:auto;
 }
 
 .center{
-margin:auto!important;
+  margin:auto!important;
 }
 
 .flex{
@@ -38,6 +40,7 @@ h3{
 
 .mainContainer {
   padding-top: 50px;
+  width:70%;
 }
 
 /* ================================= N A V  +  T I T L E MICRO-BLOGGOS ============================== */
@@ -51,7 +54,7 @@ nav.flex-column.navbar.navbar-expand.navbar-dark.bg-dark {
     height: 100%;
     margin-right: 100px;
     text-align: center;
-    /* position: fixed; */
+    position: fixed;
 }
 
 a.Logo.navbar-brand {
@@ -87,14 +90,25 @@ a.nav-link {
   font-size: 2rem;
 }
 
-h1 {
+.microbloggos {
   background-color: #343A40;
   color: white;
   padding: 20px;
   margin-bottom: 0;
   text-align: center;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  width: 20%;
 }
 
+/* ================================= S C R O L L    T O     T O P  ============================== */
+.scroll-to-top {
+  text-align: center;
+  position:fixed;
+  right: 8%;
+  top: 150px;
+}
 /* ================================= T W E E T ============================== */
 .tweet {
   background-color: #A59AD5;
@@ -102,6 +116,21 @@ h1 {
   border-radius: 10px;
   padding: 10px;
   margin-bottom:10px;
+  position: relative;
+  margin-left:150px;
+}
+
+.tweet:after{
+  content:"";
+  position: absolute;
+  left: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-left: 26px solid #A59AD5;
+  border-bottom: 13px solid transparent;
+  
 }
 
 .mytweet{ 
@@ -110,7 +139,20 @@ h1 {
   border-radius: 10px;
   padding: 10px;
   margin-bottom:10px;
-
+  position: relative;
+  
+}
+.mytweet:before{
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-right: 26px solid #CDC1FF;
+  border-bottom: 13px solid transparent;
+  
 }
 .tweetFace {
   font-size: 2rem;
