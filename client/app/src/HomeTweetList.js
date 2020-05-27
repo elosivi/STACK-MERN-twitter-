@@ -10,19 +10,6 @@ import * as linkify from 'linkifyjs';
 import hashtag from "linkifyjs/plugins/hashtag";
 
 
-
-const linkifyOptions = 
-            {
-                formatHref: function (href, type) {
-                    if (type === 'hashtag') {
-                        href = baseURL+'/hashtag/' + href.substring(1);
-                        console.log("--->TEST LINKIFY : "+ href)
-                    }
-                    console.log("--->TEST LINKIFY - output : "+ href)
-                    return href;
-                }
-            }
-
 const TWEET_MAX_LENGTH = 140;
 const baseURL = "http://localhost:3000";
 
@@ -167,7 +154,7 @@ export default class HomeTweetList extends Component {
                                                 />
                                                 <button>Update</button>
                                             </form>
-                                            {tweet._id}
+                                            {/* {tweet._id} */}
                                         </div>
                                     </Linkify>
                                 )

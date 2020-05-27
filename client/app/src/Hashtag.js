@@ -76,8 +76,9 @@ class Hashtag extends Component {
                                         <div className="mytweet">
                                             <p className="flex tweetHeader">
                                                 <div className="mytweetFace"><MdFace /></div>
-                                                @<h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small> 
+                                                <p className="at">@</p>
+                                                <h4 className="tweetName">{tweet.author}.</h4>
+                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
                                             </p>
                                             <p className="mytweetContent">{tweet.content}</p>
                                         </div>                           
@@ -90,8 +91,9 @@ class Hashtag extends Component {
                                         <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
                                             <p className="flex tweetHeader">
                                                 <div className="tweetFace"><MdFace /></div>
-                                                @<h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small>
+                                                <p className="at">@</p>
+                                                <h4 className="tweetName">{tweet.author}.</h4>
+                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
                                             </p>
                                             <p className="tweetContent">{tweet.content}</p>
                                             

@@ -56,6 +56,8 @@ export default class TweetForm extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formBasicLogin">
                             <Form.Control
+                                as="textarea" 
+                                rows="2"
                                 type="text"
                                 value={this.state.newTweet}
                                 // name="content"

@@ -188,7 +188,6 @@ export default class MyProfile extends Component {
                 <Row>
                     <Col>
                         <h2>My tweets</h2>
-
                         <TweetList 
                             tweets={this.state.tweets} 
                             onDelete={this.handleTweetDelete}
@@ -196,9 +195,7 @@ export default class MyProfile extends Component {
                         />
                     </Col>
 
-                    <Col>
-                        
-
+                    <Col> 
                         <div className="newTweet">
                             <TweetForm
                                 onPost={this.handlePostTweets}

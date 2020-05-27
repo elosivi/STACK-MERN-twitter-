@@ -71,9 +71,9 @@ export default class Registration extends Component {
         return <Redirect to='/logout'/>;
         }
         return (
-            <div>
+            <div className="mainContainer center" >
                 <h2>Registration</h2>
-                <Card className="mainContainer center lightPurple bigShadow">
+                <Card className="center lightPurple bigShadow">
                     <Card.Body>
                         <Form onSubmit={this.handleSubmit}>
 
