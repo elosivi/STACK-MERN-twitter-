@@ -43,6 +43,7 @@ export default class HomeTweetList extends Component {
             showTweetUpdateForm: false,
             tweetIdToUpdate: null,
             tweetValue: "",
+            tweetOldValue: "",
             tweetLength: 0,
             login: loginInformations.login,
         }
@@ -68,6 +69,9 @@ export default class HomeTweetList extends Component {
 
     handleTweetSubmit(event) {
         event.preventDefault();
+        if (this.state.tweetOldValue === this.state.tweetValue) {
+            return;
+        }
         this.props.onUpdate(this.state.tweetIdToUpdate, this.state.tweetValue);
         this.setState({
             tweetIdToUpdate: null
@@ -82,7 +86,8 @@ export default class HomeTweetList extends Component {
     handleClick(id, currentValue) {
         this.setState({
             tweetIdToUpdate: id,
-            tweetValue: currentValue
+            tweetValue: currentValue,
+            tweetOldValue: currentValue
         })
     }
 
@@ -104,14 +109,14 @@ export default class HomeTweetList extends Component {
         return (
             <div className="mainContainer">
                
-                    <Linkify options={linkifyOptions}>
+                    {/* <Linkify options={linkifyOptions}> */}
                     { 
                         this.props.tweets.map(tweet => {
                             if (tweet.author !== this.state.login) {
                                 
                                 
                                 return (
-                                    
+                                    <Linkify options={linkifyOptions}>
                                         <div className="mytweet">
                                             <p className="flex tweetHeader">
                                                 <div className="mytweetFace"><MdFace /></div>
@@ -119,11 +124,13 @@ export default class HomeTweetList extends Component {
                                                 <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small> 
                                             </p>
                                             <p className="mytweetContent">{tweet.content}</p>
-                                        </div>                           
+                                        </div>
+                                    </Linkify>                     
                                     
                             )
                             } else if (tweet._id !== this.state.tweetIdToUpdate) {
                                 return (
+                                    <Linkify options={linkifyOptions}>
                                     <div className="tweet">
                                         
                                         <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
@@ -139,8 +146,10 @@ export default class HomeTweetList extends Component {
                                             delete post
                                         </button>
                                     </div>
+                                    </Linkify>
                             )} else {
                                 return (
+                                    <Linkify options={linkifyOptions}>
                                    <div>
                                         @{tweet.author}:
                                         <form className="form" onSubmit={this.handleTweetSubmit}>
@@ -155,13 +164,14 @@ export default class HomeTweetList extends Component {
                                         </form>
                                         {tweet._id}
                                     </div>
+                                    </Linkify>
                                 )
                             }
                         })
 
                         
                     }
-                    </Linkify>
+                    {/* </Linkify> */}
                
             </div>
         )
