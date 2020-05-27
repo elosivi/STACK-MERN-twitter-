@@ -52,7 +52,7 @@ export default class TweetForm extends Component {
             <div className="fullContainer separation">
                 <h2>Post new tweet</h2>
                 <Card className="tweetForm">
-                <Card.Body className="bigShadow">
+                <Card.Body className="bigShadow lightPurple">
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formBasicLogin">
                             <Form.Control

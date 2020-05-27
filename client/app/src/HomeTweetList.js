@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Moment from 'moment';
 
 import { MdFace } from 'react-icons/md';
+import {BsCircleFill} from 'react-icons/bs';
+import {RiChatDeleteLine} from 'react-icons/ri';
 
 import Linkify from 'linkifyjs/react';
 import * as linkify from 'linkifyjs';
@@ -119,8 +121,9 @@ export default class HomeTweetList extends Component {
                                         <div className="tweet">
                                             <p className="flex tweetHeader">
                                                 <div className="tweetFace"><MdFace /></div>
-                                                @<h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small> 
+                                                <p className="at">@</p>
+                                                <h4 className="tweetName">{tweet.author}.</h4>
+                                                <small className="tweetDate"> <span>posted the:</span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small> 
                                             </p>
                                             <p className="mytweetContent">{tweet.content}</p>
                                         </div>
@@ -135,15 +138,18 @@ export default class HomeTweetList extends Component {
                                             <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
                                                 <p className="flex tweetHeader">
                                                     <div className="tweetFace"><MdFace /></div>
-                                                    @<h4 className="tweetName">{tweet.author}.</h4>
-                                                    <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small>
+                                                    <p className="at">@</p>
+                                                    <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
                                                 </p>
                                                 <p className="tweetContent">{tweet.content}</p>
                                             
-                                            </div>                           
-                                            <button className="deleteTweet" onClick={() => this.handleDelete(tweet._id)}>
-                                                delete post
-                                            </button>
+                                            </div >      
+                                            <div className="deleteTweet">                      
+                                                <button onClick={() => this.handleDelete(tweet._id)} title="delete post">
+                                                    <RiChatDeleteLine />
+                                                </button>
+                                            </div>
                                         </div>
                                     </Linkify>
                             )} else {
