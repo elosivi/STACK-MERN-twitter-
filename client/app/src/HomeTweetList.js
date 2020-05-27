@@ -70,6 +70,9 @@ export default class HomeTweetList extends Component {
     handleTweetSubmit(event) {
         event.preventDefault();
         if (this.state.tweetOldValue === this.state.tweetValue) {
+            this.setState({
+                tweetIdToUpdate: null
+            })
             return;
         }
         this.props.onUpdate(this.state.tweetIdToUpdate, this.state.tweetValue);
