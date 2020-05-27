@@ -65,7 +65,7 @@ export default class TweetForm extends Component {
                         </Form.Group>
                         
                         <Button variant="primary" type="submit">Tweet</Button>
-                        Tweet length : {this.state.tweetLength}/{TWEET_MAX_LENGTH}
+                        <p>Tweet length : {this.state.tweetLength}/{TWEET_MAX_LENGTH}</p>
                     </Form>
                     <p className="error">{this.props.tweetPostError}</p>
                 </Card.Body>

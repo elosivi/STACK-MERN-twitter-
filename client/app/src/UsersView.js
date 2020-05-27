@@ -71,21 +71,6 @@ export default class UsersView extends Component {
         });
     }
     
-    // stopFollow= (leaderId)=> {
-    //     const url= baseURL+"/myleaders/"+leaderId
-    //     console.log("--> OK ! (mess from client) DELETE from myLeaders calling this:"+url)
-    //     axios
-    //     .delete(url)
-    //     .then(res=>{
-    //         const stopFollowData = res.data;
-    //         console.log("--> ok ! (mess from client) myLeaders/stop follow: ",stopFollowData)
-    //         this.getLeaders();
-            
-    //     })
-    //     .catch(error => {
-    //         console.log("--> ERROR ! (mess from client) myLeaders, handleAdd: ", error)//TEST CONSOL ok 
-    //     });
-    // }
 
     render(){
         return (
@@ -95,7 +80,6 @@ export default class UsersView extends Component {
                     <Col><MyLeaders leaders={this.state.leaders} getLeaders={this.getLeaders}/></Col>
                     <Col><MyFollowers getLeaders={this.getLeaders}/></Col>
                 </Row>
-     
             </Container>
         )
     }

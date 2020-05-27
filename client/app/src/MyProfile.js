@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row, Col } from 'react-bootstrap';
+
 import MyInformations from './MyInformations'
 import TweetList from './TweetList'
 import TweetForm from './TweetForm'
@@ -182,26 +185,39 @@ export default class MyProfile extends Component {
         console.log("je passe ici avec :", this.state.updateUserError)
         return (
             <div>
-                <h1>My profile</h1>
+                <Row>
+                    <Col>
+                        <h2>My tweets</h2>
 
-                <MyInformations 
-                    user={this.state.userInformations}
-                    updateUserError={this.state.updateUserError}
-                    onUpdate={this.updateUserInformations}
-                />
+                        <TweetList 
+                            tweets={this.state.tweets} 
+                            onDelete={this.handleTweetDelete}
+                            onUpdate={this.handleTweetUpdate}
+                        />
+                    </Col>
 
-                <TweetForm
-                    onPost={this.handlePostTweets}
-                    tweetPostError={this.state.tweetPostError}
-                />
+                    <Col>
+                        
 
-                <h2>My tweets</h2>
+                        <div className="newTweet">
+                            <TweetForm
+                                onPost={this.handlePostTweets}
+                                tweetPostError={this.state.tweetPostError}
+                            />
+                        </div>
 
-                <TweetList 
-                    tweets={this.state.tweets} 
-                    onDelete={this.handleTweetDelete}
-                    onUpdate={this.handleTweetUpdate}
-                />
+                        <div className="myProfile">
+                            <h2>My profile</h2>
+                            <MyInformations 
+                                user={this.state.userInformations}
+                                updateUserError={this.state.updateUserError}
+                                onUpdate={this.updateUserInformations}
+                            />
+                        </div>
+                    </Col>
+                </Row>
+
+               
                 
             </div>
         );

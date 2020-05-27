@@ -18,9 +18,7 @@ margin:auto!important;
   display:flex
 }
 
-h1{
-  text-align: center;
-}
+
 
 h2{
   text-align: center;
@@ -34,14 +32,106 @@ h3{
   border-radius:5px
 }
 
-
 .error{
   color:red;
 }
 
-/* ================================= N A V  ============================== */
+.mainContainer {
+  padding-top: 50px;
+}
+
+/* ================================= N A V  +  T I T L E MICRO-BLOGGOS ============================== */
 .myNav{
   margin-bottom:30px;
+}
+
+
+nav.flex-column.navbar.navbar-expand.navbar-dark.bg-dark {
+    min-height: 100vh;
+    height: 100%;
+    margin-right: 100px;
+    text-align: center;
+    /* position: fixed; */
+}
+
+a.Logo.navbar-brand {
+  size: 200%;
+  font-size: 4rem;
+  border: 1px white solid;
+  border-radius: 50%;
+  padding: 0px 20px 10px 20px;
+  background-color: #CDC1FF;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.topNav {
+  border-bottom: 2px solid #CDC1FF;
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.flex-column.navbar-nav {
+  padding: 40px 0px;
+}
+
+a.nav-link {
+  font-size: 1.3rem;
+  padding: 10px 0px;
+}
+
+.navbar-dark .navbar-brand {
+  color: #CDC1FF;
+  font-size: 2rem;
+}
+
+h1 {
+  background-color: #343A40;
+  color: white;
+  padding: 20px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* ================================= T W E E T ============================== */
+.tweet {
+  background-color: #A59AD5;
+  width: 60%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom:10px;
+}
+
+.mytweet{ 
+  background-color: #CDC1FF;
+  width: 60%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom:10px;
+
+}
+.tweetFace {
+  font-size: 2rem;
+}
+
+.mytweetFace{
+  font-size: 2rem;
+  color:#7371FC;
+  
+}
+
+p.tweetContent {
+  background-color: #EBE1FF;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+p.mytweetContent{
+  background-color: #F5EFFF;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 /* ================================= L O G I N ============================== */

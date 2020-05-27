@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MyNav from './myNav';
 import './style.css';
 
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -51,7 +52,14 @@ class App extends React.Component {
 
         return (
             <div>
-                <MyNav />
+                <div className="microbloggos">
+                    <h1>MICRO-BLOGGOS</h1>
+                </div>
+                
+                <div>
+                    <MyNav />
+                </div>
+                
             </div>
         );
     }

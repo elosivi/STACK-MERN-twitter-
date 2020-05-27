@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.4.1",
-    "mongoose": "^5.9.14"
+    "mongoose": "^5.9.14",
+    "react-linkify": "^1.0.0-alpha"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

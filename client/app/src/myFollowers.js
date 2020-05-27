@@ -120,7 +120,7 @@ export default class MyFollowers extends Component {
 
         return(
             <div>
-                <h1>My Followers</h1>
+                <h2>My Followers</h2>
                 {result}
 
             </div>

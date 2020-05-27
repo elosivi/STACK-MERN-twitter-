@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+// import Linkify from 'react-linkify';
+// import * as linkify from 'linkifyjs';
+// import hashtag from 'linkifyjs/plugins/hashtag';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import HomeTweetList from './HomeTweetList'
 import TweetForm from './TweetForm'
@@ -6,6 +11,9 @@ import TweetForm from './TweetForm'
 import axios from 'axios';
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
+
+// hashtag(linkify);
+
 
 export default class Home extends Component {
     constructor(props) {
@@ -117,13 +125,26 @@ export default class Home extends Component {
         this.getTweets();
     }
 
+    // ================================ M A N A G E    H A S H T A G => L I N K======================================
+    // linkify(){
+    //     formatHref: function (href, type) {
+    //       if (type === 'hashtag') {
+    //         href = baseURL+'/hashtag/' + href.substring(1);
+    //       }
+    //       return href;
+    //     }
+
+    // const content = this.state.tweets.content;
+    //     return <Linkify options={linkifyOptions}>{content}</Linkify>;
+    // }
     // ======================================================================
     render() {
        
         return (
-            <div>
-
-                <h1>Home</h1>
+            
+            <div className="myBody">
+               
+                {/* <h2>Home</h2> */}
 
                 <TweetForm 
                     onPost={this.handlePostTweets} 
@@ -136,6 +157,7 @@ export default class Home extends Component {
                     onUpdate={this.handleTweetUpdate}
                 />
             </div>
+          
         )
     }
 
