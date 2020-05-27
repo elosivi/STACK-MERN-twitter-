@@ -323,7 +323,7 @@ router.put('/tweets/:tweetId', [
 
 // ======================================== DELETE TWEET ========================================
 
-router.delete('/tweets/:tweetId', function (req, res) {
+router.delete('/tweets/:tweetId', async function (req, res) {
     console.log("===== HERE IN DELETE TWEET =====");
     // ==================== Check authorization ====================
     if (!req.session.userid) {
@@ -331,6 +331,34 @@ router.delete('/tweets/:tweetId', function (req, res) {
         return res.status(403).json({ message });
     }
     // ============================================================
+
+    // ====================== DELETE HASHTAG RELATIONS IF EXIST ======================
+
+    const hashtagRelations = await HashtagRelation.find({tweetId: req.params.tweetId});
+
+    if (hashtagRelations[0]) {
+        // ==================== Query build to remove relations ====================
+        let hashtagRelationsToDeleteQuery = { $or: [] };
+        if (hashtagRelations.length > 0) {
+            hashtagRelations.forEach(relation => {
+                let led = {_id: relation._id};
+                hashtagRelationsToDeleteQuery.$or.push(led);
+            });
+        }
+        console.log("***************hashtagRelationsToDeleteQuery", hashtagRelationsToDeleteQuery);
+
+        await HashtagRelation.deleteMany(hashtagRelationsToDeleteQuery, function(err, res) {
+            if (err) {
+                console.log("Error when destroying relations between hashtags and tweet")
+            }
+            console.log("Relations between hashtags and tweet destroyed")
+        })
+
+    }
+
+    console.log("hashtagRelations when DELETE tweet :", hashtagRelations);
+
+    // ====================== DELETE TWEET ======================
 
     Tweet.findOneAndDelete({_id: req.params.tweetId}, function (err, docs) {
         if (err) {
