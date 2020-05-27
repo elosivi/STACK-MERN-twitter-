@@ -180,6 +180,8 @@ router.post('/tweets', [
         return res.status(400).json({ message });
     }
 
+    let error = "";
+
     const newTweet = new Tweet({
         author: req.session.login,
         content: req.body.content,
@@ -188,12 +190,12 @@ router.post('/tweets', [
 
     // ========== Get array of hashtags ==========
     const myHashtags = findHashtag(req.body.content);
+    console.log("array of hashtags :", myHashtags);
 
     // ========== Get an array of hashtags IDs ==========
     let hashtagsId = [];
 
     if (myHashtags) {
-
         console.log("myHashtags.length >>>>>>>>>>>>>>>>>>>>>", myHashtags.length)
     } else {
         console.log("passe ta route >>>>>>>>>>>>>>>>>>>><")
@@ -206,15 +208,17 @@ router.post('/tweets', [
             const hashtagInDB = await Hashtag.find({content: hashtag});
 
             if (hashtagInDB[0]) {
+                console.log("1. hashtagInDB[0] : ", hashtagInDB[0])
                 hashtagsId.push(hashtagInDB[0]._id);
             } else {
+                console.log("2. !hashtagInDB[0] : ", hashtagInDB[0])
                 //========== Save hashtag in DB ==========
                 const newHashtag = new Hashtag({
                     content: hashtag
                 });
-                const newHashtagInDB = newHashtag.save()
+                const newHashtagInDB = await newHashtag.save()
                     .then((hashtagAdded) => {
-                        console.log("hashtag added");
+                        console.log("hashtag added"); 
                         hashtagsId.push(hashtagAdded._id);
                     })
                     .catch(error => {
@@ -236,6 +240,7 @@ router.post('/tweets', [
             return tweet;
         })
         .catch((err) => {
+            error = err;
             const message = "Internal Server Error";
             return res.status(500).json({ message });
         });
@@ -249,7 +254,7 @@ router.post('/tweets', [
                     //   "5ecd217f5f9d8022f8311cce"]
 
 
-    let error = "";
+    
 
     // ========== Link tweet ID with hashtags IDs ==========
 
