@@ -39,13 +39,30 @@ export default class MyInformations extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const updateUserInformations = {
-            login: this.state.login,
-            email: this.state.email,
-            password: this.state.password,
-            confirm_password: this.state.confirm_password,
+
+        const updateUserInformations = {};
+
+        if (this.state.login) {
+            updateUserInformations.login = this.state.login;
         }
-        this.props.onUpdate(updateUserInformations);
+        if (this.state.email) {
+            updateUserInformations.email = this.state.email;
+        }
+        if (this.state.password) {
+            updateUserInformations.password = this.state.password;
+        }
+        if (this.state.confirm_password) {
+            updateUserInformations.confirm_password = this.state.confirm_password;
+        }
+
+        if (this.state.login || this.state.email || this.state.password) {
+            this.props.onUpdate(updateUserInformations);
+        }
+
+        console.log("++++++++++ updateUserInformations", updateUserInformations);
+
+        
+        
     }
 
     handleCancel() {        

@@ -49,10 +49,10 @@ export default class TweetForm extends Component {
         const placeholder = `tweet content max ${TWEET_MAX_LENGTH} characters`;
 
         return (
-            <div className="mainContainer">
+            <div className="fullContainer separation">
                 <h2>Post new tweet</h2>
-                <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
-                <Card.Body>
+                <Card className="tweetForm">
+                <Card.Body className="bigShadow">
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formBasicLogin">
                             <Form.Control

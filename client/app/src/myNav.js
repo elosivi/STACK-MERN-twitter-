@@ -128,7 +128,7 @@ export default class myNav extends React.Component {
                   
                         <Switch>
                             
-                            <Col xs={9}> 
+                            <Col xs={8}> 
                                 <Route path="/login" /*onSuccess={this.updatePage}*/>
                                 
                                         <Login onLogin={this.handleOnLogin} />

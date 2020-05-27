@@ -71,7 +71,7 @@ export default class Login extends Component {
         return (
             <div className="mainContainer">
                 <h2>Login</h2>
-                <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
+                <Card className="login">
                 <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
 

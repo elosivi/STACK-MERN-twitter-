@@ -24,6 +24,7 @@ body {
 
 h2{
   text-align: center;
+  margin-bottom:50px;
 }
 
 h3{
@@ -43,6 +44,20 @@ h3{
   width:70%;
 }
 
+.fullContainer {
+  padding-top: 50px;
+  width: 90%;
+  margin: auto;
+}
+
+.separation{
+  border-bottom: 2px solid rgba(73,82,90,0.5);
+  padding-bottom: 50px;
+}
+
+.bigShadow {
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
 /* ================================= N A V  +  T I T L E MICRO-BLOGGOS ============================== */
 .myNav{
   margin-bottom:30px;
@@ -72,7 +87,7 @@ a.Logo.navbar-brand {
 .topNav {
   border-bottom: 2px solid #CDC1FF;
   width: 90%;
-  margin: 0 auto;
+  margin: 30px auto;
   padding-bottom: 30px;
 }
 
@@ -99,25 +114,58 @@ a.nav-link {
   position: fixed;
   right: 0;
   height: 100vh;
-  width: 20%;
+  width: 250px;
+}
+h1{
+  margin-top:30px;
+}
+
+.chatIcon svg {
+  font-size: 4rem;
+  margin-top:10px;
 }
 
 /* ================================= S C R O L L    T O     T O P  ============================== */
 .scroll-to-top {
   text-align: center;
   position:fixed;
-  right: 8%;
-  top: 150px;
+  right: 6%;
+  top: 300px;
 }
+
+.scroll-to-top svg {
+  margin-left: 5px;
+}
+
+button.buttonTop {
+  background-color: inherit;
+  border: 0px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border-bottom: 1px solid white;
+}
+
+button.buttonTop:hover{
+  color:#CDC1FF;
+  border-bottom: 1px solid #A594F9;
+}
+
 /* ================================= T W E E T ============================== */
+
+.tweetForm{
+  margin:auto;
+  width:80%;
+}
+
 .tweet {
   background-color: #A59AD5;
-  width: 60%;
+  width: 80%;
   border-radius: 10px;
   padding: 10px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   position: relative;
-  margin-left:150px;
+  margin-left: 50%;
 }
 
 .tweet:after{
@@ -133,15 +181,16 @@ a.nav-link {
   
 }
 
-.mytweet{ 
+.mytweet {
   background-color: #CDC1FF;
-  width: 60%;
+  width: 80%;
   border-radius: 10px;
   padding: 10px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   position: relative;
-  
+  margin-left: 12%;
 }
+
 .mytweet:before{
   content:"";
   position: absolute;
@@ -178,10 +227,8 @@ p.mytweetContent{
 
 /* ================================= L O G I N ============================== */
 .login{
-  /* opacity: 0.5;
-  background-image:url(./img/modern_city_night.jpg) ;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* background-color: #81B29A; */
+  margin:auto;
+  width:80%;
 }
+
+

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GrChatOption } from 'react-icons/gr';
+import { AiOutlineArrowUp, AiFillWechat } from 'react-icons/ai';
 import MyNav from './myNav';
 import './style.css';
 
@@ -82,15 +83,15 @@ class App extends React.Component {
                
                 <div className="microbloggos">
                     <h1>MICRO-BLOGGOS</h1>
-                    <p><GrChatOption /></p>
+                    <p className="chatIcon"><AiFillWechat /></p>
                 </div>
                 <div>
                     <MyNav />
                 </div>
                 <div className="scroll-to-top">
                         {this.state.is_visible && (
-                            <button onClick={() => this.scrollToTop()}>
-                                Top
+                            <button onClick={() => this.scrollToTop()} className="buttonTop">
+                                Top <AiOutlineArrowUp />
                             </button>
                         )}
                 </div>

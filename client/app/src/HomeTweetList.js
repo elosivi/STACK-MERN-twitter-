@@ -21,9 +21,6 @@ const linkifyOptions =
                 }
             }
 
-// console.log("---->test hashtag:" +hashtag)
-
-
 const TWEET_MAX_LENGTH = 140;
 const baseURL = "http://localhost:3000";
 
@@ -43,6 +40,7 @@ export default class HomeTweetList extends Component {
             showTweetUpdateForm: false,
             tweetIdToUpdate: null,
             tweetValue: "",
+            tweetOldValue: "",
             tweetLength: 0,
             login: loginInformations.login,
         }
@@ -68,6 +66,12 @@ export default class HomeTweetList extends Component {
 
     handleTweetSubmit(event) {
         event.preventDefault();
+        if (this.state.tweetOldValue === this.state.tweetValue) {
+            this.setState({
+                tweetIdToUpdate: null
+            })
+            return;
+        }
         this.props.onUpdate(this.state.tweetIdToUpdate, this.state.tweetValue);
         this.setState({
             tweetIdToUpdate: null
@@ -82,7 +86,8 @@ export default class HomeTweetList extends Component {
     handleClick(id, currentValue) {
         this.setState({
             tweetIdToUpdate: id,
-            tweetValue: currentValue
+            tweetValue: currentValue,
+            tweetOldValue: currentValue
         })
     }
 
@@ -104,7 +109,6 @@ export default class HomeTweetList extends Component {
         return (
             <div className="mainContainer">
                
-                    {/* <Linkify options={linkifyOptions}> */}
                     { 
                         this.props.tweets.map(tweet => {
                             if (tweet.author !== this.state.login) {
@@ -130,7 +134,7 @@ export default class HomeTweetList extends Component {
                                             
                                             <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
                                                 <p className="flex tweetHeader">
-                                                    <div className="mytweetFace"><MdFace /></div>
+                                                    <div className="tweetFace"><MdFace /></div>
                                                     @<h4 className="tweetName">{tweet.author}.</h4>
                                                     <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small>
                                                 </p>
