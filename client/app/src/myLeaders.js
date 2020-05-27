@@ -13,9 +13,7 @@ export default class MyLeaders extends Component {
     //     super(props);
     // }
 
-
     stopFollow= (leaderId)=> {
-       
         const url= baseURL+"/myleaders/"+leaderId
         console.log("--> OK ! (mess from client) DELETE from myLeaders calling this:"+url)
         axios

@@ -25,6 +25,7 @@ import Logout from './Logout'
 import MyProfile from './MyProfile'
 import Home from './Home'
 import UsersView from './UsersView'
+import Hashtag from './Hashtag'
 
 export default class myNav extends React.Component {
     constructor(props) {
@@ -90,81 +91,81 @@ export default class myNav extends React.Component {
                 <div>
                  
                   <Row>
-                  <Col xs={3}> 
-                    
-                        <Navbar bg="dark" variant="dark" className="flex-column">
-                        <div className="topNav flex-column">
-                            <Navbar.Brand className="Logo" href="/home" title="The best network never created !"><FaBlog /></Navbar.Brand>
-                            <br></br>
+                    <Col xs={3}> 
                         
+                        <Navbar bg="dark" variant="dark" className="flex-column">
+                            <div className="topNav flex-column">
+                                <Navbar.Brand className="Logo" href="/home" title="The best network never created !"><FaBlog /></Navbar.Brand>
+                                <br></br>
+                            
+                                    {
+                                        loggedIn ?
+                                            <Navbar.Brand href="/home" title ="Hello you !">{this.state.login}</Navbar.Brand> :
+                                            <Navbar.Brand href="/home" title="Hello visitor, join us!">Blog</Navbar.Brand>
+                                    }
+                            </div>
+                            <Nav className="mr-auto" className="flex-column">
+                                <Nav.Link href="/home" title="home"><BsHouseDoorFill /></Nav.Link>
                                 {
                                     loggedIn ?
-                                        <Navbar.Brand href="/home" title ="Hello you !">{this.state.login}</Navbar.Brand> :
-                                        <Navbar.Brand href="/home" title="Hello visitor, join us!">Blog</Navbar.Brand>
+                                        <Nav.Link href="/logout" title="logout"><IoMdLogOut/></Nav.Link> :
+                                        <Nav.Link href="/login">Login</Nav.Link>
                                 }
-                        </div>
-                        <Nav className="mr-auto" className="flex-column">
-                            <Nav.Link href="/home" title="home"><BsHouseDoorFill /></Nav.Link>
-                            {
-                                loggedIn ?
-                                    <Nav.Link href="/logout" title="logout"><IoMdLogOut/></Nav.Link> :
-                                    <Nav.Link href="/login">Login</Nav.Link>
-                            }
-                            <Nav.Link href="/registration">Register</Nav.Link>
-                            <Nav.Link href="/myprofile" title="my profile"><BsPersonBoundingBox/></Nav.Link>
-                            <Nav.Link href="/users" title ="my friends"> <BsPeopleFill/></Nav.Link>
-                        </Nav>
-                    </Navbar>
-                  </Col>
-
-                  
-                    <Switch>
-                        
-                    <Col xs={9}> 
-                        <Route path="/login" /*onSuccess={this.updatePage}*/>
-                          
-                                <Login onLogin={this.handleOnLogin} />
-                            
-                        </Route>
-
-
-                        <Route path="/registration">
-                           
-                                <Registration />
-                           
-                        </Route>
-
-                        <Route path="/logout">
-                        
-                            {loggedIn ? <Logout onLogout={this.handleOnLogout} /> : redirToLogin}
-                        </Route>
-
-                        <Route path="/myprofile">
-                           
-                            {loggedIn ? <MyProfile onUpdate={this.handleOnUpdate}/> : redirToLogin}
-                        </Route>
-
-                        
-                            <Route path={"/home"}>
-                            
-                                {loggedIn ? <Home /> : redirToLogin}
-                            </Route>
-
-                            <Route path="/users">
-                                
-                                {loggedIn ? <UsersView /> : redirToLogin}
-                            </Route>
+                                <Nav.Link href="/registration">Register</Nav.Link>
+                                <Nav.Link href="/myprofile" title="my profile"><BsPersonBoundingBox/></Nav.Link>
+                                <Nav.Link href="/users" title ="my friends"> <BsPeopleFill/></Nav.Link>
+                            </Nav>
+                        </Navbar>
                     </Col>
 
-                    
-                        <Route path={ "/"}>
+                  
+                        <Switch>
+                            
+                            <Col xs={9}> 
+                                <Route path="/login" /*onSuccess={this.updatePage}*/>
+                                
+                                        <Login onLogin={this.handleOnLogin} />
+                                    
+                                </Route>
 
-                            {loggedIn ? <Home /> : redirToLogin}
-                        </Route>
 
-                        
+                                <Route path="/registration">
+                                
+                                        <Registration />
+                                
+                                </Route>
 
-                    </Switch>
+                                <Route path="/logout">
+                                
+                                    {loggedIn ? <Logout onLogout={this.handleOnLogout} /> : redirToLogin}
+                                </Route>
+
+                                <Route path="/myprofile">
+                                
+                                    {loggedIn ? <MyProfile onUpdate={this.handleOnUpdate}/> : redirToLogin}
+                                </Route>
+
+                                
+                                    <Route path={"/home"}>
+                                    
+                                        {loggedIn ? <Home /> : redirToLogin}
+                                    </Route>
+
+                                    <Route path="/users">
+                                        
+                                        {loggedIn ? <UsersView /> : redirToLogin}
+                                    </Route>
+                                
+                                    <Route path={"/hashtag/:hashtag"}>
+                                        {loggedIn ? <Hashtag /> : redirToLogin}
+                                    </Route>
+{/* 
+                                    <Route path={"/"}>
+
+                                        {loggedIn ? <Home /> : redirToLogin}
+                                    </Route> */}
+                            </Col>
+                        </Switch>
                     </Row>
                  
                 </div>

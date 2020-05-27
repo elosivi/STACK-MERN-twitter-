@@ -52,19 +52,6 @@ export default class HomeTweetList extends Component {
 
     }
 
-// -------------------------------------------- HASHTAG MANAGEMENT -----------------------------------------//
-  
-    //    Hashtag(content) 
-    //     {
-    //         formatHref: function(href, type) {
-    //         if (type === 'hashtag') {
-    //             href = baseURL+'/hashtag/' + href.substring(1);
-    //         }
-    //         return href;
-    //         }
-    //     }
-    
-
 // ---------------------------------------------- TWEET MANAGEMENT -------------------------------//
     handleChange(event) {
         const value = event.currentTarget.value;
@@ -125,17 +112,13 @@ export default class HomeTweetList extends Component {
                                 
                                 return (
                                     
-                                        <div className="tweet">
+                                        <div className="mytweet">
                                             <p className="flex tweetHeader">
-                                                <div className="tweetFace"><MdFace /></div>
+                                                <div className="mytweetFace"><MdFace /></div>
                                                 @<h4 className="tweetName">{tweet.author}.</h4>
                                                 <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small> 
                                             </p>
-                                            <p className="tweetContent">{tweet.content}</p>
-
-                                        {/* <Linkify className= "linkify" options={linkifyOptions}> coucou les #loups </Linkify>; */}
-                                        {/* <Linkify >{tweet.content}</Linkify>; */}
-                                    
+                                            <p className="mytweetContent">{tweet.content}</p>
                                         </div>                           
                                     
                             )
@@ -144,13 +127,16 @@ export default class HomeTweetList extends Component {
                                     <div className="tweet">
                                         
                                         <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
-                                            [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}] @{tweet.author}: 
-                                            <p>{tweet.content}</p>
-                                            {/* <Linkify options={linkifyOptions}>{tweet.content}</Linkify>;  */}
-                                            {/* <Linkify >{tweet.content}</Linkify>; */}
+                                            <p className="flex tweetHeader">
+                                                <div className="tweetFace"><MdFace /></div>
+                                                @<h4 className="tweetName">{tweet.author}.</h4>
+                                                <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small>
+                                            </p>
+                                            <p className="tweetContent">{tweet.content}</p>
+                                           
                                         </div>                           
-                                        <button onClick={() => this.handleDelete(tweet._id)}>
-                                            X
+                                        <button className="deleteTweet" onClick={() => this.handleDelete(tweet._id)}>
+                                            delete post
                                         </button>
                                     </div>
                             )} else {
@@ -175,7 +161,7 @@ export default class HomeTweetList extends Component {
 
                         
                     }
-                    </Linkify>;
+                    </Linkify>
                
             </div>
         )

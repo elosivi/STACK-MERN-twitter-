@@ -97,19 +97,39 @@ h1 {
 
 /* ================================= T W E E T ============================== */
 .tweet {
-  background-color: #CDC1FF;
+  background-color: #A59AD5;
   width: 60%;
   border-radius: 10px;
   padding: 10px;
   margin-bottom:10px;
 }
 
+.mytweet{ 
+  background-color: #CDC1FF;
+  width: 60%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom:10px;
+
+}
 .tweetFace {
   font-size: 2rem;
 }
 
+.mytweetFace{
+  font-size: 2rem;
+  color:#7371FC;
+  
+}
+
 p.tweetContent {
   background-color: #EBE1FF;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+p.mytweetContent{
+  background-color: #F5EFFF;
   padding: 15px;
   border-radius: 10px;
 }
