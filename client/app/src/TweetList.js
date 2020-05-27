@@ -11,6 +11,7 @@ export default class TweetList extends Component {
             showTweetUpdateForm: false,
             tweetIdToUpdate: null,
             tweetValue: "",
+            tweetOldValue: "",
             tweetLength: 0
         }
 
@@ -44,6 +45,12 @@ export default class TweetList extends Component {
 
     handleTweetSubmit(event) {
         event.preventDefault();
+        if (this.state.tweetOldValue === this.state.tweetValue) {
+            this.setState({
+                tweetIdToUpdate: null
+            })
+            return;
+        }
         this.props.onUpdate(this.state.tweetIdToUpdate, this.state.tweetValue);
         this.setState({
             tweetIdToUpdate: null
@@ -59,7 +66,8 @@ export default class TweetList extends Component {
         // }
         this.setState({
             tweetIdToUpdate: id,
-            tweetValue: currentValue
+            tweetValue: currentValue,
+            tweetOldValue: currentValue
         })
     }
 
