@@ -13,7 +13,7 @@ import { Redirect } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Row, Col } from 'react-bootstrap';
-// import { BsHouseDoorFill } from "react-icons/bs";
+
 import { BsHouseDoorFill,BsPeopleFill, BsPersonBoundingBox   } from 'react-icons/bs';
 import {IoMdLogOut } from 'react-icons/io';
 import { FaBlog } from 'react-icons/fa';

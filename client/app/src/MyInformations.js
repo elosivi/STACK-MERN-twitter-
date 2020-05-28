@@ -31,8 +31,6 @@ export default class MyInformations extends Component {
 
     handleClick(event) {
         this.setState({
-            // login: this.props.user.login,
-            // email: this.props.user.email,
             askForUpdate: true
         })
     }
@@ -58,11 +56,6 @@ export default class MyInformations extends Component {
         if (this.state.login || this.state.email || this.state.password) {
             this.props.onUpdate(updateUserInformations);
         }
-
-        console.log("++++++++++ updateUserInformations", updateUserInformations);
-
-        
-        
     }
 
     handleCancel() {        
@@ -76,16 +69,14 @@ export default class MyInformations extends Component {
         console.log("askForUpdate", askForUpdate);
         const user = this.props.user;
 
-        console.log("pppppppppppppppppppppppppppp", this.props.updateUserError);
-
         return (
             <div>
                 {askForUpdate 
                 ?
                 <div>
                     <h2>Update profile</h2>
-                    <Card style={{ width: '30rem' , margin:'auto'}}>
-                        <Card.Body>
+                    <Card className="center">
+                        <Card.Body className="lightPurple">
                             <Form onSubmit={this.handleSubmit}>
 
                                 <Form.Group controlId="formBasicLogin"> 
@@ -123,12 +114,16 @@ export default class MyInformations extends Component {
                                     onChange={this.handleChange}
                                 />
                                 </Form.Group>
-
-                                <Button variant="primary" type="submit">Update profile</Button>
+                                <div className="RightAlign">
+                                    <Button variant="primary" type="submit">Update profile</Button>
+                                </div>
                                 
                             </Form>
                             <p class="error">{this.props.updateUserError}</p>
-                            <Button variant="danger" onClick={this.handleCancel}>Cancel</Button>
+                            <div className="RightAlign">
+                                <Button variant="danger" onClick={this.handleCancel}>Cancel</Button>
+                            </div>
+                        
                         </Card.Body>
                     </Card>
                 </div>
@@ -140,7 +135,9 @@ export default class MyInformations extends Component {
                     <div>
                         Email : {user.email}
                     </div>
-                    <button onClick={() => this.handleClick()}>UPDATE INFO</button>
+                    <div className="RightAlign update">
+                        <button onClick={() => this.handleClick()}>UPDATE INFO</button>
+                    </div>
                 </div>                
                 }
 
