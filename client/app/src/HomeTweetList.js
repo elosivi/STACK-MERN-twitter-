@@ -88,16 +88,13 @@ export default class HomeTweetList extends Component {
             formatHref: function (href, type) {
                 if (type === 'hashtag') {
                     href = 'http://localhost:3000/hashtag/' + href.substring(1);
-                    console.log("!!!!TEST!!!!")
                 }
-                console.log("!!!!TEST!!!!"+href)
                 return href;
             }
         }
 
         return (
             <div className="mainContainer">
-               
                     { 
                         this.props.tweets.map(tweet => {
                             if (tweet.author !== this.state.login) {
@@ -159,16 +156,11 @@ export default class HomeTweetList extends Component {
                                     </Linkify>
                                 )
                             }
-                        })
-
-                        
+                        })  
                     }
-                    {/* </Linkify> */}
-               
             </div>
         )
     }
-
 }
 
 

@@ -87,7 +87,7 @@ export default class TweetList extends Component {
         }
 
         return (
-            <ul>
+            <div>
                 { 
                     this.props.tweets.map(tweet => {
                         if (tweet._id !== this.state.tweetIdToUpdate) {
@@ -134,7 +134,7 @@ export default class TweetList extends Component {
                         }
                     })
                 }
-            </ul>
+            </div>
         )
     }
 

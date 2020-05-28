@@ -327,28 +327,28 @@ button.log:hover{
   margin: 0 auto;
 }
 
+.marginCol{
+  margin:20px 10px;
+}
+
 .Users {
   background-color: #7371FC;
   border-radius: 10px;
-  margin: 20px;
   color: white;
 }
 
 .Leaders {
   background-color: #A594F9;
   border-radius: 10px;
-  margin: 20px;
 }
 
 .Followers{
   background-color: #CDC1FF;
   border-radius: 10px;
-  margin: 20px;
-
 }
 
 .UserPage{
-  margin-left:-85px;
+  margin-left:5px;
 }
 
 h2.soulignement {
@@ -385,7 +385,8 @@ button.white:hover{
   color:black;
 }
 
-/* ================================= U S E R S  ============================== */
+
+/* ================================= H A S H T A G   ============================== */
 
 span.hashtagTitle{
   font-weight: bold;

@@ -49,12 +49,12 @@ export default class MyLeaders extends Component {
                 if(leader.blocked === true){
                 return(
                 <div className="userProfil">
-                    <div>
+                    <div className="flex ">
                         <p className="at">@</p>
                         <h4 key={leader.leaderId}>{leader.leaderLogin}</h4>
                         <p className="at"> (Blocked me)</p>
                         <div className="usersButton RightAlign">
-                            <button onClick={() => this.stopFollow(leader.leaderId)}className="Follow white">.....<RiUserUnfollowLine />Stop follow</button>
+                            <button onClick={() => this.stopFollow(leader.leaderId)}className="Follow white">.....<RiUserUnfollowLine /></button>
                         </div>
                     </div>
                 </div>
