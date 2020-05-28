@@ -46,7 +46,8 @@ router.get('/tweets/:tweetId?', function (req, res) {
             }
             console.log("ici query", query);
 
-            Tweet.find(query, function(err, docs) {
+            // Tweet.find(query, function(err, docs) {
+            Tweet.find(query).sort({creationDate: 'desc'}).exec(function(err, docs) {
                 if (err) {
                     const message = "Internal Server Error 2";
                     return res.status(500).json({ message });
@@ -127,7 +128,8 @@ router.get('/hashtag/:hashtag', async function (req, res) {
 
         console.log("bigQuery", bigQuery);
 
-        Tweet.find(bigQuery, function(err, docs) {
+        // Tweet.find(bigQuery, function(err, docs) {
+        Tweet.find(bigQuery).sort({creationDate: 'desc'}).exec(function(err, docs) {
             if (err) {
                 const message = "Internal Server Error 2";
                 return res.status(500).json({ message });
@@ -146,7 +148,7 @@ router.get('/mytweets', async function (req, res) {
         return res.status(403).json({ message });
     }
     // ==================== Find all post for current user ====================
-    Tweet.find({ author: req.session.login }, function (err, docs) {
+    Tweet.find({ author: req.session.login }).sort({creationDate: 'desc'}).exec(function (err, docs) {
         if (err) {
             const message = "Internal Server Error tweets/:login";
             return res.status(500).json({ message });
@@ -283,44 +285,6 @@ router.post('/tweets', [
     }
 })
 
-// ======================================== UPDATE TWEET ========================================
-
-router.put('/tweets/:tweetId', [
-    check('content').notEmpty().withMessage('Tweet content must not be empty'),
-    check('content').isLength({ max: 140 }).withMessage('Tweet length must be less than 140 characters'),
-    ], function (req, res) {
-    // ==================== Check authorization ====================
-    if (!req.session.userid) {
-        const message = "Not logged in"
-        return res.status(403).json({ message });
-    }
-    // ============================================================
-
-    // Express validator errors
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        const infos = errors.errors;
-        const message = infos[0].msg;
-        return res.status(400).json({ message });
-    }
-
-    // Updated data
-    const updatedTweet = {}
-
-    if (req.body.content) {
-        updatedTweet.content = req.body.content;
-    }
-
-    Tweet.findOneAndUpdate({_id: req.params.tweetId}, updatedTweet, function (err, docs) {
-        if (err) {
-            const message = "Internal Server Error";
-            return res.status(500).json({ message });
-        }
-        return res.status(200).json(docs);
-    });
-})
-
 // ======================================== DELETE TWEET ========================================
 
 router.delete('/tweets/:tweetId', async function (req, res) {
@@ -368,6 +332,219 @@ router.delete('/tweets/:tweetId', async function (req, res) {
         return res.status(200).json(docs);
     });
 })
+
+
+
+
+
+
+// ======================================== UPDATE TWEET ========================================
+
+router.put('/tweets/:tweetId', [
+    check('content').notEmpty().withMessage('Tweet content must not be empty'),
+    check('content').isLength({ max: 140 }).withMessage('Tweet length must be less than 140 characters'),
+    ], async function (req, res) {
+    // ==================== Check authorization ====================
+    if (!req.session.userid) {
+        const message = "Not logged in"
+        return res.status(403).json({ message });
+    }
+    // ============================================================
+
+    // Express validator errors
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const infos = errors.errors;
+        const message = infos[0].msg;
+        return res.status(400).json({ message });
+    }
+
+    // ==================== BEFORE HANDLING HASHTAGS UPDATE ====================
+    // Updated data
+    // const updatedTweet = {}
+
+    // if (req.body.content) {
+    //     updatedTweet.content = req.body.content;
+    // }
+
+    // Tweet.findOneAndUpdate({_id: req.params.tweetId}, updatedTweet, function (err, docs) {
+    //     if (err) {
+    //         const message = "Internal Server Error";
+    //         return res.status(500).json({ message });
+    //     }
+    //     return res.status(200).json(docs);
+    // });
+
+
+    // ==================== UPDATE hashtag(s) and tweet content ====================
+
+    let syntheticError = "";
+    
+    // // , function (err, docs) {
+    // //     if (err) {
+    // //         const message = "Internal Server Error";
+    // //         return res.status(500).json({ message });
+    // //     }
+    // //     return res.status(200).json(docs);
+    // // });
+
+    const hashtagIdList = await getHashtagIdList(req.params.tweetId);
+
+    const oldHashtags = await getHashtagNameList(hashtagIdList);
+    console.log("old hashtags :", oldHashtags);
+
+    const newHashtags = findHashtag(req.body.content);
+    console.log("new hashtags :", newHashtags);
+
+    // ========== Compare old and new hashtags ==========
+    // ========== Get hashtags to unlink ==========
+    let hashtagsToUnlink = [];
+    if (oldHashtags) {
+        hashtagsToUnlink = oldHashtags.filter(x => !newHashtags.includes(x));
+    }
+    console.log("hashtagsToUnlink :", hashtagsToUnlink);
+
+    const unlinkList = await getIdUnlinkList(hashtagsToUnlink);
+    console.log("unlinkList", unlinkList);
+
+    await removeHashtagLinks(unlinkList, req.params.tweetId);
+    
+    // ========== Get hashtags to add and link ==========
+    let hashtagsToAddAndLink = [];
+    if (newHashtags) {
+        hashtagsToAddAndLink = newHashtags.filter(x => !oldHashtags.includes(x));
+    }
+    console.log("hashtagsToAddAndLink", hashtagsToAddAndLink);
+
+    const hashtagsToLink = await addHashtagsToDB(hashtagsToAddAndLink);
+    console.log("hashtagsToLink :", hashtagsToLink);
+
+    // ========== Update tweet and get ID ==========
+    const updatedTweet = {}
+
+    if (req.body.content) {
+        updatedTweet.content = req.body.content;
+    }
+    
+    const tweetUpdated = await Tweet.findOneAndUpdate({_id: req.params.tweetId}, updatedTweet);
+    
+    console.log("tweetUpdated", tweetUpdated);
+
+    // ========== Save new hashtag relations ==========
+    await linkTweetToHashtag(hashtagsToLink, req.params.tweetId);
+
+    return res.status(200).json("Tweet updated");
+    
+})
+
+// Update a tweet with its hashtag(s)
+
+async function getHashtagIdList(tweetId) {
+    let hashtagIds = [];
+    await HashtagRelation.find( {tweetId: tweetId} )
+        .then((hashtagRelationList) => {
+            if(hashtagRelationList[0]) {
+                for (const relation of hashtagRelationList) {
+                    hashtagIds.push(relation.hashtagId);
+                }
+                return hashtagIds;
+            }
+        })
+        .catch((error) => {
+            console.log("[ERROR] getHashtagList");
+        })
+    return hashtagIds;
+}
+
+async function getHashtagNameList(hashtagIds) {
+    let hashtagNames = [];
+    for (const hashtagId of hashtagIds) {
+        const hashtagName = await Hashtag.find( {_id: hashtagId} )
+            .then((hashtagObject) => {
+                return hashtagObject[0].content;
+            })
+            .catch((error) => {
+                console.log("[ERROR] getHashtagNameList");
+            })
+        hashtagNames.push(hashtagName);
+    }
+    return hashtagNames;
+}
+
+async function removeHashtagLinks(hashtagsToUnlink, tweetId) {
+    console.log("1. ====", hashtagsToUnlink)
+    for (const hashtagId of hashtagsToUnlink) {
+        console.log("2. ====", hashtagId);     
+
+        await HashtagRelation.deleteOne({ $and: [{hashtagId: hashtagId}, {tweetId: tweetId}]}, function(err, res) {
+            if (err) {
+                console.log("Error when destroying relations between hashtags and tweet")
+            }
+            console.log("Relations between hashtags and tweet destroyed")
+        })
+    }
+}
+
+async function getIdUnlinkList(hashtagsToUnlink) {
+    let idUnlinkList = [];
+    for (const hashtagToUnlink of hashtagsToUnlink) {
+        const hashtagId = await Hashtag.find( {content: hashtagToUnlink} )
+            .then((hashtagObject) => {
+                return hashtagObject[0]._id;
+            })
+            .catch((error) => {
+                console.log("[ERROR] getIdUnlinkList");
+            })
+            idUnlinkList.push(hashtagId);
+    }
+    return idUnlinkList;
+}
+
+async function addHashtagsToDB(hashtagList) {
+    let hashtagsId = [];
+    for (const hashtag of hashtagList) {
+        const hashtagInDB = await Hashtag.find({content: hashtag});
+
+        if (hashtagInDB[0]) {
+            console.log("1. hashtagInDB[0] : ", hashtagInDB[0])
+            hashtagsId.push(hashtagInDB[0]._id);
+        } else {
+            console.log("2. No hashtagInDB[0]")
+            //========== Save hashtag in DB ==========
+            const newHashtag = new Hashtag({
+                content: hashtag
+            });
+            const newHashtagInDB = await newHashtag.save()
+                .then((hashtagAdded) => {
+                    console.log("hashtag added"); 
+                    hashtagsId.push(hashtagAdded._id);
+                })
+                .catch(error => {
+                    console.log("error");
+                })
+        }
+    }
+    return hashtagsId;
+}
+
+async function linkTweetToHashtag(hashtagsTolink, tweetId) {
+    for (const hashtagId of hashtagsTolink) {
+        const newHashtagRelation = new HashtagRelation({
+            hashtagId: hashtagId,
+            tweetId: tweetId,
+        });
+        await newHashtagRelation.save()
+            .then((response) => {
+                console.log("response from hashtag relation", response);
+            })
+            .catch((error) => {
+                error = "error in hashtag relation";
+                console.log("error in hashtag relation", error);
+            })
+    }
+
+}
 
 function findHashtag(content) {
     const regEx = /#[À-úa-z0-9]*/g;
