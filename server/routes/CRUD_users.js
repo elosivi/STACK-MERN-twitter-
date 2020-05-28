@@ -108,8 +108,9 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
     //if admin
     // if (req.session.admin == (req.session.admin=="true")){
     const userid=req.params.userid;
-        if (!userid){ 
-            User.find(function (err, users) {  
+        if (!userid){
+            // User.find(function (err, users) {  
+            User.find().sort({login: 'asc'}).exec(function (err, users) { 
                 if (err) {
                     const message = "Internal Server Error"
                     console.log("==> ERROR ! (mess from server) Users: "+message )
