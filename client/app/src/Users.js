@@ -49,9 +49,11 @@ export default class Users extends Component {
                     if(user._id !== localStorage.getItem('userid')){
                         return(
                         <div className="userProfil">
-                            <div className="flex ">
-                                <p className="at">@</p>
-                                <h4 key={user._id}>{user.login}</h4>
+                            <div className="flexFullScreen">
+                                <div className="flex">
+                                    <p className="at">@</p>
+                                    <h4 key={user._id}>{user.login}</h4>
+                                </div>
                                 <div className="usersButton RightAlign">
                                     <button onClick={() => this.handleAdd(user._id)} className="Follow" title="follow">.....<RiUserFollowLine/></button>
                                 </div>

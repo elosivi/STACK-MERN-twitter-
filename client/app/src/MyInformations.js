@@ -130,10 +130,10 @@ export default class MyInformations extends Component {
                 :
                 <div>
                     <div>
-                        Login : {user.login}
+                        <p>Login : {user.login} </p>
                     </div>
                     <div>
-                        Email : {user.email}
+                       <p>Email : {user.email}</p>
                     </div>
                     <div className="RightAlign update">
                         <button onClick={() => this.handleClick()}>UPDATE INFO</button>

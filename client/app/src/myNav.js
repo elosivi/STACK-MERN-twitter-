@@ -96,10 +96,6 @@ export default class myNav extends React.Component {
             <Router>
               
                 <div>
-                 
-                  <Row>
-                    <Col xs={2}> 
-                        
                         <Navbar bg="dark" variant="dark" className="flex-column">
                             <div className="topNav flex-column">
                                 <Navbar.Brand className="Logo" href="/home" title="The best network never created !"><FaBlog /></Navbar.Brand>
@@ -140,12 +136,11 @@ export default class myNav extends React.Component {
                                 
                             </Nav>
                         </Navbar>
-                    </Col>
-
+                      
+                        </div>
                   
                         <Switch>
-                            
-                            <Col xs={8}> 
+                       <div className="CentralContainer center">
                                 <Route path="/login" /*onSuccess={this.updatePage}*/>
                                 
                                         <Login onLogin={this.handleOnLogin} />
@@ -185,16 +180,17 @@ export default class myNav extends React.Component {
                             
                                         {loggedIn ? <Hashtag /> : redirToLogin}
                                     </Route>
-{/* 
+
+                                    {/* 
                                     <Route path={"/"}>
 
                                         {loggedIn ? <Home /> : redirToLogin}
                                     </Route> */}
-                            </Col>
+                            </div>
                         </Switch>
-                    </Row>
+                   
                  
-                </div>
+                
               
             </Router>
         );

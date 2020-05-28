@@ -103,10 +103,12 @@ export default class HomeTweetList extends Component {
                                 return (
                                     <Linkify options={linkifyOptions}>
                                         <div className="tweet">
-                                            <p className="flex tweetHeader">
-                                                <div className="tweetFace"><MdFace /></div>
-                                                <p className="at">@</p>
-                                                <h4 className="tweetName">{tweet.author}.</h4>
+                                            <p className="flexFullScreen tweetHeader">
+                                                <div className="flex">
+                                                    <div className="tweetFace"><MdFace /></div>
+                                                    <p className="at">@</p>
+                                                    <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                </div>
                                                 <small className="tweetDate"> <span>posted the:</span> {Moment(tweet.creationDate).format('LLLL')}</small> 
                                             </p>
                                             <p className="mytweetContent">{tweet.content}</p>
@@ -120,10 +122,12 @@ export default class HomeTweetList extends Component {
                                         <div className="mytweet">
                                             
                                             <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
-                                                <p className="flex tweetHeader">
-                                                    <div className="tweetFace"><MdFace /></div>
-                                                    <p className="at">@</p>
-                                                    <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                <p className="flexFullScreen tweetHeader">
+                                                    <div className="flex">
+                                                        <div className="tweetFace"><MdFace /></div>
+                                                        <p className="at">@</p>
+                                                        <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                    </div>
                                                     <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
                                                 </p>
                                                 <p className="tweetContent">{tweet.content}</p>

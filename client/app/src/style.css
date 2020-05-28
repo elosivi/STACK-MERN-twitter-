@@ -7,10 +7,27 @@ body {
   box-sizing: content-box;
 }
 
+.CentralContainer {
+  width: 65%;
+}
+
+.mainContainer {
+  padding-top: 50px;
+  width:70%;
+  
+}
+
 .container{
   width:80%;
   margin:auto;
 }
+
+.fullContainer {
+  padding-top: 50px;
+  width: 90%;
+}
+
+
 
 .center{
   margin-left: auto;
@@ -21,7 +38,7 @@ body {
   text-align: right;
 }
 
-.flex{
+.flex, .flexFullScreen{
   display:flex
 }
 
@@ -42,19 +59,6 @@ h3{
 .error{
   color:red;
 }
-
-.mainContainer {
-  padding-top: 50px;
-  width:70%;
-  
-}
-
-.fullContainer {
-  padding-top: 50px;
-  width: 90%;
-}
-
-
 
 .separation{
   border-bottom: 1px solid rgba(73,82,90,0.3);
@@ -81,6 +85,7 @@ nav.flex-column.navbar.navbar-expand.navbar-dark.bg-dark {
     margin-right: 100px;
     text-align: center;
     position: fixed;
+    width: 15%;
 }
 
 a.Logo.navbar-brand {
@@ -125,7 +130,7 @@ a.nav-link {
   position: fixed;
   right: 0;
   height: 100vh;
-  width: 250px;
+  width: 15%;
 }
 h1{
   margin-top:30px;
@@ -141,7 +146,7 @@ h1{
   text-align: center;
   position:fixed;
   right: 6%;
-  top: 300px;
+  top: 90%;
 }
 
 .scroll-to-top svg {
@@ -317,7 +322,7 @@ button.log:hover{
 .MyProfileTweetContainer {
   padding-top: 50px;
   margin: 0 auto;
-  margin-left: -100px;
+  margin-left: -5%;
 }
 
 /* ================================= U S E R S  ============================== */
@@ -394,4 +399,63 @@ span.hashtagTitle{
   border-bottom:1px solid #7371FC;
   font-size:3.2rem;
   margin:0px 15px
+}
+
+/* =============================================================================================================== 
+R E S P O N S I V E             R E S P O N S I V E              R E S P O N S I V E             R E S P O N S I V E
+============================================================================================================ */
+@media screen and (max-width: 1200px) {
+
+  a.Logo.navbar-brand {
+    size: 200%;
+    font-size: 3rem;
+  }
+
+  .navbar-dark .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .h1, h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  .MyProfileTweetContainer {
+    margin-left: -20px;
+  }
+
+  .flexFullScreen {
+    display:block;
+  }
+  
+
+}
+
+@media screen and (max-width: 800px) {
+  h4 {
+    font-size: 1rem;
+  }
+  p {
+    font-size: 0.6rem;
+  }
+ 
+  .navbar-dark .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .scroll-to-top {
+    right: 2%;
+    top: 90%;
+}
 }
