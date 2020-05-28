@@ -384,3 +384,13 @@ div.userProfil{
 button.white:hover{
   color:black;
 }
+
+/* ================================= U S E R S  ============================== */
+
+span.hashtagTitle{
+  font-weight: bold;
+  color: #7371FC;
+  border-bottom:1px solid #7371FC;
+  font-size:3.2rem;
+  margin:0px 15px
+}
