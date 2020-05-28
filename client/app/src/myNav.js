@@ -112,15 +112,32 @@ export default class myNav extends React.Component {
                                     }
                             </div>
                             <Nav className="mr-auto" className="flex-column">
-                                <Nav.Link href="/home" title="home"><BsHouseDoorFill /></Nav.Link>
+                                {
+                                    loggedIn ?
+                                        <Nav.Link href="/home" title="home"><BsHouseDoorFill /></Nav.Link> :
+                                        null
+                                }
                                 {
                                     loggedIn ?
                                         <Nav.Link href="/logout" title="logout"><IoMdLogOut/></Nav.Link> :
                                         <Nav.Link href="/login">Login</Nav.Link>
                                 }
-                                <Nav.Link href="/registration">Register</Nav.Link>
-                                <Nav.Link href="/myprofile" title="my profile"><BsPersonBoundingBox/></Nav.Link>
-                                <Nav.Link href="/users" title ="my friends"> <BsPeopleFill/></Nav.Link>
+                                {
+                                    loggedIn ?
+                                        null :
+                                        <Nav.Link href="/registration">Register</Nav.Link>
+                                }
+                                {
+                                    loggedIn ?
+                                        <Nav.Link href="/myprofile" title="my profile"><BsPersonBoundingBox/></Nav.Link> :
+                                        null
+                                }                                
+                                {
+                                    loggedIn ?
+                                        <Nav.Link href="/users" title ="my friends"> <BsPeopleFill/></Nav.Link> :
+                                        null
+                                }                                  
+                                
                             </Nav>
                         </Navbar>
                     </Col>
