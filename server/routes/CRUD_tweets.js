@@ -46,7 +46,8 @@ router.get('/tweets/:tweetId?', function (req, res) {
             }
             console.log("ici query", query);
 
-            Tweet.find(query, function(err, docs) {
+            // Tweet.find(query, function(err, docs) {
+            Tweet.find(query).sort({creationDate: 'desc'}).exec(function(err, docs) {
                 if (err) {
                     const message = "Internal Server Error 2";
                     return res.status(500).json({ message });
@@ -127,7 +128,8 @@ router.get('/hashtag/:hashtag', async function (req, res) {
 
         console.log("bigQuery", bigQuery);
 
-        Tweet.find(bigQuery, function(err, docs) {
+        // Tweet.find(bigQuery, function(err, docs) {
+        Tweet.find(bigQuery).sort({creationDate: 'desc'}).exec(function(err, docs) {
             if (err) {
                 const message = "Internal Server Error 2";
                 return res.status(500).json({ message });
@@ -146,7 +148,7 @@ router.get('/mytweets', async function (req, res) {
         return res.status(403).json({ message });
     }
     // ==================== Find all post for current user ====================
-    Tweet.find({ author: req.session.login }, function (err, docs) {
+    Tweet.find({ author: req.session.login }).sort({creationDate: 'desc'}).exec(function (err, docs) {
         if (err) {
             const message = "Internal Server Error tweets/:login";
             return res.status(500).json({ message });
