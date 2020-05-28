@@ -35,8 +35,8 @@ router.get('/myfollowers', async function (req, res) {
         return res.status(403).json({ message });
     }
 
-
-    Followers.find({leaderId: req.session.userid}, function(err, followers) {
+    // Followers.find({leaderId: req.session.userid}, function(err, followers) {
+    Followers.find({leaderId: req.session.userid}).sort({followerLogin: 'asc'}).exec(function(err, followers) {
         if (err) {
             const message = "Internal Server Error";
             console.log(" ==> ERROR !(message from server) Followers: you try to find all your followers but we have an: "+ message+ " more info: "+err)
@@ -55,7 +55,8 @@ router.get('/myleaders', async function (req, res) {
         return res.status(403).json({ message });
     }
 
-    Followers.find({followerId: req.session.userid}, function(err, follows) {
+    // Followers.find({followerId: req.session.userid}, function(err, follows) {
+    Followers.find({followerId: req.session.userid}).sort({leaderLogin: 'asc'}).exec(function(err, follows) {
         if (err) {
             const message = "Internal Server Error";
             console.log("==> ERROR !(message from server) Followers: you try to find all your leaders but we have an: "+ message+ " more info: "+err)
