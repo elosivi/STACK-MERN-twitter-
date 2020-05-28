@@ -49,7 +49,7 @@ export default class TweetForm extends Component {
         const placeholder = `tweet content max ${TWEET_MAX_LENGTH} characters`;
 
         return (
-            <div className="fullContainer separation">
+            <div className="fullContainer separation center">
                 <h2>Post new tweet</h2>
                 <Card className="tweetForm">
                 <Card.Body className="bigShadow lightPurple">

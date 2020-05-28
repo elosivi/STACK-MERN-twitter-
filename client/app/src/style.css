@@ -13,14 +13,17 @@ body {
 }
 
 .center{
-  margin:auto!important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.RightAlign{
+  text-align: right;
 }
 
 .flex{
   display:flex
 }
-
-
 
 h2{
   text-align: center;
@@ -43,16 +46,18 @@ h3{
 .mainContainer {
   padding-top: 50px;
   width:70%;
+  
 }
 
 .fullContainer {
   padding-top: 50px;
   width: 90%;
-  margin: auto;
 }
 
+
+
 .separation{
-  border-bottom: 2px solid rgba(73,82,90,0.5);
+  border-bottom: 1px solid rgba(73,82,90,0.3);
   padding-bottom: 50px;
 }
 
@@ -166,7 +171,7 @@ button.buttonTop:hover{
 
 .tweet {
   background-color: #A59AD5;
-  /* width: 80%; */
+  width: 80%;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
@@ -272,10 +277,110 @@ small.tweetDate {
 }
 
 
-/* ================================= L O G I N ============================== */
+/* ================================= L O G I N    ---- R E G I S T E R============================== */
 .login{
   margin:auto;
   width:80%;
 }
 
+button.log {
+  width: 100%;
+  margin:auto;
+  background-color: #343A40;
+  border: 0px solid white;
+}
 
+button.log:hover{
+  width: 100%;
+  background-color: white;
+  border: 0px solid #343A40;
+  color:#343A40;
+}
+/* ================================= M Y      P R O F I L E ============================== */
+.myProfile {
+  margin-top: 50px;
+  /* border: 1px solid #A594F9; */
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 3rem;
+  font-size: 1.2rem;
+}
+
+.update button {
+  background-color: #CDC1FF;
+  border: 0px;
+  border-radius: 10px;
+  padding: 0 30px;
+  font-size: 1rem;
+}
+
+.MyProfileTweetContainer {
+  padding-top: 50px;
+  margin: 0 auto;
+  margin-left: -100px;
+}
+
+/* ================================= U S E R S  ============================== */
+
+.UsersCol {
+  padding-top: 50px;
+  margin: 0 auto;
+}
+
+.Users {
+  background-color: #7371FC;
+  border-radius: 10px;
+  margin: 20px;
+  color: white;
+}
+
+.Leaders {
+  background-color: #A594F9;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.Followers{
+  background-color: #CDC1FF;
+  border-radius: 10px;
+  margin: 20px;
+
+}
+
+.UserPage{
+  margin-left:-85px;
+}
+
+h2.soulignement {
+  border-bottom: 1px solid;
+  padding-bottom: 10px;
+}
+
+button.Follow {
+  background-color: inherit;
+  border: 0px;
+  margin-top: 15px;
+  text-align: right;
+  margin-left: 5px;
+}
+
+button.Follow:hover{
+  color:white;
+}
+
+.Follow svg {
+  margin-right: 5px;
+  font-size:1.2rem;
+}
+
+div.userProfil{ 
+  border-bottom: 0.5px solid rgba(240,240,240,0.3);
+}
+
+.white{
+  color:white;
+}
+
+button.white:hover{
+  color:black;
+}

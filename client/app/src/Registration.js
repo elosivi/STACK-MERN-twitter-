@@ -117,7 +117,7 @@ export default class Registration extends Component {
                             />
                             </Form.Group>
 
-                            <Button variant="primary"  type="submit">Register</Button>
+                            <Button variant="primary"  type="submit" className="log">Register</Button>
                         </Form>
                         <p class="error">{this.state.registrationErrors}</p>
                     </Card.Body>
