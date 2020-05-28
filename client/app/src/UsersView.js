@@ -76,9 +76,9 @@ export default class UsersView extends Component {
         return (
             
                 <Row className="UserPage">
-                    <Col className="UsersCol Users"><Users users={this.state.users} getLeaders={this.getLeaders}/></Col>
-                    <Col className="UsersCol Leaders"><MyLeaders leaders={this.state.leaders} getLeaders={this.getLeaders}/></Col>
-                    <Col className="UsersCol Followers"><MyFollowers getLeaders={this.getLeaders}/></Col>
+                    <Col className="UsersCol Users marginCol"><Users users={this.state.users} getLeaders={this.getLeaders}/></Col>
+                    <Col className="UsersCol Leaders marginCol"><MyLeaders leaders={this.state.leaders} getLeaders={this.getLeaders}/></Col>
+                    <Col className="UsersCol Followers marginCol"><MyFollowers getLeaders={this.getLeaders}/></Col>
                 </Row>
           
         )
