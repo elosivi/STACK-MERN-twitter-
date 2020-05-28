@@ -31,21 +31,31 @@ export default class MyInformations extends Component {
 
     handleClick(event) {
         this.setState({
-            // login: this.props.user.login,
-            // email: this.props.user.email,
             askForUpdate: true
         })
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        const updateUserInformations = {
-            login: this.state.login,
-            email: this.state.email,
-            password: this.state.password,
-            confirm_password: this.state.confirm_password,
+
+        const updateUserInformations = {};
+
+        if (this.state.login) {
+            updateUserInformations.login = this.state.login;
         }
-        this.props.onUpdate(updateUserInformations);
+        if (this.state.email) {
+            updateUserInformations.email = this.state.email;
+        }
+        if (this.state.password) {
+            updateUserInformations.password = this.state.password;
+        }
+        if (this.state.confirm_password) {
+            updateUserInformations.confirm_password = this.state.confirm_password;
+        }
+
+        if (this.state.login || this.state.email || this.state.password) {
+            this.props.onUpdate(updateUserInformations);
+        }
     }
 
     handleCancel() {        
@@ -59,16 +69,14 @@ export default class MyInformations extends Component {
         console.log("askForUpdate", askForUpdate);
         const user = this.props.user;
 
-        console.log("pppppppppppppppppppppppppppp", this.props.updateUserError);
-
         return (
             <div>
                 {askForUpdate 
                 ?
                 <div>
                     <h2>Update profile</h2>
-                    <Card style={{ width: '30rem' , margin:'auto'}}>
-                        <Card.Body>
+                    <Card className="center">
+                        <Card.Body className="lightPurple">
                             <Form onSubmit={this.handleSubmit}>
 
                                 <Form.Group controlId="formBasicLogin"> 
@@ -106,24 +114,30 @@ export default class MyInformations extends Component {
                                     onChange={this.handleChange}
                                 />
                                 </Form.Group>
-
-                                <Button variant="primary" type="submit">Update profile</Button>
+                                <div className="RightAlign">
+                                    <Button variant="primary" type="submit">Update profile</Button>
+                                </div>
                                 
                             </Form>
                             <p class="error">{this.props.updateUserError}</p>
-                            <Button variant="danger" onClick={this.handleCancel}>Cancel</Button>
+                            <div className="RightAlign">
+                                <Button variant="danger" onClick={this.handleCancel}>Cancel</Button>
+                            </div>
+                        
                         </Card.Body>
                     </Card>
                 </div>
                 :
                 <div>
                     <div>
-                        Login : {user.login}
+                        <p>Login : {user.login} </p>
                     </div>
                     <div>
-                        Email : {user.email}
+                       <p>Email : {user.email}</p>
                     </div>
-                    <button onClick={() => this.handleClick()}>UPDATE INFO</button>
+                    <div className="RightAlign update">
+                        <button onClick={() => this.handleClick()}>UPDATE INFO</button>
+                    </div>
                 </div>                
                 }
 

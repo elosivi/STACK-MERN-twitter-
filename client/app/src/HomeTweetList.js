@@ -2,26 +2,12 @@ import React, { Component } from 'react';
 import Moment from 'moment';
 
 import { MdFace } from 'react-icons/md';
+import {BsCircleFill} from 'react-icons/bs';
+import {RiChatDeleteLine} from 'react-icons/ri';
 
 import Linkify from 'linkifyjs/react';
 import * as linkify from 'linkifyjs';
 import hashtag from "linkifyjs/plugins/hashtag";
-
-
-
-const linkifyOptions = 
-            {
-                formatHref: function (href, type) {
-                    if (type === 'hashtag') {
-                        href = baseURL+'/hashtag/' + href.substring(1);
-                        console.log("--->TEST LINKIFY : "+ href)
-                    }
-                    console.log("--->TEST LINKIFY - output : "+ href)
-                    return href;
-                }
-            }
-
-// console.log("---->test hashtag:" +hashtag)
 
 
 const TWEET_MAX_LENGTH = 140;
@@ -43,6 +29,7 @@ export default class HomeTweetList extends Component {
             showTweetUpdateForm: false,
             tweetIdToUpdate: null,
             tweetValue: "",
+            tweetOldValue: "",
             tweetLength: 0,
             login: loginInformations.login,
         }
@@ -51,19 +38,6 @@ export default class HomeTweetList extends Component {
         this.handleChange = this.handleChange.bind(this);
 
     }
-
-// -------------------------------------------- HASHTAG MANAGEMENT -----------------------------------------//
-  
-    //    Hashtag(content) 
-    //     {
-    //         formatHref: function(href, type) {
-    //         if (type === 'hashtag') {
-    //             href = baseURL+'/hashtag/' + href.substring(1);
-    //         }
-    //         return href;
-    //         }
-    //     }
-    
 
 // ---------------------------------------------- TWEET MANAGEMENT -------------------------------//
     handleChange(event) {
@@ -81,6 +55,12 @@ export default class HomeTweetList extends Component {
 
     handleTweetSubmit(event) {
         event.preventDefault();
+        if (this.state.tweetOldValue === this.state.tweetValue) {
+            this.setState({
+                tweetIdToUpdate: null
+            })
+            return;
+        }
         this.props.onUpdate(this.state.tweetIdToUpdate, this.state.tweetValue);
         this.setState({
             tweetIdToUpdate: null
@@ -95,7 +75,8 @@ export default class HomeTweetList extends Component {
     handleClick(id, currentValue) {
         this.setState({
             tweetIdToUpdate: id,
-            tweetValue: currentValue
+            tweetValue: currentValue,
+            tweetOldValue: currentValue
         })
     }
 
@@ -107,80 +88,83 @@ export default class HomeTweetList extends Component {
             formatHref: function (href, type) {
                 if (type === 'hashtag') {
                     href = 'http://localhost:3000/hashtag/' + href.substring(1);
-                    console.log("!!!!TEST!!!!")
                 }
-                console.log("!!!!TEST!!!!"+href)
                 return href;
             }
         }
 
         return (
             <div className="mainContainer">
-               
-                    <Linkify options={linkifyOptions}>
                     { 
                         this.props.tweets.map(tweet => {
                             if (tweet.author !== this.state.login) {
                                 
                                 
                                 return (
-                                    
+                                    <Linkify options={linkifyOptions}>
                                         <div className="tweet">
-                                            <p className="flex tweetHeader">
-                                                <div className="tweetFace"><MdFace /></div>
-                                                @<h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}]</small> 
+                                            <p className="flexFullScreen tweetHeader">
+                                                <div className="flex">
+                                                    <div className="tweetFace"><MdFace /></div>
+                                                    <p className="at">@</p>
+                                                    <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                </div>
+                                                <small className="tweetDate"> <span>posted the:</span> {Moment(tweet.creationDate).format('LLLL')}</small> 
                                             </p>
-                                            <p className="tweetContent">{tweet.content}</p>
-
-                                        {/* <Linkify className= "linkify" options={linkifyOptions}> coucou les #loups </Linkify>; */}
-                                        {/* <Linkify >{tweet.content}</Linkify>; */}
-                                    
-                                        </div>                           
+                                            <p className="mytweetContent">{tweet.content}</p>
+                                        </div>
+                                    </Linkify>                     
                                     
                             )
                             } else if (tweet._id !== this.state.tweetIdToUpdate) {
                                 return (
-                                    <div className="tweet">
-                                        
-                                        <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
-                                            [{Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}] @{tweet.author}: 
-                                            <p>{tweet.content}</p>
-                                            {/* <Linkify options={linkifyOptions}>{tweet.content}</Linkify>;  */}
-                                            {/* <Linkify >{tweet.content}</Linkify>; */}
-                                        </div>                           
-                                        <button onClick={() => this.handleDelete(tweet._id)}>
-                                            X
-                                        </button>
-                                    </div>
+                                    <Linkify options={linkifyOptions}>
+                                        <div className="mytweet">
+                                            
+                                            <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
+                                                <p className="flexFullScreen tweetHeader">
+                                                    <div className="flex">
+                                                        <div className="tweetFace"><MdFace /></div>
+                                                        <p className="at">@</p>
+                                                        <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                    </div>
+                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
+                                                </p>
+                                                <p className="tweetContent">{tweet.content}</p>
+                                            
+                                            </div >      
+                                            <div className="deleteTweet">                      
+                                                <button onClick={() => this.handleDelete(tweet._id)} title="delete post">
+                                                    <RiChatDeleteLine />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </Linkify>
                             )} else {
                                 return (
-                                   <div>
-                                        @{tweet.author}:
-                                        <form className="form" onSubmit={this.handleTweetSubmit}>
-                                            <input 
-                                                type="text" 
-                                                name="tweetUpdate" 
-                                                value={this.state.tweetValue} 
-                                                placeHolder="Tweet update" 
-                                                onChange={this.handleChange} 
-                                            />
-                                            <button>Update</button>
-                                        </form>
-                                        {tweet._id}
-                                    </div>
+                                    <Linkify options={linkifyOptions}>
+                                        <div>
+                                            @{tweet.author}:
+                                            <form className="form" onSubmit={this.handleTweetSubmit}>
+                                                <input 
+                                                    type="text" 
+                                                    name="tweetUpdate" 
+                                                    value={this.state.tweetValue} 
+                                                    placeHolder="Tweet update" 
+                                                    onChange={this.handleChange} 
+                                                />
+                                                <button>Update</button>
+                                            </form>
+                                            {/* {tweet._id} */}
+                                        </div>
+                                    </Linkify>
                                 )
                             }
-                        })
-
-                        
+                        })  
                     }
-                    </Linkify>;
-               
             </div>
         )
     }
-
 }
 
 

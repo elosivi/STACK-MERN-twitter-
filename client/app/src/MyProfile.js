@@ -186,9 +186,8 @@ export default class MyProfile extends Component {
         return (
             <div>
                 <Row>
-                    <Col>
+                    <Col className="MyProfileTweetContainer">
                         <h2>My tweets</h2>
-
                         <TweetList 
                             tweets={this.state.tweets} 
                             onDelete={this.handleTweetDelete}
@@ -196,17 +195,15 @@ export default class MyProfile extends Component {
                         />
                     </Col>
 
-                    <Col>
-                        
-
-                        <div className="newTweet">
+                    <Col> 
+                        <div className="newTweet center">
                             <TweetForm
                                 onPost={this.handlePostTweets}
                                 tweetPostError={this.state.tweetPostError}
                             />
                         </div>
 
-                        <div className="myProfile">
+                        <div className="myProfile mainContainer center bigShadow ">
                             <h2>My profile</h2>
                             <MyInformations 
                                 user={this.state.userInformations}
@@ -216,9 +213,6 @@ export default class MyProfile extends Component {
                         </div>
                     </Col>
                 </Row>
-
-               
-                
             </div>
         );
     }

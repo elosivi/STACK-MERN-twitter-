@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
+import { RiUserFollowLine, RiUserUnfollowLine } from 'react-icons/ri';
+import { TiLockOpen, TiLockClosed } from 'react-icons/ti';
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
@@ -97,22 +99,36 @@ export default class MyFollowers extends Component {
                 if(follower.blocked === true){
                 
                     return(
-                    <div>
-                        <h4 key={follower.followerId}>{follower.followerLogin}</h4>
-                        <p>Blocked </p>
-                        <button onClick={() => this.handleAdd(follower.followerId)}>Follow</button>
-                        <button onClick={() => this.Block(follower.followerId)}>Block </button>
-                        <button onClick={() => this.Unblock(follower.followerId)}>Unblock </button>
-                    </div>)
+                    <div className="userProfil">
+                        <div className="flex">
+                            <p className="at">@</p>
+                            <h4 key={follower.followerId}>{follower.followerLogin}</h4>
+                            <p className="at"> (Blocked)</p>
+                        </div>
+                        <div className="usersButton RightAlign">
+                                <button onClick={() => this.handleAdd(follower.followerId)} className="Follow white" title="Follow">..... <RiUserFollowLine /></button>
+                                <button onClick={() => this.Block(follower.followerId)} className="Follow white" title="block"><TiLockClosed/></button>
+                                <button onClick={() => this.Unblock(follower.followerId)} className="Follow white" title="unblock"><TiLockOpen /> </button>
+                        </div>
+                       
+                    </div>
+                    )
                 }else{
                     return(
-                        <div>
-                            <h4 key={follower.followerId}>{follower.followerLogin}</h4>
-                            <button onClick={() => this.handleAdd(follower.followerId)}>Follow</button>
-                            <button onClick={() => this.Block(follower.followerId)}>Block </button>
-                            <button onClick={() => this.Unblock(follower.followerId)}>Unblock </button>
-                        </div>)
-
+                        <div className="userProfil">
+                            <div className="flex">
+                                <p className="at">@</p>
+                                <h4 key={follower.followerId}>{follower.followerLogin}</h4>
+                            </div>
+                            <div className="usersButton RightAlign">
+                                    <button onClick={() => this.handleAdd(follower.followerId)} className="Follow white" title="Follow">..... <RiUserFollowLine /></button>
+                                    <button onClick={() => this.Block(follower.followerId)} className="Follow white" title="block"><TiLockClosed/></button>
+                                    <button onClick={() => this.Unblock(follower.followerId)} className="Follow white" title="unblock"><TiLockOpen /> </button>
+                            </div>
+                            
+                        </div>
+                        )
+                       
                 }
             })
             )
@@ -120,7 +136,7 @@ export default class MyFollowers extends Component {
 
         return(
             <div>
-                <h2>My Followers</h2>
+                <h2 className="soulignement ">My Followers</h2>
                 {result}
 
             </div>

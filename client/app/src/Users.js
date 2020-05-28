@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-// import UsersView from './UsersView';
+
+import { RiUserFollowLine   } from 'react-icons/ri';
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
+
+
 
 export default class Users extends Component {
 
@@ -45,10 +48,15 @@ export default class Users extends Component {
                 users.map((user) => {
                     if(user._id !== localStorage.getItem('userid')){
                         return(
-                        <div>
-                            <div className="flex">
-                                <h4 key={user._id}>{user.login}</h4>
-                                <button onClick={() => this.handleAdd(user._id)}>Follow</button>
+                        <div className="userProfil">
+                            <div className="flexFullScreen">
+                                <div className="flex">
+                                    <p className="at">@</p>
+                                    <h4 key={user._id}>{user.login}</h4>
+                                </div>
+                                <div className="usersButton RightAlign">
+                                    <button onClick={() => this.handleAdd(user._id)} className="Follow" title="follow">.....<RiUserFollowLine/></button>
+                                </div>
                             </div>
                             <p>{user.email}</p>
                         </div>
@@ -60,7 +68,7 @@ export default class Users extends Component {
 
         return(
             <div>
-                <h2>Users</h2>
+                <h2 className="soulignement">Users</h2>
                 {result}
             </div>
         )

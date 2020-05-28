@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import './style.css';
 import MyLeaders from './myLeaders';
 import MyFollowers from './myFollowers';
@@ -74,13 +74,13 @@ export default class UsersView extends Component {
 
     render(){
         return (
-            <Container>
-                <Row>
-                    <Col><Users users={this.state.users} getLeaders={this.getLeaders}/></Col>
-                    <Col><MyLeaders leaders={this.state.leaders} getLeaders={this.getLeaders}/></Col>
-                    <Col><MyFollowers getLeaders={this.getLeaders}/></Col>
+            
+                <Row className="UserPage">
+                    <Col className="UsersCol Users marginCol"><Users users={this.state.users} getLeaders={this.getLeaders}/></Col>
+                    <Col className="UsersCol Leaders marginCol"><MyLeaders leaders={this.state.leaders} getLeaders={this.getLeaders}/></Col>
+                    <Col className="UsersCol Followers marginCol"><MyFollowers getLeaders={this.getLeaders}/></Col>
                 </Row>
-            </Container>
+          
         )
     }
 }

@@ -4,24 +4,47 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: content-box;
 }
+
+.CentralContainer {
+  width: 65%;
+}
+
+.mainContainer {
+  padding-top: 50px;
+  width:70%;
+  
+}
+
 .container{
   width:80%;
   margin:auto;
 }
 
-.center{
-margin:auto!important;
+.fullContainer {
+  padding-top: 50px;
+  width: 90%;
 }
 
-.flex{
+
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.RightAlign{
+  text-align: right;
+}
+
+.flex, .flexFullScreen{
   display:flex
 }
 
-
-
 h2{
   text-align: center;
+  margin-bottom:50px;
 }
 
 h3{
@@ -32,14 +55,24 @@ h3{
   border-radius:5px
 }
 
+
 .error{
   color:red;
 }
 
-.mainContainer {
-  padding-top: 50px;
+.separation{
+  border-bottom: 1px solid rgba(73,82,90,0.3);
+  padding-bottom: 50px;
 }
 
+.bigShadow {
+  border:0px;
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+
+.lightPurple{
+  background-color: #CDC1FF;
+}
 /* ================================= N A V  +  T I T L E MICRO-BLOGGOS ============================== */
 .myNav{
   margin-bottom:30px;
@@ -51,7 +84,8 @@ nav.flex-column.navbar.navbar-expand.navbar-dark.bg-dark {
     height: 100%;
     margin-right: 100px;
     text-align: center;
-    /* position: fixed; */
+    position: fixed;
+    width: 15%;
 }
 
 a.Logo.navbar-brand {
@@ -69,7 +103,7 @@ a.Logo.navbar-brand {
 .topNav {
   border-bottom: 2px solid #CDC1FF;
   width: 90%;
-  margin: 0 auto;
+  margin: 30px auto;
   padding-bottom: 30px;
 }
 
@@ -87,25 +121,112 @@ a.nav-link {
   font-size: 2rem;
 }
 
-h1 {
+.microbloggos {
   background-color: #343A40;
   color: white;
   padding: 20px;
   margin-bottom: 0;
   text-align: center;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  width: 15%;
+}
+h1{
+  margin-top:30px;
+}
+
+.chatIcon svg {
+  font-size: 4rem;
+  margin-top:10px;
+}
+
+/* ================================= S C R O L L    T O     T O P  ============================== */
+.scroll-to-top {
+  text-align: center;
+  position:fixed;
+  right: 6%;
+  top: 90%;
+}
+
+.scroll-to-top svg {
+  margin-left: 5px;
+}
+
+button.buttonTop {
+  background-color: inherit;
+  border: 0px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border-bottom: 1px solid white;
+}
+
+button.buttonTop:hover{
+  color:#CDC1FF;
+  border-bottom: 1px solid #A594F9;
 }
 
 /* ================================= T W E E T ============================== */
-.tweet {
-  background-color: #CDC1FF;
-  width: 60%;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom:10px;
+
+.tweetForm{
+  margin:auto;
+  width:80%;
 }
 
+.tweet {
+  background-color: #A59AD5;
+  width: 80%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 50%;
+}
+
+.tweet:after{
+  content:"";
+  position: absolute;
+  left: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-left: 26px solid #A59AD5;
+  border-bottom: 13px solid transparent;
+  
+}
+
+.mytweet {
+  background-color: #CDC1FF;
+  /* width: 80%; */
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 12%;
+}
+
+.mytweet:before{
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-right: 26px solid #CDC1FF;
+  border-bottom: 13px solid transparent;
+  
+}
 .tweetFace {
   font-size: 2rem;
+}
+
+.mytweetFace{
+  font-size: 2rem;
+  color:#7371FC;
+  
 }
 
 p.tweetContent {
@@ -114,12 +235,227 @@ p.tweetContent {
   border-radius: 10px;
 }
 
-/* ================================= L O G I N ============================== */
+p.mytweetContent{
+  background-color: #F5EFFF;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+p.at {
+  margin: 15px 2px 0px 10px;
+}
+
+
+h4 {
+  margin-top: 12px;
+}
+
+small.tweetDate {
+  margin-top: 20px;
+  margin-left: 20px;
+  color:#49525A;
+}
+
+.tweetName svg{
+  font-size:30%;
+  margin-left: 10px;
+}
+
+.deleteTweet {
+  text-align: right;
+}
+
+.deleteTweet button {
+  background-color: inherit;
+  color: #49525A;
+  border: 0px;
+  font-size: 1.2rem;
+}
+
+.deleteTweet button:hover {
+  background-color: inherit;
+  color: white;
+  /* border: 1px solid white;
+  padding: 0 10px;
+  border-radius:5px; */
+  font-size: 1.4rem;
+}
+
+
+/* ================================= L O G I N    ---- R E G I S T E R============================== */
 .login{
-  /* opacity: 0.5;
-  background-image:url(./img/modern_city_night.jpg) ;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* background-color: #81B29A; */
+  margin:auto;
+  width:80%;
+}
+
+button.log {
+  width: 100%;
+  margin:auto;
+  background-color: #343A40;
+  border: 0px solid white;
+}
+
+button.log:hover{
+  width: 100%;
+  background-color: white;
+  border: 0px solid #343A40;
+  color:#343A40;
+}
+/* ================================= M Y      P R O F I L E ============================== */
+.myProfile {
+  margin-top: 50px;
+  /* border: 1px solid #A594F9; */
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 3rem;
+  font-size: 1.2rem;
+}
+
+.update button {
+  background-color: #CDC1FF;
+  border: 0px;
+  border-radius: 10px;
+  padding: 0 30px;
+  font-size: 1rem;
+}
+
+.MyProfileTweetContainer {
+  padding-top: 50px;
+  margin: 0 auto;
+  margin-left: -5%;
+}
+
+/* ================================= U S E R S  ============================== */
+
+.UsersCol {
+  padding-top: 50px;
+  margin: 0 auto;
+}
+
+.marginCol{
+  margin:20px 10px;
+}
+
+.Users {
+  background-color: #7371FC;
+  border-radius: 10px;
+  color: white;
+}
+
+.Leaders {
+  background-color: #A594F9;
+  border-radius: 10px;
+}
+
+.Followers{
+  background-color: #CDC1FF;
+  border-radius: 10px;
+}
+
+.UserPage{
+  margin-left:5px;
+}
+
+h2.soulignement {
+  border-bottom: 1px solid;
+  padding-bottom: 10px;
+}
+
+button.Follow {
+  background-color: inherit;
+  border: 0px;
+  margin-top: 15px;
+  text-align: right;
+  margin-left: 5px;
+}
+
+button.Follow:hover{
+  color:white;
+}
+
+.Follow svg {
+  margin-right: 5px;
+  font-size:1.2rem;
+}
+
+div.userProfil{ 
+  border-bottom: 0.5px solid rgba(240,240,240,0.3);
+}
+
+.white{
+  color:white;
+}
+
+button.white:hover{
+  color:black;
+}
+
+
+/* ================================= H A S H T A G   ============================== */
+
+span.hashtagTitle{
+  font-weight: bold;
+  color: #7371FC;
+  border-bottom:1px solid #7371FC;
+  font-size:3.2rem;
+  margin:0px 15px
+}
+
+/* =============================================================================================================== 
+R E S P O N S I V E             R E S P O N S I V E              R E S P O N S I V E             R E S P O N S I V E
+============================================================================================================ */
+@media screen and (max-width: 1200px) {
+
+  a.Logo.navbar-brand {
+    size: 200%;
+    font-size: 3rem;
+  }
+
+  .navbar-dark .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .h1, h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  .MyProfileTweetContainer {
+    margin-left: -20px;
+  }
+
+  .flexFullScreen {
+    display:block;
+  }
+  
+
+}
+
+@media screen and (max-width: 800px) {
+  h4 {
+    font-size: 1rem;
+  }
+  p {
+    font-size: 0.6rem;
+  }
+ 
+  .navbar-dark .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .scroll-to-top {
+    right: 2%;
+    top: 90%;
+}
 }

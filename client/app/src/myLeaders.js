@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-// import UsersView from './UsersView';
+import { RiUserUnfollowLine } from 'react-icons/ri';
 
 const baseURL = "http://localhost:4242";
 axios.defaults.withCredentials = true;
@@ -13,9 +13,7 @@ export default class MyLeaders extends Component {
     //     super(props);
     // }
 
-
     stopFollow= (leaderId)=> {
-       
         const url= baseURL+"/myleaders/"+leaderId
         console.log("--> OK ! (mess from client) DELETE from myLeaders calling this:"+url)
         axios
@@ -50,19 +48,29 @@ export default class MyLeaders extends Component {
                 
                 if(leader.blocked === true){
                 return(
-                <div>
-                    <h4 key={leader.leaderId}>{leader.leaderLogin}</h4>
-                    <p>Blocked me</p>
-                    <button onClick={() => this.stopFollow(leader.leaderId)}>Stop follow</button>
-    
-                </div>)
+                <div className="userProfil">
+                    <div className="flex ">
+                        <p className="at">@</p>
+                        <h4 key={leader.leaderId}>{leader.leaderLogin}</h4>
+                        <p className="at"> (Blocked me)</p>
+                        <div className="usersButton RightAlign">
+                            <button onClick={() => this.stopFollow(leader.leaderId)}className="Follow white">.....<RiUserUnfollowLine /></button>
+                        </div>
+                    </div>
+                </div>
+                )
             }else{
                 return(
-                    <div>
-                        <h4 key={leader.leaderId}>{leader.leaderLogin}</h4>
-                        <button onClick={() => this.stopFollow(leader.leaderId)}>Stop follow</button>
-                       
-                    </div>)
+                    <div className="userProfil">
+                        <div className="flex ">
+                            <p className="at">@</p>
+                            <h4 key={leader.leaderId}>{leader.leaderLogin}</h4>
+                            <div className="usersButton RightAlign">
+                                <button onClick={() => this.stopFollow(leader.leaderId)} className="Follow white" title="stop follow">.....<RiUserUnfollowLine /></button>
+                            </div>
+                        </div>
+                    </div>
+                    )
 
             }
         })
@@ -70,7 +78,7 @@ export default class MyLeaders extends Component {
     }
         return(
             <div >
-                <h2>My leaders</h2>
+                <h2 className="soulignement ">My leaders</h2>
                 {result}
 
             </div>

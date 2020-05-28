@@ -6,7 +6,9 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 // Model files
-const User = require('../models/User')
+const User = require('../models/User');
+const Tweet = require('../models/Tweet');
+const Followers = require('../models/Followers');
 
 //to create my profil           ----> get /myfollowers                  -----> TESTS OK
 //to create an user if admin    ----> get /admin/users                  -----> TESTS OK
@@ -106,8 +108,9 @@ router.get(['/admin/users/:userid?'], function (req, res) {  ///admin/users : te
     //if admin
     // if (req.session.admin == (req.session.admin=="true")){
     const userid=req.params.userid;
-        if (!userid){ 
-            User.find(function (err, users) {  
+        if (!userid){
+            // User.find(function (err, users) {  
+            User.find().sort({login: 'asc'}).exec(function (err, users) { 
                 if (err) {
                     const message = "Internal Server Error"
                     console.log("==> ERROR ! (mess from server) Users: "+message )
@@ -212,7 +215,9 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                 return res.status(500).json({message});
             }
 
-            User.findById(req.session.userid,function(err,user){
+            console.log("req.body >>>>>>> ", req.body)
+
+            User.findById(req.session.userid, async function(err,user){
                 if(req.body.login){
                     user.login = req.body.login;
                 }
@@ -229,6 +234,11 @@ router.put('/myprofile', async function (req, res) { // tested Opassword does'nt
                     }
                 } 
                 user.save();
+                if(req.body.login) {
+                    await updateTweetOwner(req.session.login, user);
+                    await updateLeaders(req.session.login, user);
+                    await updateFollowers(req.session.login, user);
+                }
                 console.log("==> YES ! (mess from server) Users: my profile is updated "+user)
                 const message = "User correctly updated";
                 return res.status(200).json({ message });  
@@ -393,5 +403,22 @@ router.delete('/admin/users/:userid', function (req, res) { // tested ok
     }
 });
 
+async function updateTweetOwner(previousLogin, newUser) {
+    const query = { author: previousLogin };
+    const newData = { author: newUser.login };
+    const rest = await Tweet.updateMany(query, newData);
+}
+
+async function updateLeaders(previousLogin, newUser) {
+    const query = { leaderLogin: previousLogin };
+    const newData = { leaderLogin: newUser.login };
+    const rest = await Followers.updateMany(query, newData);
+}
+
+async function updateFollowers(previousLogin, newUser) {
+    const query = { followerLogin: previousLogin };
+    const newData = { followerLogin: newUser.login };
+    const rest = await Followers.updateMany(query, newData);
+}
 
 module.exports = router;

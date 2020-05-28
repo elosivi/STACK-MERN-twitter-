@@ -69,9 +69,9 @@ export default class Login extends Component {
             return <Redirect to='/home'/>
         }
         return (
-            <div className="mainContainer">
+            <div className="mainContainer center">
                 <h2>Login</h2>
-                <Card className="login" style={{ width: '30rem' , margin:'auto'}}>
+                <Card className="login lightPurple bigShadow">
                 <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
 
@@ -95,7 +95,7 @@ export default class Login extends Component {
                             />
                         </Form.Group>
                         
-                        <Button variant="primary" type="submit">Login</Button>
+                        <Button variant="primary" type="submit" className="log">Login</Button>
                     </Form>
                     <p className="error">{this.state.loginError}</p>
                 </Card.Body>
