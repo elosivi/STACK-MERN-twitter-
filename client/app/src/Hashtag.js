@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { MdFace } from 'react-icons/md';
+import {BsCircleFill} from 'react-icons/bs';
+import {RiChatDeleteLine} from 'react-icons/ri';
 
 import Linkify from 'linkifyjs/react';
 import * as linkify from 'linkifyjs';
@@ -63,28 +65,36 @@ class Hashtag extends Component {
 
         return (
             <div className="mainContainer">
-                <h2>{this.state.hashtag}</h2>
+                <h2>All <span className="hashtagTitle">#{this.state.hashtag}</span>'s tweets !</h2>
                 
-                    <Linkify options={linkifyOptions}>
+                    
                     { 
                         this.state.tweets.map(tweet => {
-                            if (tweet.author !== this.state.login) {
-                                
-                                
+                            if (tweet._id !== this.state.tweetIdToUpdate) {
                                 return (
-                                    
-                                        <div className="mytweet">
+                                    <Linkify options={linkifyOptions}>
+                                    <div className="mytweet">
+                                        
+                                        <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
                                             <p className="flex tweetHeader">
-                                                <div className="mytweetFace"><MdFace /></div>
+                                                <div className="tweetFace"><MdFace /></div>
                                                 <p className="at">@</p>
-                                                <h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
+                                                <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
+                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
                                             </p>
-                                            <p className="mytweetContent">{tweet.content}</p>
-                                        </div>                           
+                                            <p className="tweetContent">{tweet.content}</p>
+                                        
+                                        </div >      
+                                        <div className="deleteTweet">                      
+                                            <button onClick={() => this.handleDelete(tweet._id)} title="delete post">
+                                                <RiChatDeleteLine />
+                                            </button>
+                                        </div>
+                                    </div>
+                            </Linkify>                       
                                     
                             )
-                            } else if (tweet._id !== this.state.tweetIdToUpdate) {
+                            } else if (tweet.author !== this.state.login) {
                                 return (
                                     <div className="tweet">
                                         
@@ -93,7 +103,7 @@ class Hashtag extends Component {
                                                 <div className="tweetFace"><MdFace /></div>
                                                 <p className="at">@</p>
                                                 <h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
+                                                <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
                                             </p>
                                             <p className="tweetContent">{tweet.content}</p>
                                             
@@ -124,7 +134,7 @@ class Hashtag extends Component {
 
                         
                     }
-                    </Linkify>
+                    
                 
             </div>
         )

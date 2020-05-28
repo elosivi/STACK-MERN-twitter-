@@ -110,7 +110,7 @@ export default class HomeTweetList extends Component {
                                                 <div className="tweetFace"><MdFace /></div>
                                                 <p className="at">@</p>
                                                 <h4 className="tweetName">{tweet.author}.</h4>
-                                                <small className="tweetDate"> <span>posted the:</span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small> 
+                                                <small className="tweetDate"> <span>posted the:</span> {Moment(tweet.creationDate).format('LLLL')}</small> 
                                             </p>
                                             <p className="mytweetContent">{tweet.content}</p>
                                         </div>
@@ -127,7 +127,7 @@ export default class HomeTweetList extends Component {
                                                     <div className="tweetFace"><MdFace /></div>
                                                     <p className="at">@</p>
                                                     <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
-                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
+                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
                                                 </p>
                                                 <p className="tweetContent">{tweet.content}</p>
                                             

@@ -79,9 +79,9 @@ export default class TweetList extends Component {
             formatHref: function (href, type) {
                 if (type === 'hashtag') {
                     href = 'http://localhost:3000/hashtag/' + href.substring(1);
-                    console.log("!!!!TEST!!!!")
+                 
                 }
-                console.log("!!!!TEST!!!!"+href)
+                
                 return href;
             }
         }
@@ -100,7 +100,7 @@ export default class TweetList extends Component {
                                                     <div className="tweetFace"><MdFace /></div>
                                                     <p className="at">@</p>
                                                     <h4 className="tweetName">{tweet.author}<BsCircleFill/></h4>
-                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('d MMM YYYY / HH:MM')}</small>
+                                                    <small className="tweetDate"> <span>posted the: </span> {Moment(tweet.creationDate).format('LLLL')}</small>
                                                 </p>
                                                 <p className="tweetContent">{tweet.content}</p>
                                             
