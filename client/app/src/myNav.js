@@ -181,7 +181,7 @@ export default class myNav extends React.Component {
                                         {loggedIn ? <Hashtag /> : redirToLogin}
                                     </Route>
 
-                                    {/* 
+{/*                                     
                                     <Route path={"/"}>
 
                                         {loggedIn ? <Home /> : redirToLogin}

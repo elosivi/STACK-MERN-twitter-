@@ -59,6 +59,7 @@ class Hashtag extends Component {
     }
     
 
+
     render(){
         hashtag(linkify);
     
@@ -98,7 +99,7 @@ class Hashtag extends Component {
                                     <Linkify options={linkifyOptions}>
                                         <div className="mytweet">
                                             
-                                            <div onClick={() => this.handleClick(tweet._id, tweet.content)}>
+                                            <div>
                                                 <p className="flex tweetHeader">
                                                     <div className="tweetFace"><MdFace /></div>
                                                     <p className="at">@</p>
@@ -108,33 +109,10 @@ class Hashtag extends Component {
                                                 <p className="tweetContent">{tweet.content}</p>
                                             
                                             </div >      
-                                            <div className="deleteTweet">                      
-                                                <button onClick={() => this.handleDelete(tweet._id)} title="delete post">
-                                                    <RiChatDeleteLine />
-                                                </button>
-                                            </div>
+                                            
                                         </div>
                                     </Linkify>
-                            )} else {
-                                return (
-                                    <Linkify options={linkifyOptions}>
-                                        <div>
-                                            @{tweet.author}:
-                                            <form className="form" onSubmit={this.handleTweetSubmit}>
-                                                <input 
-                                                    type="text" 
-                                                    name="tweetUpdate" 
-                                                    value={this.state.tweetValue} 
-                                                    placeHolder="Tweet update" 
-                                                    onChange={this.handleChange} 
-                                                />
-                                                <button>Update</button>
-                                            </form>
-                                            {/* {tweet._id} */}
-                                        </div>
-                                    </Linkify>
-                                )
-                            }
+                            )} 
                         })                 
                     }
             </div>
