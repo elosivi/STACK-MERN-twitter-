@@ -4,14 +4,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: content-box;
 }
+
 .container{
   width:80%;
   margin:auto;
 }
 
 .center{
-margin:auto!important;
+  margin:auto!important;
 }
 
 .flex{
@@ -22,6 +24,7 @@ margin:auto!important;
 
 h2{
   text-align: center;
+  margin-bottom:50px;
 }
 
 h3{
@@ -32,14 +35,35 @@ h3{
   border-radius:5px
 }
 
+
 .error{
   color:red;
 }
 
 .mainContainer {
   padding-top: 50px;
+  width:70%;
 }
 
+.fullContainer {
+  padding-top: 50px;
+  width: 90%;
+  margin: auto;
+}
+
+.separation{
+  border-bottom: 2px solid rgba(73,82,90,0.5);
+  padding-bottom: 50px;
+}
+
+.bigShadow {
+  border:0px;
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+
+.lightPurple{
+  background-color: #CDC1FF;
+}
 /* ================================= N A V  +  T I T L E MICRO-BLOGGOS ============================== */
 .myNav{
   margin-bottom:30px;
@@ -51,7 +75,7 @@ nav.flex-column.navbar.navbar-expand.navbar-dark.bg-dark {
     height: 100%;
     margin-right: 100px;
     text-align: center;
-    /* position: fixed; */
+    position: fixed;
 }
 
 a.Logo.navbar-brand {
@@ -69,7 +93,7 @@ a.Logo.navbar-brand {
 .topNav {
   border-bottom: 2px solid #CDC1FF;
   width: 90%;
-  margin: 0 auto;
+  margin: 30px auto;
   padding-bottom: 30px;
 }
 
@@ -87,30 +111,103 @@ a.nav-link {
   font-size: 2rem;
 }
 
-h1 {
+.microbloggos {
   background-color: #343A40;
   color: white;
   padding: 20px;
   margin-bottom: 0;
   text-align: center;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+}
+h1{
+  margin-top:30px;
+}
+
+.chatIcon svg {
+  font-size: 4rem;
+  margin-top:10px;
+}
+
+/* ================================= S C R O L L    T O     T O P  ============================== */
+.scroll-to-top {
+  text-align: center;
+  position:fixed;
+  right: 6%;
+  top: 300px;
+}
+
+.scroll-to-top svg {
+  margin-left: 5px;
+}
+
+button.buttonTop {
+  background-color: inherit;
+  border: 0px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border-bottom: 1px solid white;
+}
+
+button.buttonTop:hover{
+  color:#CDC1FF;
+  border-bottom: 1px solid #A594F9;
 }
 
 /* ================================= T W E E T ============================== */
-.tweet {
-  background-color: #A59AD5;
-  width: 60%;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom:10px;
+
+.tweetForm{
+  margin:auto;
+  width:80%;
 }
 
-.mytweet{ 
-  background-color: #CDC1FF;
-  width: 60%;
+.tweet {
+  background-color: #A59AD5;
+  /* width: 80%; */
   border-radius: 10px;
   padding: 10px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 50%;
+}
 
+.tweet:after{
+  content:"";
+  position: absolute;
+  left: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-left: 26px solid #A59AD5;
+  border-bottom: 13px solid transparent;
+  
+}
+
+.mytweet {
+  background-color: #CDC1FF;
+  /* width: 80%; */
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 12%;
+}
+
+.mytweet:before{
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-right: 26px solid #CDC1FF;
+  border-bottom: 13px solid transparent;
+  
 }
 .tweetFace {
   font-size: 2rem;
@@ -134,12 +231,51 @@ p.mytweetContent{
   border-radius: 10px;
 }
 
+p.at {
+  margin: 15px 2px 0px 10px;
+}
+
+
+h4 {
+  margin-top: 12px;
+}
+
+small.tweetDate {
+  margin-top: 20px;
+  margin-left: 20px;
+  color:#49525A;
+}
+
+.tweetName svg{
+  font-size:30%;
+  margin-left: 10px;
+}
+
+.deleteTweet {
+  text-align: right;
+}
+
+.deleteTweet button {
+  background-color: inherit;
+  color: #49525A;
+  border: 0px;
+  font-size: 1.2rem;
+}
+
+.deleteTweet button:hover {
+  background-color: inherit;
+  color: white;
+  /* border: 1px solid white;
+  padding: 0 10px;
+  border-radius:5px; */
+  font-size: 1.4rem;
+}
+
+
 /* ================================= L O G I N ============================== */
 .login{
-  /* opacity: 0.5;
-  background-image:url(./img/modern_city_night.jpg) ;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* background-color: #81B29A; */
+  margin:auto;
+  width:80%;
 }
+
+

@@ -19,6 +19,7 @@ import {IoMdLogOut } from 'react-icons/io';
 import { FaBlog } from 'react-icons/fa';
 
 
+
 import Registration from './Registration'
 import Login from './Login'
 import Logout from './Logout'
@@ -26,6 +27,12 @@ import MyProfile from './MyProfile'
 import Home from './Home'
 import UsersView from './UsersView'
 import Hashtag from './Hashtag'
+
+
+// function URLhashtag(props) {
+//     console.log("----> props.match.params.hashtag" +props.match.params.hashtag);
+//   }
+
 
 export default class myNav extends React.Component {
     constructor(props) {
@@ -91,7 +98,7 @@ export default class myNav extends React.Component {
                 <div>
                  
                   <Row>
-                    <Col xs={3}> 
+                    <Col xs={2}> 
                         
                         <Navbar bg="dark" variant="dark" className="flex-column">
                             <div className="topNav flex-column">
@@ -121,7 +128,7 @@ export default class myNav extends React.Component {
                   
                         <Switch>
                             
-                            <Col xs={9}> 
+                            <Col xs={8}> 
                                 <Route path="/login" /*onSuccess={this.updatePage}*/>
                                 
                                         <Login onLogin={this.handleOnLogin} />
@@ -155,8 +162,10 @@ export default class myNav extends React.Component {
                                         
                                         {loggedIn ? <UsersView /> : redirToLogin}
                                     </Route>
-                                
-                                    <Route path={"/hashtag/:hashtag"}>
+
+
+                                    <Route path="/hashtag/:hashtagContent" > 
+                            
                                         {loggedIn ? <Hashtag /> : redirToLogin}
                                     </Route>
 {/* 
